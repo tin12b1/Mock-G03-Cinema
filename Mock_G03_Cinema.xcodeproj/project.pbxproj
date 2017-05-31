@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		408AE58B1EDF31A70070C398 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408AE58A1EDF31A70070C398 /* AccountViewController.swift */; };
+		40E47C551EDEA5A0004994CF /* LoginStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E47C541EDEA5A0004994CF /* LoginStatus.swift */; };
+		40E47C571EDEA91B004994CF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E47C561EDEA91B004994CF /* LoginViewController.swift */; };
 		40F170A61EDC74E800209E9D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F170A51EDC74E800209E9D /* AppDelegate.swift */; };
 		40F170A81EDC74E800209E9D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F170A71EDC74E800209E9D /* ViewController.swift */; };
 		40F170AB1EDC74E800209E9D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40F170A91EDC74E800209E9D /* Main.storyboard */; };
@@ -41,6 +44,9 @@
 /* Begin PBXFileReference section */
 		00B37FE4EB2A89430926DC7E /* Pods_Mock_G03_CinemaUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mock_G03_CinemaUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C4B566EB7F8483F5D6923BB /* Pods_Mock_G03_Cinema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mock_G03_Cinema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		408AE58A1EDF31A70070C398 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
+		40E47C541EDEA5A0004994CF /* LoginStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginStatus.swift; sourceTree = "<group>"; };
+		40E47C561EDEA91B004994CF /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		40F170A21EDC74E800209E9D /* Mock_G03_Cinema.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mock_G03_Cinema.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40F170A51EDC74E800209E9D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		40F170A71EDC74E800209E9D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -126,6 +132,9 @@
 				40F170B41EDC74E800209E9D /* Info.plist */,
 				40F170AC1EDC74E800209E9D /* Mock_G03_Cinema.xcdatamodeld */,
 				40F170D61EDC758000209E9D /* GoogleService-Info.plist */,
+				40E47C541EDEA5A0004994CF /* LoginStatus.swift */,
+				40E47C561EDEA91B004994CF /* LoginViewController.swift */,
+				408AE58A1EDF31A70070C398 /* AccountViewController.swift */,
 			);
 			path = Mock_G03_Cinema;
 			sourceTree = "<group>";
@@ -454,7 +463,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				40F170A81EDC74E800209E9D /* ViewController.swift in Sources */,
+				40E47C551EDEA5A0004994CF /* LoginStatus.swift in Sources */,
+				408AE58B1EDF31A70070C398 /* AccountViewController.swift in Sources */,
 				40F170A61EDC74E800209E9D /* AppDelegate.swift in Sources */,
+				40E47C571EDEA91B004994CF /* LoginViewController.swift in Sources */,
 				40F170AE1EDC74E800209E9D /* Mock_G03_Cinema.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -708,6 +720,7 @@
 				40F170CF1EDC74E900209E9D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		40F170D01EDC74E900209E9D /* Build configuration list for PBXNativeTarget "Mock_G03_CinemaTests" */ = {
 			isa = XCConfigurationList;
@@ -716,6 +729,7 @@
 				40F170D21EDC74E900209E9D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		40F170D31EDC74E900209E9D /* Build configuration list for PBXNativeTarget "Mock_G03_CinemaUITests" */ = {
 			isa = XCConfigurationList;
@@ -724,6 +738,7 @@
 				40F170D51EDC74E900209E9D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

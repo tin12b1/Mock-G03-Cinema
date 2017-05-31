@@ -9,6 +9,7 @@ target 'Mock_G03_Cinema' do
 
 	pod 'Firebase/Core'
 	pod 'Firebase/Database’
+	pod 'Firebase/Auth'
 
   target 'Mock_G03_CinemaTests' do
     inherit! :search_paths
