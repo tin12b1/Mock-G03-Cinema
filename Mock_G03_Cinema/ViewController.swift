@@ -25,12 +25,6 @@ class ViewController: UIViewController {
     @IBAction func accountButtonClick(_ sender: Any) {
         if Auth.auth().currentUser != nil {
             // User is signed in.
-            let user = Auth.auth().currentUser
-            if let user = user {
-                let email = user.email
-                NSLog(email!)
-                // ...
-            }
             performSegue(withIdentifier: "show account", sender: self)
         } else {
             // No user is signed in.

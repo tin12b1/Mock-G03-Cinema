@@ -10,42 +10,45 @@ import UIKit
 import Firebase
 
 class AccountViewController: UIViewController {
-
+    @IBOutlet var nameLabel: UILabel!
+    @IBOutlet var ageLabel: UILabel!
+    @IBOutlet var addressLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        getUserInfo()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
+    // Log out
     @IBAction func logOutButtonClick(_ sender: Any) {
         let firebaseAuth = Auth.auth()
         do {
             try firebaseAuth.signOut()
-            // self.navigationController?.popViewController(animated: true)
-            /*
-            let alert = UIAlertController(title: "Success", message: "You have been log out!", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-            self.present(alert, animated: true, completion: nil) */
             self.navigationController?.popToRootViewController(animated: true)
         }
         catch let signOutError as NSError {
             print ("Error signing out: %@", signOutError)
         }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    func getUserInfo() {
+        let databaseRef = Database.database().reference()
+        let userId = Auth.auth().currentUser?.uid
+        databaseRef.child("users").child(userId!).observeSingleEvent(of: .value, with: { (snapshot) in
+            // Get user info and show to view
+            let value = snapshot.value as? NSDictionary
+            let name = value?["name"] as? String ?? ""
+            let age = value?["age"] as? String ?? "18"
+            let address = value?["address"] as? String ?? ""
+            self.nameLabel.text = name
+            self.ageLabel.text = age
+            self.addressLabel.text = address
+        }) { (error) in
+            print(error.localizedDescription)
+        }
     }
-    */
-
 }

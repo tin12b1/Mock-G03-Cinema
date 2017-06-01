@@ -18,8 +18,6 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
     }
     
     override func didReceiveMemoryWarning() {
@@ -27,6 +25,17 @@ class LoginViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        if Auth.auth().currentUser != nil {
+            // User is signed in.
+            self.navigationController?.popToRootViewController(animated: true)
+        } else {
+            // No user is signed in.
+            resetTextField()
+        }
+    }
+    
+    // Process when selector change (login/register)
     @IBAction func signInSelectorChanged(_ sender: UISegmentedControl) {
         isSignIn = !isSignIn
         if (isSignIn) {
@@ -41,6 +50,7 @@ class LoginViewController: UIViewController {
         }
     }
     
+    // Check email format
     func isValidEmail(testStr:String) -> Bool {
         let emailRegEx = "(?:[\\p{L}0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[\\p{L}0-9!#$%\\&'*+/=?\\^_`{|}" +
             "~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\" +
@@ -53,6 +63,7 @@ class LoginViewController: UIViewController {
         return emailTest.evaluate(with: testStr)
     }
     
+    // Reset email & password text field
     func resetTextField () {
         emailTextField.text?.removeAll()
         passwordTextField.text?.removeAll()
@@ -71,7 +82,6 @@ class LoginViewController: UIViewController {
                         })
                     }
                     else {
-                        LoginStatus.checkLogin = true
                         self.performSegue(withIdentifier: "show account", sender: self)
                     }
                 }
@@ -98,7 +108,7 @@ class LoginViewController: UIViewController {
                                 })
                             }
                             else {
-                                self.performSegue(withIdentifier: "show account", sender: self)
+                                self.performSegue(withIdentifier: "add user info", sender: self)
                             }
                         }
                     }

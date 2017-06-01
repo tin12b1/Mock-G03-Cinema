@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		408AE58B1EDF31A70070C398 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408AE58A1EDF31A70070C398 /* AccountViewController.swift */; };
-		40E47C551EDEA5A0004994CF /* LoginStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E47C541EDEA5A0004994CF /* LoginStatus.swift */; };
 		40E47C571EDEA91B004994CF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E47C561EDEA91B004994CF /* LoginViewController.swift */; };
 		40F170A61EDC74E800209E9D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F170A51EDC74E800209E9D /* AppDelegate.swift */; };
 		40F170A81EDC74E800209E9D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F170A71EDC74E800209E9D /* ViewController.swift */; };
@@ -19,6 +18,7 @@
 		40F170BE1EDC74E900209E9D /* Mock_G03_CinemaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F170BD1EDC74E900209E9D /* Mock_G03_CinemaTests.swift */; };
 		40F170C91EDC74E900209E9D /* Mock_G03_CinemaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F170C81EDC74E900209E9D /* Mock_G03_CinemaUITests.swift */; };
 		40F170D71EDC758000209E9D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 40F170D61EDC758000209E9D /* GoogleService-Info.plist */; };
+		40F9BF141EE076AC002FFF64 /* AddUserInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F9BF131EE076AC002FFF64 /* AddUserInfoViewController.swift */; };
 		65F0837B6BD8BC36DFC11626 /* Pods_Mock_G03_Cinema.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4B566EB7F8483F5D6923BB /* Pods_Mock_G03_Cinema.framework */; };
 		9D5BA3CE23AC38A98CE97D91 /* Pods_Mock_G03_CinemaTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2E77F415100800753BBDD12 /* Pods_Mock_G03_CinemaTests.framework */; };
 		BEDD5ADDAF136556C072E347 /* Pods_Mock_G03_CinemaUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B37FE4EB2A89430926DC7E /* Pods_Mock_G03_CinemaUITests.framework */; };
@@ -45,7 +45,6 @@
 		00B37FE4EB2A89430926DC7E /* Pods_Mock_G03_CinemaUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mock_G03_CinemaUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C4B566EB7F8483F5D6923BB /* Pods_Mock_G03_Cinema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mock_G03_Cinema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		408AE58A1EDF31A70070C398 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
-		40E47C541EDEA5A0004994CF /* LoginStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginStatus.swift; sourceTree = "<group>"; };
 		40E47C561EDEA91B004994CF /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		40F170A21EDC74E800209E9D /* Mock_G03_Cinema.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mock_G03_Cinema.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40F170A51EDC74E800209E9D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -62,6 +61,7 @@
 		40F170C81EDC74E900209E9D /* Mock_G03_CinemaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mock_G03_CinemaUITests.swift; sourceTree = "<group>"; };
 		40F170CA1EDC74E900209E9D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		40F170D61EDC758000209E9D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		40F9BF131EE076AC002FFF64 /* AddUserInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddUserInfoViewController.swift; sourceTree = "<group>"; };
 		4CEA60C00F86DB4E5A9010EF /* Pods-Mock_G03_Cinema.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mock_G03_Cinema.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mock_G03_Cinema/Pods-Mock_G03_Cinema.release.xcconfig"; sourceTree = "<group>"; };
 		51712D05FEC20ECCA54D249A /* Pods-Mock_G03_CinemaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mock_G03_CinemaTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mock_G03_CinemaTests/Pods-Mock_G03_CinemaTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5734147500B31A0A23140EEE /* Pods-Mock_G03_CinemaUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mock_G03_CinemaUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mock_G03_CinemaUITests/Pods-Mock_G03_CinemaUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -125,16 +125,16 @@
 			isa = PBXGroup;
 			children = (
 				40F170A51EDC74E800209E9D /* AppDelegate.swift */,
-				40F170A71EDC74E800209E9D /* ViewController.swift */,
 				40F170A91EDC74E800209E9D /* Main.storyboard */,
 				40F170AF1EDC74E800209E9D /* Assets.xcassets */,
 				40F170B11EDC74E800209E9D /* LaunchScreen.storyboard */,
 				40F170B41EDC74E800209E9D /* Info.plist */,
 				40F170AC1EDC74E800209E9D /* Mock_G03_Cinema.xcdatamodeld */,
 				40F170D61EDC758000209E9D /* GoogleService-Info.plist */,
-				40E47C541EDEA5A0004994CF /* LoginStatus.swift */,
+				40F170A71EDC74E800209E9D /* ViewController.swift */,
 				40E47C561EDEA91B004994CF /* LoginViewController.swift */,
 				408AE58A1EDF31A70070C398 /* AccountViewController.swift */,
+				40F9BF131EE076AC002FFF64 /* AddUserInfoViewController.swift */,
 			);
 			path = Mock_G03_Cinema;
 			sourceTree = "<group>";
@@ -463,9 +463,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				40F170A81EDC74E800209E9D /* ViewController.swift in Sources */,
-				40E47C551EDEA5A0004994CF /* LoginStatus.swift in Sources */,
 				408AE58B1EDF31A70070C398 /* AccountViewController.swift in Sources */,
 				40F170A61EDC74E800209E9D /* AppDelegate.swift in Sources */,
+				40F9BF141EE076AC002FFF64 /* AddUserInfoViewController.swift in Sources */,
 				40E47C571EDEA91B004994CF /* LoginViewController.swift in Sources */,
 				40F170AE1EDC74E800209E9D /* Mock_G03_Cinema.xcdatamodeld in Sources */,
 			);
