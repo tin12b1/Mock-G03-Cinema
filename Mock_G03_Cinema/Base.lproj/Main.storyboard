@@ -21,7 +21,94 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LLW-Gq-CP7">
+                                <rect key="frame" x="0.0" y="64" width="125" height="30"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="CQW-30-Oy0"/>
+                                </constraints>
+                                <state key="normal" title="Shown">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZCg-K5-Euw">
+                                <rect key="frame" x="250" y="64" width="125" height="30"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="zTd-Af-ItO"/>
+                                </constraints>
+                                <state key="normal" title="Coming soon">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="GG0-vB-Smm">
+                                <rect key="frame" x="0.0" y="94" width="375" height="573"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="movie cell" textLabel="KY0-L5-VR5" detailTextLabel="kMo-7P-0bu" imageView="Poa-Le-6B8" rowHeight="80" style="IBUITableViewCellStyleSubtitle" id="8OO-bf-s24">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="80"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8OO-bf-s24" id="409-ML-We6">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="79.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="KY0-L5-VR5">
+                                                    <rect key="frame" x="83" y="23" width="33.5" height="20.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kMo-7P-0bu">
+                                                    <rect key="frame" x="83" y="43.5" width="44" height="14.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="timthumb.php" id="Poa-Le-6B8">
+                                                    <rect key="frame" x="15" y="0.0" width="53" height="79.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="5hf-50-IuF"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="nmu-c7-qod"/>
+                                </connections>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="du3-UD-Qkm">
+                                <rect key="frame" x="125" y="64" width="125" height="30"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="dmk-uY-uCT"/>
+                                </constraints>
+                                <state key="normal" title="Now Showing">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" red="0.0" green="0.91073624929999997" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="du3-UD-Qkm" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="047-YL-KXf"/>
+                            <constraint firstItem="GG0-vB-Smm" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="7wZ-cq-Eje"/>
+                            <constraint firstItem="LLW-Gq-CP7" firstAttribute="width" secondItem="ZCg-K5-Euw" secondAttribute="width" id="8lP-Dn-Aif"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="GG0-vB-Smm" secondAttribute="bottom" id="BOy-Xh-sTC"/>
+                            <constraint firstAttribute="trailing" secondItem="ZCg-K5-Euw" secondAttribute="trailing" id="I5c-pL-iPy"/>
+                            <constraint firstItem="LLW-Gq-CP7" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="Kzv-dw-Zkq"/>
+                            <constraint firstItem="LLW-Gq-CP7" firstAttribute="centerY" secondItem="ZCg-K5-Euw" secondAttribute="centerY" id="VZ4-Rf-OAA"/>
+                            <constraint firstItem="LLW-Gq-CP7" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="dQJ-vj-HhE"/>
+                            <constraint firstItem="ZCg-K5-Euw" firstAttribute="leading" secondItem="du3-UD-Qkm" secondAttribute="trailing" id="dag-Fc-Rpg"/>
+                            <constraint firstItem="du3-UD-Qkm" firstAttribute="leading" secondItem="LLW-Gq-CP7" secondAttribute="trailing" id="jov-wG-Guq"/>
+                            <constraint firstItem="GG0-vB-Smm" firstAttribute="top" secondItem="ZCg-K5-Euw" secondAttribute="bottom" id="ngU-M4-HOD"/>
+                            <constraint firstItem="LLW-Gq-CP7" firstAttribute="centerY" secondItem="du3-UD-Qkm" secondAttribute="centerY" id="tIO-sv-GLd"/>
+                            <constraint firstItem="LLW-Gq-CP7" firstAttribute="width" secondItem="du3-UD-Qkm" secondAttribute="width" id="xM6-tI-yKa"/>
+                            <constraint firstAttribute="trailing" secondItem="GG0-vB-Smm" secondAttribute="trailing" id="xwa-hA-xGp"/>
+                            <constraint firstItem="ZCg-K5-Euw" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="zz4-Sl-YYI"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Cinemax" id="Mqk-6B-OwZ">
                         <barButtonItem key="rightBarButtonItem" systemItem="compose" id="DAj-0r-nMS">
@@ -31,6 +118,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="movieTableView" destination="GG0-vB-Smm" id="oqc-ch-0cz"/>
                         <segue destination="AU5-tW-AA7" kind="show" identifier="show login" id="Nwp-wX-2Ar"/>
                         <segue destination="1Sw-e6-zDB" kind="show" identifier="show account" id="hKn-Z0-HNj"/>
                     </connections>
@@ -519,7 +607,10 @@
             <point key="canvasLocation" x="268" y="123"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="timthumb.php" width="160" height="240"/>
+    </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="RHQ-aQ-QRC"/>
+        <segue reference="hKn-Z0-HNj"/>
     </inferredMetricsTieBreakers>
 </document>
