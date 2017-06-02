@@ -16,7 +16,7 @@ class AddUserInfoViewController: UIViewController, UIPickerViewDataSource, UIPic
     @IBOutlet var addressTextField: UITextField!
     
     let age: [Int] = Array(13...100)
-    var ageSelected: Int?
+    var ageSelected = 13
 
     override func viewDidLoad() {
         super.viewDidLoad()

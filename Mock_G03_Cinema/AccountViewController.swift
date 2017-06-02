@@ -34,6 +34,8 @@ class AccountViewController: UIViewController {
             print ("Error signing out: %@", signOutError)
         }
     }
+    @IBAction func changePasswordButtonClick(_ sender: Any) {
+    }
     
     func getUserInfo() {
         let databaseRef = Database.database().reference()
