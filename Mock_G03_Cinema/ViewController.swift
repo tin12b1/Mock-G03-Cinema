@@ -40,7 +40,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return movies.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -54,16 +54,24 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func getMoviesList() {
         let databaseRef = Database.database().reference()
-        var listMovie = [String:Any]()
         databaseRef.child("movies").observe(.childAdded, with: {snapshot in
-            listMovie = snapshot.value as! Dictionary<String, AnyObject>
+            let snapshotValue = snapshot.value as? NSDictionary
+            let title = snapshotValue?["title"] as? String
+            let genres = snapshotValue?["genres"] as? String
+            let movieId = snapshotValue?["id"] as? Int
+            let voteAverage = snapshotValue?["vote_average"] as? Double
+            let releaseDate = snapshotValue?["release_date"] as? String
+            let overview = snapshotValue?["overview"] as? String
+            let posterPath = snapshotValue?["poster_path"] as? String
+            print(title!)
+   //         print(genres!)
+//            print(id!)
+            print(voteAverage!)
+ //           print(releaseDate!)
+ //           print(overview!)
+ //           print(posterPath!)
+            self.movies.append(Movie(id: movieId, title: title, posterPath: posterPath, overview: overview, releaseDate: releaseDate, voteAverage: voteAverage, genres: genres, image: #imageLiteral(resourceName: "timthumb.php")))
         })
-        /*
-        for movie in listMovie {
-            movies.append(Movie(json: movie))
-        }
-        print(movies) */
-        print("Data: \(listMovie)")
     }
 
 }

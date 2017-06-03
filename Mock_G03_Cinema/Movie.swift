@@ -7,24 +7,27 @@
 //
 
 import Foundation
+import UIKit
 
 class Movie {
     
-    var poster_path: String?
-    var overview: String?
-    var release_date: String?
-    var genres: String?
     var id: Int?
     var title: String?
-    var vote_average: Double?
+    var posterPath: String?
+    var overview: String?
+    var releaseDate: String?
+    var voteAverage: Double?
+    var genres: String?
+    var image: UIImage?
     
-    init(json: [String:Any]) {
-        poster_path             = json["poster_path"]       as? String
-        overview                = json["overview"]          as? String
-        release_date            = json["release_date"]      as? String
-        id                      = json["id"]                as? Int
-        genres                  = json["genres"]            as? String
-        title                   = json["title"]             as? String
-        vote_average            = json["vote_average"]      as? Double
+    init(id: Int?, title: String?, posterPath: String?, overview: String?, releaseDate: String?, voteAverage: Double?, genres: String?, image: UIImage?) {
+        self.id = id
+        self.title = title
+        self.posterPath = posterPath
+        self.overview = overview
+        self.releaseDate = releaseDate
+        self.voteAverage = voteAverage
+        self.genres = genres
+        self.image = image
     }
 }
