@@ -28,7 +28,8 @@ class AccountViewController: UIViewController {
         let firebaseAuth = Auth.auth()
         do {
             try firebaseAuth.signOut()
-            self.navigationController?.popToRootViewController(animated: true)
+            let srcView = self.storyboard?.instantiateViewController(withIdentifier: "main") as! ViewController
+            self.present(srcView, animated: true)
         }
         catch let signOutError as NSError {
             print ("Error signing out: %@", signOutError)
@@ -43,14 +44,20 @@ class AccountViewController: UIViewController {
         databaseRef.child("users").child(userId!).observeSingleEvent(of: .value, with: { (snapshot) in
             // Get user info and show to view
             let value = snapshot.value as? NSDictionary
-            let name = value?["name"] as? String ?? ""
-            let age = value?["age"] as? String ?? "18"
-            let address = value?["address"] as? String ?? ""
+            let name = value?["name"] as? String
+            let age = value?["age"] as? Int
+            let address = value?["address"] as? String
             self.nameLabel.text = name
-            self.ageLabel.text = age
+            self.ageLabel.text = String(age!)
             self.addressLabel.text = address
         }) { (error) in
             print(error.localizedDescription)
         }
     }
+    
+    @IBAction func homeButtonClick(_ sender: Any) {
+        let srcMain = self.storyboard?.instantiateViewController(withIdentifier: "main") as! ViewController
+        self.present(srcMain, animated: true)
+    }
+    
 }

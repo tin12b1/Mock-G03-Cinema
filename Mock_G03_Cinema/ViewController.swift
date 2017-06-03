@@ -13,6 +13,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBOutlet var movieTableView: UITableView!
     var movies = [Movie]()
+    var posterImage: [Int:UIImage] = [:]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +29,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBAction func accountButtonClick(_ sender: Any) {
         if Auth.auth().currentUser != nil {
             // User is signed in.
-            performSegue(withIdentifier: "show account", sender: self)
+            let srcUserInfo = self.storyboard?.instantiateViewController(withIdentifier: "userInfo") as! AccountViewController
+            self.present(srcUserInfo, animated: true)
         } else {
             // No user is signed in.
             performSegue(withIdentifier: "show login", sender: self)
@@ -45,9 +47,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "movie cell", for: indexPath)
-        
-        cell.textLabel?.text = "Movie"
-        cell.detailTextLabel?.text = "My favorite movie is Transformer!"
+        let queue = OperationQueue()
+        let movie = movies[indexPath.row]
+        cell.textLabel?.text = movie.title
+        cell.detailTextLabel?.text = movie.genres
+        queue.addOperation { () -> Void in
+            let url = movie.posterPath
+            if let img = Downloader.downloadImageWithURL(url) {
+                // Update in main thread
+                OperationQueue.main.addOperation({
+                    self.posterImage[self.movies[indexPath.row].id!] = img
+                    cell.imageView?.image = img
+                })
+            }
+        }
         
         return cell
     }
@@ -56,21 +69,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let databaseRef = Database.database().reference()
         databaseRef.child("movies").observe(.childAdded, with: {snapshot in
             let snapshotValue = snapshot.value as? NSDictionary
-            let title = snapshotValue?["title"] as? String
-            let genres = snapshotValue?["genres"] as? String
-            let movieId = snapshotValue?["id"] as? Int
-            let voteAverage = snapshotValue?["vote_average"] as? Double
-            let releaseDate = snapshotValue?["release_date"] as? String
-            let overview = snapshotValue?["overview"] as? String
-            let posterPath = snapshotValue?["poster_path"] as? String
-            print(title!)
-   //         print(genres!)
-//            print(id!)
-            print(voteAverage!)
- //           print(releaseDate!)
- //           print(overview!)
- //           print(posterPath!)
-            self.movies.append(Movie(id: movieId, title: title, posterPath: posterPath, overview: overview, releaseDate: releaseDate, voteAverage: voteAverage, genres: genres, image: #imageLiteral(resourceName: "timthumb.php")))
+            self.movies.append(Movie(json: snapshotValue as! [String : Any]))
+            DispatchQueue.main.async {
+                self.movieTableView.reloadData()
+            }
         })
     }
 

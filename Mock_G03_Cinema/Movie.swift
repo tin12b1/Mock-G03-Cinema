@@ -18,16 +18,14 @@ class Movie {
     var releaseDate: String?
     var voteAverage: Double?
     var genres: String?
-    var image: UIImage?
     
-    init(id: Int?, title: String?, posterPath: String?, overview: String?, releaseDate: String?, voteAverage: Double?, genres: String?, image: UIImage?) {
-        self.id = id
-        self.title = title
-        self.posterPath = posterPath
-        self.overview = overview
-        self.releaseDate = releaseDate
-        self.voteAverage = voteAverage
-        self.genres = genres
-        self.image = image
+    init(json: [String:Any]) {
+        posterPath              = json["poster_path"]       as? String
+        title                   = json["title"]             as? String
+        overview                = json["overview"]          as? String
+        releaseDate             = json["release_date"]      as? String
+        genres                  = json["genres"]            as? String
+        id                      = json["id"]                as? Int
+        voteAverage             = json["vote_average"]      as? Double
     }
 }

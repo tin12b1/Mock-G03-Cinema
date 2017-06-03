@@ -54,16 +54,14 @@ class ChangePasswordViewController: UIViewController {
                     NSLog("Password Changed")
                     let alert = UIAlertController(title: "Success", message: "Password Changed!", preferredStyle: UIAlertControllerStyle.alert)
                     alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-                    self.present(alert, animated: true, completion: {
-                        self.resetTextField()
-                    })
-                    // self.navigationController?.popViewController(animated: true)
+                    self.present(alert, animated: true, completion: nil)
                 }
             }
         }
     }
     @IBAction func cancelButtonClick(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
+        let srcUserInfo = self.storyboard?.instantiateViewController(withIdentifier: "userInfo") as! AccountViewController
+        self.present(srcUserInfo, animated: true)
     }
 
     func resetTextField() {
