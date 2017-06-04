@@ -75,6 +75,35 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         })
     }
-
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let identifier = segue.identifier {
+            switch identifier {
+            case "show movie detail":
+                let movieDetailVC = segue.destination as! MovieDetailViewController
+                if let indexPath = self.movieTableView.indexPathForSelectedRow {
+                    movieDetailVC.movie = movieAtIndexPath(indexPath: indexPath as NSIndexPath)
+                    movieDetailVC.posterImg = imageAtIndexPath(indexPath: indexPath as NSIndexPath)
+                }
+                break
+                
+            default:
+                break
+            }
+        }
+    }
+    
+    // MARK: - Helper Method
+    
+    func movieAtIndexPath(indexPath: NSIndexPath) -> Movie
+    {
+        return movies[indexPath.row]
+    }
+    
+    func imageAtIndexPath(indexPath: NSIndexPath) -> UIImage
+    {
+        return posterImage[movies[indexPath.row].id!]!
+        
+    }
 }
 
