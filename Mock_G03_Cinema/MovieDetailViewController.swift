@@ -31,8 +31,7 @@ class MovieDetailViewController: UIViewController {
     }
     
     @IBAction func backButtonClick(_ sender: Any) {
-        let srcMain = self.storyboard?.instantiateViewController(withIdentifier: "main") as! ViewController
-        self.present(srcMain, animated: true)
+        self.dismiss(animated: true, completion: nil)
     }
     
     func setContent() {

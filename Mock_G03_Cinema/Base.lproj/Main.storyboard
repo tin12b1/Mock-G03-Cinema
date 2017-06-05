@@ -31,6 +31,9 @@
                                 <state key="normal" title="Shown">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="shownButtonClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="DFe-S1-Un8"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZCg-K5-Euw">
                                 <rect key="frame" x="250" y="70" width="125" height="30"/>
@@ -41,6 +44,9 @@
                                 <state key="normal" title="Coming soon">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="comingSoonButtonClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="SwV-sK-SUx"/>
+                                </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="GG0-vB-Smm">
                                 <rect key="frame" x="0.0" y="100" width="375" height="567"/>
@@ -92,6 +98,9 @@
                                 <state key="normal" title="Now Showing">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="nowShowingButtonClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="T8v-U6-S0m"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CINEMAX" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2R4-hl-7Ee">
                                 <rect key="frame" x="137" y="30" width="100" height="35"/>
@@ -144,7 +153,10 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="comingSoonButton" destination="ZCg-K5-Euw" id="STo-hc-yYI"/>
                         <outlet property="movieTableView" destination="GG0-vB-Smm" id="oqc-ch-0cz"/>
+                        <outlet property="nowShowingButton" destination="du3-UD-Qkm" id="jCi-dy-cWr"/>
+                        <outlet property="shownButton" destination="LLW-Gq-CP7" id="4wQ-Un-F0S"/>
                         <segue destination="AU5-tW-AA7" kind="show" identifier="show login" id="Nwp-wX-2Ar"/>
                     </connections>
                 </viewController>
