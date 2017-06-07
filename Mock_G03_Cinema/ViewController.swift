@@ -183,9 +183,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 moviesClass.append(movie)
             }
         }
-        DispatchQueue.main.async {
-            self.movieTableView.reloadData()
-        }
+        self.movieTableView.reloadData()
     }
     
     func getShownMovies() {
