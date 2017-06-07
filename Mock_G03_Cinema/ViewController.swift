@@ -9,10 +9,13 @@
 import UIKit
 import Firebase
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate,UISearchResultsUpdating {
     @IBOutlet var shownButton: UIButton!
     @IBOutlet var nowShowingButton: UIButton!
     @IBOutlet var comingSoonButton: UIButton!
+    
+    let searchController = UISearchController(searchResultsController: nil)
+    var filtereMovies = [Movie]()
     
     @IBOutlet var movieTableView: UITableView!
     var movies = [Movie]()
@@ -25,6 +28,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.movieTableView.delegate = self
         getMoviesList()
         // getNowShowingMovies()
+        searchController.searchResultsUpdater = self
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.sizeToFit()
+        self.movieTableView.tableHeaderView = searchController.searchBar
+        definesPresentationContext = true
     }
     
     override func didReceiveMemoryWarning() {
@@ -47,13 +56,24 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return moviesClass.count
+        if searchController.isActive && searchController.searchBar.text != "" {
+            return filtereMovies.count
+        }
+        else {
+            return moviesClass.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "movie cell", for: indexPath)
         let queue = OperationQueue()
-        let movie = moviesClass[indexPath.row]
+        let movie: Movie
+        if searchController.isActive && searchController.searchBar.text != "" {
+            movie = filtereMovies[indexPath.row]
+        }
+        else{
+            movie = moviesClass[indexPath.row]
+        }
         cell.textLabel?.text = movie.title
         cell.detailTextLabel?.text = movie.genres
         queue.addOperation { () -> Void in
@@ -61,7 +81,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             if let img = Downloader.downloadImageWithURL(url) {
                 // Update in main thread
                 OperationQueue.main.addOperation({
-                    self.posterImage[self.moviesClass[indexPath.row].id!] = img
+                    if self.searchController.isActive && self.searchController.searchBar.text != ""{
+                        self.posterImage[self.filtereMovies[indexPath.row].id!] = img
+                    }
+                    else{
+                        self.posterImage[self.moviesClass[indexPath.row].id!] = img
+                    }
                     cell.imageView?.image = img
                 })
             }
@@ -88,6 +113,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     @IBAction func shownButtonClick(_ sender: Any) {
+        searchController.isActive = false
+        searchController.searchBar.text = ""
         nowShowingButton.isSelected = false
         shownButton.isSelected = true
         comingSoonButton.isSelected = false
@@ -95,6 +122,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     @IBAction func nowShowingButtonClick(_ sender: Any) {
+        searchController.isActive = false
+        searchController.searchBar.text = ""
         nowShowingButton.isSelected = true
         shownButton.isSelected = false
         comingSoonButton.isSelected = false
@@ -102,6 +131,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     @IBAction func comingSoonButtonClick(_ sender: Any) {
+        searchController.isActive = false
+        searchController.searchBar.text = ""
         nowShowingButton.isSelected = false
         shownButton.isSelected = false
         comingSoonButton.isSelected = true
@@ -112,12 +143,26 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func movieAtIndexPath(indexPath: NSIndexPath) -> Movie
     {
-        return moviesClass[indexPath.row]
+        if searchController.isActive && searchController.searchBar.text != ""
+        {
+            return filtereMovies[indexPath.row]
+        }
+        else
+        {
+            return moviesClass[indexPath.row]
+        }
     }
     
     func imageAtIndexPath(indexPath: NSIndexPath) -> UIImage
     {
-        return posterImage[moviesClass[indexPath.row].id!]!
+        if searchController.isActive && searchController.searchBar.text != ""
+        {
+            return posterImage[filtereMovies[indexPath.row].id!]!
+        }
+        else
+        {
+            return posterImage[moviesClass[indexPath.row].id!]!
+        }
         
     }
     
@@ -178,4 +223,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.getNowShowingMovies()
         })
     }
+    func filterContentForSearchText(seachText:String)
+    {
+        filtereMovies = moviesClass.filter{ movie in
+            return (movie.title?.lowercased().contains(seachText.lowercased()))!
+        }
+        movieTableView.reloadData()
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(seachText: searchController.searchBar.text!)
+    }
+    
+    
+    
 }
