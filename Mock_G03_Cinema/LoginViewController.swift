@@ -15,11 +15,13 @@ class LoginViewController: UIViewController {
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
     var isSignIn = true
+    var isHidePassword = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
+    @IBOutlet weak var btnShowPassword: UIButton!
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -36,6 +38,15 @@ class LoginViewController: UIViewController {
         }
     }
     
+    @IBAction func btnShowPasswordClick(_ sender: Any) {
+        if isHidePassword {
+            passwordTextField.isSecureTextEntry = false
+            isHidePassword = false
+        } else {
+            passwordTextField.isSecureTextEntry = true
+            isHidePassword = true
+        }
+    }
     // Process when selector change (login/register)
     @IBAction func signInSelectorChanged(_ sender: UISegmentedControl) {
         isSignIn = !isSignIn
@@ -51,19 +62,6 @@ class LoginViewController: UIViewController {
         }
     }
     
-    // Check email format
-    func isValidEmail(testStr:String) -> Bool {
-        let emailRegEx = "(?:[\\p{L}0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[\\p{L}0-9!#$%\\&'*+/=?\\^_`{|}" +
-            "~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\" +
-            "x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[\\p{L}0-9](?:[a-" +
-            "z0-9-]*[\\p{L}0-9])?\\.)+[\\p{L}0-9](?:[\\p{L}0-9-]*[\\p{L}0-9])?|\\[(?:(?:25[0-5" +
-            "]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-" +
-            "9][0-9]?|[\\p{L}0-9-]*[\\p{L}0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21" +
-        "-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])"
-        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-        return emailTest.evaluate(with: testStr)
-    }
-    
     // Reset email & password text field
     func resetTextField () {
         emailTextField.text?.removeAll()
@@ -72,15 +70,12 @@ class LoginViewController: UIViewController {
     
     @IBAction func loginButtonClick(_ sender: Any) {
         if let email = emailTextField.text, let password = passwordTextField.text {
-            let valid = isValidEmail(testStr: email)
+            let valid = Struct.isValidEmail(testStr: email)
             if (isSignIn) {
                 Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
                     if error != nil {
-                        let alert = UIAlertController(title: "Error", message: "Wrong email or password!", preferredStyle: UIAlertControllerStyle.alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-                        self.present(alert, animated: true, completion: {
-                            self.passwordTextField.text?.removeAll()
-                        })
+                        self.displayMyAlertMessage(userMessage: "Wrong email or password!")
+                        self.passwordTextField.text?.removeAll()
                     }
                     else {
                         self.performSegue(withIdentifier: "show account", sender: self)
@@ -89,24 +84,17 @@ class LoginViewController: UIViewController {
             }
             else {
                 if (!valid) {
-                    let alert = UIAlertController(title: "Error", message: "Wrong email format!", preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
+                    self.displayMyAlertMessage(userMessage: "Wrong email format!")
                 }
                 else {
                     if (password.characters.count < 6) {
-                        let alert = UIAlertController(title: "Error", message: "Password must be at least 6 characters!", preferredStyle: UIAlertControllerStyle.alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-                        self.present(alert, animated: true, completion: nil)
+                        self.displayMyAlertMessage(userMessage: "Password must be at least 6 characters!")
                     }
                     else {
                         Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
                             if error != nil {
-                                let alert = UIAlertController(title: "Error", message: "Email unavailable!", preferredStyle: UIAlertControllerStyle.alert)
-                                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-                                self.present(alert, animated: true, completion: {
-                                    self.passwordTextField.text?.removeAll()
-                                })
+                                self.displayMyAlertMessage(userMessage: "Email Unavailable!")
+                                self.passwordTextField.text?.removeAll()
                             }
                             else {
                                 self.performSegue(withIdentifier: "add user info", sender: self)
@@ -122,5 +110,14 @@ class LoginViewController: UIViewController {
     @IBAction func backButtonClick(_ sender: Any) {
         let srcMain = self.storyboard?.instantiateViewController(withIdentifier: "main") as! ViewController
         self.present(srcMain, animated: true)
+    }
+    
+    func displayMyAlertMessage(userMessage: String) {
+        let myAlert = UIAlertController(title: "Alert", message: userMessage, preferredStyle: UIAlertControllerStyle.alert)
+        
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
+        
+        myAlert.addAction(okAction)
+        self.present(myAlert, animated: true, completion: nil)
     }
 }
