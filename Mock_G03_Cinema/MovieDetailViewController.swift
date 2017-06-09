@@ -17,6 +17,7 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet var genresLabel: UILabel!
     @IBOutlet var voteAverageLabel: UILabel!
     @IBOutlet var overviewLabel: UILabel!
+    @IBOutlet var bookNowButton: UIButton!
     
     var movie: Movie?
     var posterImg: UIImage?
@@ -43,5 +44,43 @@ class MovieDetailViewController: UIViewController {
             voteAverageLabel.text = "⭐️: \(vote)"
         }
         overviewLabel.text = "OVERVIEW: " + (movie?.overview)!
+        if (!isNowShowingMovie()) {
+            bookNowButton.isHidden = true
+        }
+        else {
+            bookNowButton.isHidden = false
+        }
+    }
+    
+    func isNowShowingMovie() -> Bool {
+        let currentDate = Date()
+        if (Struct.getDateFromString(releaseDate: (movie?.releaseDate!)!, interval: 86400) <= currentDate && currentDate <= Struct.getDateFromString(releaseDate: (movie?.releaseDate!)!, interval: 1814400)) {
+            return true
+        }
+        return false
+    }
+    
+    @IBAction func bookButtonClick(_ sender: Any) {
+        if Auth.auth().currentUser == nil {
+            // No user is signed in.
+            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "login") as! LoginViewController
+            self.present(loginVC, animated: true)
+        }
+    }
+    
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let identifier = segue.identifier {
+            switch identifier {
+            case "show seats":
+                let seatsVC = segue.destination as! SeatsViewController
+                seatsVC.movie = movie
+                break
+                
+            default:
+                break
+            }
+        }
     }
 }

@@ -27,7 +27,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.movieTableView.dataSource = self
         self.movieTableView.delegate = self
         getMoviesList()
-        // getNowShowingMovies()
         searchController.searchResultsUpdater = self
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.dimsBackgroundDuringPresentation = false
@@ -95,23 +94,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return cell
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let identifier = segue.identifier {
-            switch identifier {
-            case "show movie detail":
-                let movieDetailVC = segue.destination as! MovieDetailViewController
-                if let indexPath = self.movieTableView.indexPathForSelectedRow {
-                    movieDetailVC.movie = movieAtIndexPath(indexPath: indexPath as NSIndexPath)
-                    movieDetailVC.posterImg = imageAtIndexPath(indexPath: indexPath as NSIndexPath)
-                }
-                break
-                
-            default:
-                break
-            }
-        }
-    }
-    
     @IBAction func shownButtonClick(_ sender: Any) {
         searchController.isActive = false
         searchController.searchBar.text = ""
@@ -137,6 +119,25 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         shownButton.isSelected = false
         comingSoonButton.isSelected = true
         getComingSoonMovies()
+    }
+    
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let identifier = segue.identifier {
+            switch identifier {
+            case "show movie detail":
+                let movieDetailVC = segue.destination as! MovieDetailViewController
+                if let indexPath = self.movieTableView.indexPathForSelectedRow {
+                    movieDetailVC.movie = movieAtIndexPath(indexPath: indexPath as NSIndexPath)
+                    movieDetailVC.posterImg = imageAtIndexPath(indexPath: indexPath as NSIndexPath)
+                }
+                break
+                
+            default:
+                break
+            }
+        }
     }
     
     // MARK: - Helper Method
@@ -166,19 +167,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
-    func getDateFromString(releaseDate: String, interval: Double) -> Date {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        var date = dateFormatter.date(from: releaseDate)
-        date?.addTimeInterval(interval)
-        return date!
-    }
-    
     func getNowShowingMovies() {
         moviesClass.removeAll()
         let currentDate = Date()
         for movie in movies {
-            if (getDateFromString(releaseDate: movie.releaseDate!, interval: 86400) <= currentDate && currentDate <= getDateFromString(releaseDate: movie.releaseDate!, interval: 1814400)) {
+            if (Struct.getDateFromString(releaseDate: movie.releaseDate!, interval: 86400) <= currentDate && currentDate <= Struct.getDateFromString(releaseDate: movie.releaseDate!, interval: 1814400)) {
                 // Movie will be stop showing after release 20 days
                 moviesClass.append(movie)
             }
@@ -190,7 +183,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         moviesClass.removeAll()
         let currentDate = Date()
         for movie in movies {
-            if (getDateFromString(releaseDate: movie.releaseDate!, interval: 1814400) < currentDate) {
+            if (Struct.getDateFromString(releaseDate: movie.releaseDate!, interval: 1814400) < currentDate) {
                 // Movie will be stop showing after release 20 days
                 moviesClass.append(movie)
             }
@@ -202,7 +195,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         moviesClass.removeAll()
         let currentDate = Date()
         for movie in movies {
-            if (getDateFromString(releaseDate: movie.releaseDate!, interval: 86400) > currentDate) {
+            if (Struct.getDateFromString(releaseDate: movie.releaseDate!, interval: 86400) > currentDate) {
                 // Release date > Current date
                 moviesClass.append(movie)
             }
@@ -223,7 +216,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     func filterContentForSearchText(seachText:String)
     {
-        filtereMovies = moviesClass.filter{ movie in
+        filtereMovies = moviesClass.filter { movie in
             return (movie.title?.lowercased().contains(seachText.lowercased()))!
         }
         movieTableView.reloadData()

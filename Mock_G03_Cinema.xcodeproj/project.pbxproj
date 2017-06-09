@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		403252E51EE9A09400524820 /* SeatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403252E41EE9A09400524820 /* SeatsViewController.swift */; };
+		403252EC1EE9A49900524820 /* Seat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403252EA1EE9A49900524820 /* Seat.swift */; };
 		408AE58B1EDF31A70070C398 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408AE58A1EDF31A70070C398 /* AccountViewController.swift */; };
 		409698A51EE1B35D007A1B08 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409698A41EE1B35D007A1B08 /* Movie.swift */; };
+		40D8806E1EEAD48F007ED171 /* SeatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D8806D1EEAD48F007ED171 /* SeatCollectionViewCell.swift */; };
 		40DDE6611EE4815500A5115E /* MovieDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DDE6601EE4815500A5115E /* MovieDetailViewController.swift */; };
 		40DF47AE1EE14DD700399A6D /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DF47AD1EE14DD700399A6D /* ChangePasswordViewController.swift */; };
 		40E47C571EDEA91B004994CF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E47C561EDEA91B004994CF /* LoginViewController.swift */; };
@@ -50,8 +53,11 @@
 /* Begin PBXFileReference section */
 		00B37FE4EB2A89430926DC7E /* Pods_Mock_G03_CinemaUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mock_G03_CinemaUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C4B566EB7F8483F5D6923BB /* Pods_Mock_G03_Cinema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mock_G03_Cinema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		403252E41EE9A09400524820 /* SeatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeatsViewController.swift; sourceTree = "<group>"; };
+		403252EA1EE9A49900524820 /* Seat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Seat.swift; sourceTree = "<group>"; };
 		408AE58A1EDF31A70070C398 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		409698A41EE1B35D007A1B08 /* Movie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		40D8806D1EEAD48F007ED171 /* SeatCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeatCollectionViewCell.swift; sourceTree = "<group>"; };
 		40DDE6601EE4815500A5115E /* MovieDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieDetailViewController.swift; sourceTree = "<group>"; };
 		40DF47AD1EE14DD700399A6D /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		40E47C561EDEA91B004994CF /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -111,6 +117,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		403252E31EE9910D00524820 /* Booking */ = {
+			isa = PBXGroup;
+			children = (
+				403252E41EE9A09400524820 /* SeatsViewController.swift */,
+				40D8806D1EEAD48F007ED171 /* SeatCollectionViewCell.swift */,
+			);
+			name = Booking;
+			sourceTree = "<group>";
+		};
 		40F170991EDC74E800209E9D = {
 			isa = PBXGroup;
 			children = (
@@ -180,6 +195,7 @@
 		B59256A61EE2B3AA00810E8B /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				403252EA1EE9A49900524820 /* Seat.swift */,
 				409698A41EE1B35D007A1B08 /* Movie.swift */,
 			);
 			name = Model;
@@ -188,6 +204,7 @@
 		B59256A71EE2B3C300810E8B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				403252E31EE9910D00524820 /* Booking */,
 				B59256A81EE2B3F200810E8B /* User */,
 				40F170A71EDC74E800209E9D /* ViewController.swift */,
 				40DDE6601EE4815500A5115E /* MovieDetailViewController.swift */,
@@ -521,12 +538,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF4FADD01EE7EEDD004D0E09 /* Struct.swift in Sources */,
+				403252EC1EE9A49900524820 /* Seat.swift in Sources */,
 				40F170A81EDC74E800209E9D /* ViewController.swift in Sources */,
 				408AE58B1EDF31A70070C398 /* AccountViewController.swift in Sources */,
 				40F170A61EDC74E800209E9D /* AppDelegate.swift in Sources */,
+				40D8806E1EEAD48F007ED171 /* SeatCollectionViewCell.swift in Sources */,
 				EF4FADCE1EE7EAC5004D0E09 /* ResetPasswordViewController.swift in Sources */,
 				40F9BF141EE076AC002FFF64 /* AddUserInfoViewController.swift in Sources */,
 				40E47C571EDEA91B004994CF /* LoginViewController.swift in Sources */,
+				403252E51EE9A09400524820 /* SeatsViewController.swift in Sources */,
 				B59256A51EE2B38C00810E8B /* Dowloader.swift in Sources */,
 				40DDE6611EE4815500A5115E /* MovieDetailViewController.swift in Sources */,
 				40F170AE1EDC74E800209E9D /* Mock_G03_Cinema.xcdatamodeld in Sources */,
