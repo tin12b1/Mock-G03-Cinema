@@ -63,7 +63,8 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     @IBAction func homeButtonClick(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+        let srcMain = self.storyboard?.instantiateViewController(withIdentifier: "main") as! ViewController
+        self.present(srcMain, animated: true)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -81,6 +82,10 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         cell.textLabel?.text = booking.title
         cell.detailTextLabel?.text = booking.seats
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "LIST OF SEATS YOU BOOKED"
     }
     
     func getBookingList() {

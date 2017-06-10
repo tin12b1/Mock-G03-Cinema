@@ -51,8 +51,8 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
                 if let movieId = movie?.id {
                     databaseRef.child("movies").child("\(movieId)").child("screening").child("S1").child(seat.id!).setValue(["id": seat.id!,
                                                                                                                              "col": seat.col!,
-                                                                                                                            "row": seat.row!,
-                                                                                                                            "status": 0])
+                                                                                                                             "row": seat.row!,
+                                                                                                                             "status": 0])
                 }
                 if bookedSeats == "" {
                     bookedSeats = bookedSeats + seat.id!
@@ -106,7 +106,7 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
             self.displayMyAlertMessage(userMessage: "Seat was reserved by the other!")
         }
         seatsCollectionView.reloadItems(at: [indexPath])
-        print(seat.id!)
+        // print(seat.id!)
     }
     
     func getSeats() {

@@ -155,10 +155,10 @@
 			children = (
 				B59256AA1EE2B43600810E8B /* Library */,
 				B59256A61EE2B3AA00810E8B /* Model */,
-				40F170A51EDC74E800209E9D /* AppDelegate.swift */,
 				B59256A71EE2B3C300810E8B /* Controller */,
 				B59256A91EE2B41A00810E8B /* View */,
 				40F170AF1EDC74E800209E9D /* Assets.xcassets */,
+				40F170A51EDC74E800209E9D /* AppDelegate.swift */,
 				40F170B41EDC74E800209E9D /* Info.plist */,
 				40F170AC1EDC74E800209E9D /* Mock_G03_Cinema.xcdatamodeld */,
 				40F170D61EDC758000209E9D /* GoogleService-Info.plist */,
