@@ -9,7 +9,9 @@
 import UIKit
 
 class SeatCollectionViewCell: UICollectionViewCell {
-    func configureCell(status: Int) {
+    @IBOutlet var seatNameLabel: UILabel!
+    func configureCell(id: String, status: Int) {
+        seatNameLabel.text = id
         switch status {
         case 0:
             backgroundColor = UIColor.red

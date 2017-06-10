@@ -60,8 +60,9 @@ class ChangePasswordViewController: UIViewController {
         }
     }
     @IBAction func cancelButtonClick(_ sender: Any) {
-        let srcUserInfo = self.storyboard?.instantiateViewController(withIdentifier: "userInfo") as! AccountViewController
-        self.present(srcUserInfo, animated: true)
+        //let srcUserInfo = self.storyboard?.instantiateViewController(withIdentifier: "userInfo") as! AccountViewController
+        //self.present(srcUserInfo, animated: true)
+        dismiss(animated: true, completion: nil)
     }
 
     func resetTextField() {

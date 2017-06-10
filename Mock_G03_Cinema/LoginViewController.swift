@@ -30,8 +30,9 @@ class LoginViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         if Auth.auth().currentUser != nil {
             // User is signed in.
-            let srcMain = self.storyboard?.instantiateViewController(withIdentifier: "main") as! ViewController
-            self.present(srcMain, animated: true)
+            dismiss(animated: true, completion: nil)
+            //let srcMain = self.storyboard?.instantiateViewController(withIdentifier: "main") as! ViewController
+            //self.present(srcMain, animated: true)
         } else {
             // No user is signed in.
             resetTextField()
@@ -108,8 +109,7 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func backButtonClick(_ sender: Any) {
-        let srcMain = self.storyboard?.instantiateViewController(withIdentifier: "main") as! ViewController
-        self.present(srcMain, animated: true)
+        dismiss(animated: true, completion: nil)
     }
     
     func displayMyAlertMessage(userMessage: String) {

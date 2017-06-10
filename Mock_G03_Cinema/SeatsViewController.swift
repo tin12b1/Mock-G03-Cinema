@@ -36,6 +36,11 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
         getSeats()
     }
     
+    @IBAction func backButtonClick(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
     // * Under construction *
     @IBAction func confirmButtonClick(_ sender: Any) {
         let databaseRef = Database.database().reference()
@@ -53,13 +58,19 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
                     bookedSeats = bookedSeats + seat.id!
                 }
                 else {
-                    bookedSeats = bookedSeats + " " + seat.id!
+                    bookedSeats = bookedSeats + ", " + seat.id!
                 }
             }
         }
         if bookedSeats != "" {
-            
+            if let movieId = movie?.id, let movieTitle = movie?.title {
+                databaseRef.child("users").child(userId!).child("booking").childByAutoId().setValue(["movie": movieId,
+                                                                                                     "title": movieTitle,
+                                                                                                     "seats": bookedSeats])
+            }
         }
+        let srcUserInfo = self.storyboard?.instantiateViewController(withIdentifier: "userInfo") as! AccountViewController
+        self.present(srcUserInfo, animated: true)
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -74,7 +85,7 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "seat cell", for: indexPath) as! SeatCollectionViewCell
         let seat: Seat
         seat = seats[indexPath.row]
-        cell.configureCell(status: seat.status!)
+        cell.configureCell(id: seat.id!, status: seat.status!)
         return cell
     }
 

@@ -9,14 +9,20 @@
 import UIKit
 import Firebase
 
-class AccountViewController: UIViewController {
+class AccountViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet var nameLabel: UILabel!
     @IBOutlet var ageLabel: UILabel!
     @IBOutlet var addressLabel: UILabel!
+    @IBOutlet var bookingTableView: UITableView!
+    
+    var bookings = [Booking]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.bookingTableView.dataSource = self
+        self.bookingTableView.delegate = self
         getUserInfo()
+        getBookingList()
     }
 
     override func didReceiveMemoryWarning() {
@@ -35,6 +41,7 @@ class AccountViewController: UIViewController {
             print ("Error signing out: %@", signOutError)
         }
     }
+    
     @IBAction func changePasswordButtonClick(_ sender: Any) {
     }
     
@@ -56,8 +63,35 @@ class AccountViewController: UIViewController {
     }
     
     @IBAction func homeButtonClick(_ sender: Any) {
-        let srcMain = self.storyboard?.instantiateViewController(withIdentifier: "main") as! ViewController
-        self.present(srcMain, animated: true)
+        dismiss(animated: true, completion: nil)
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return bookings.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "booking cell", for: indexPath)
+        let booking: Booking
+        booking = bookings[indexPath.row]
+        cell.textLabel?.text = booking.title
+        cell.detailTextLabel?.text = booking.seats
+        return cell
+    }
+    
+    func getBookingList() {
+        let databaseRef = Database.database().reference()
+        let userId = Auth.auth().currentUser?.uid
+        databaseRef.child("users").child(userId!).child("booking").observe(.childAdded, with: {snapshot in
+            let snapshotValue = snapshot.value as? NSDictionary
+            self.bookings.append(Booking(json: snapshotValue as! [String : Any]))
+            DispatchQueue.main.async {
+                self.bookingTableView.reloadData()
+            }
+        })
+    }
 }

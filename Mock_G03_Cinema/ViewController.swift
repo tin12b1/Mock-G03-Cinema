@@ -214,6 +214,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.getNowShowingMovies()
         })
     }
+    
     func filterContentForSearchText(seachText:String)
     {
         filtereMovies = moviesClass.filter { movie in
@@ -225,7 +226,4 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(seachText: searchController.searchBar.text!)
     }
-    
-    
-    
 }

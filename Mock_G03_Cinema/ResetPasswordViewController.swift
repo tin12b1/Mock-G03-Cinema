@@ -21,8 +21,9 @@ class ResetPasswordViewController: UIViewController {
     }
     
     @IBAction func backButton(_ sender: Any) {
-        let login = self.storyboard?.instantiateViewController(withIdentifier: "login") as! LoginViewController
-        self.present(login, animated: true)
+        //let login = self.storyboard?.instantiateViewController(withIdentifier: "login") as! LoginViewController
+        //self.present(login, animated: true)
+        dismiss(animated: true, completion: nil)
     }
 
     @IBAction func resetPasswordButtonClick(_ sender: Any) {
