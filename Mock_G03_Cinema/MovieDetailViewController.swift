@@ -17,8 +17,11 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet var genresLabel: UILabel!
     @IBOutlet var voteAverageLabel: UILabel!
     @IBOutlet var overviewLabel: UILabel!
-    @IBOutlet var bookNowButton: UIButton!
+    @IBOutlet var firstShowTimeButton: UIButton!
+    @IBOutlet var secondShowTimeButton: UIButton!
+    @IBOutlet var thirdShowTimeButton: UIButton!
     
+    @IBOutlet var styleImageView: UIImageView!
     var movie: Movie?
     var posterImg: UIImage?
 
@@ -41,26 +44,46 @@ class MovieDetailViewController: UIViewController {
         releaseDateLabel.text = "RELEASE DATE: " + (movie?.releaseDate)!
         genresLabel.text = "GENRES: " + (movie?.genres)!
         if let vote = movie?.voteAverage {
-            voteAverageLabel.text = "⭐️: \(vote)"
+            voteAverageLabel.text = "VOTE AVERAGE: \(vote)⭐️"
         }
         overviewLabel.text = "OVERVIEW: " + (movie?.overview)!
-        if (!isNowShowingMovie()) {
-            bookNowButton.isHidden = true
+        if (isNowShowingMovie()) {
+            firstShowTimeButton.isHidden = true
+            secondShowTimeButton.isHidden = true
+            thirdShowTimeButton.isHidden = true
         }
         else {
-            bookNowButton.isHidden = false
+            firstShowTimeButton.isHidden = false
+            secondShowTimeButton.isHidden = false
+            thirdShowTimeButton.isHidden = false
         }
     }
     
     func isNowShowingMovie() -> Bool {
         let currentDate = Date()
         if (Struct.getDateFromString(releaseDate: (movie?.releaseDate!)!, interval: 86400) <= currentDate && currentDate <= Struct.getDateFromString(releaseDate: (movie?.releaseDate!)!, interval: 1814400)) {
-            return true
+            return false
         }
-        return false
+        return true
     }
     
-    @IBAction func bookButtonClick(_ sender: Any) {
+    @IBAction func firstShowTimeButtonClick(_ sender: Any) {
+        if Auth.auth().currentUser == nil {
+            // No user is signed in.
+            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "login") as! LoginViewController
+            self.present(loginVC, animated: true)
+        }
+    }
+    
+    @IBAction func secondShowTimeButtonClick(_ sender: Any) {
+        if Auth.auth().currentUser == nil {
+            // No user is signed in.
+            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "login") as! LoginViewController
+            self.present(loginVC, animated: true)
+        }
+    }
+    
+    @IBAction func thirdShowTimeButtonClick(_ sender: Any) {
         if Auth.auth().currentUser == nil {
             // No user is signed in.
             let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "login") as! LoginViewController
@@ -73,9 +96,20 @@ class MovieDetailViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = segue.identifier {
             switch identifier {
-            case "show seats":
+            case "show seats 1":
                 let seatsVC = segue.destination as! SeatsViewController
                 seatsVC.movie = movie
+                seatsVC.showTimeId = "S1"
+                break
+            case "show seats 2":
+                let seatsVC = segue.destination as! SeatsViewController
+                seatsVC.movie = movie
+                seatsVC.showTimeId = "S2"
+                break
+            case "show seats 3":
+                let seatsVC = segue.destination as! SeatsViewController
+                seatsVC.movie = movie
+                seatsVC.showTimeId = "S3"
                 break
                 
             default:

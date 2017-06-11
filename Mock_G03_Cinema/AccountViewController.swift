@@ -80,7 +80,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         let booking: Booking
         booking = bookings[indexPath.row]
         cell.textLabel?.text = booking.title
-        cell.detailTextLabel?.text = booking.seats
+        cell.detailTextLabel?.text = "Show time: " + booking.showTime! + ", seats: " + booking.seats!
         return cell
     }
     

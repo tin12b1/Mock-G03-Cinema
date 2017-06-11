@@ -13,10 +13,12 @@ class Booking {
     var id: Int?
     var title: String?
     var seats: String?
+    var showTime: String?
     
     init(json: [String:Any]) {
         id          = json["id"]        as? Int
         title       = json["title"]     as? String
         seats       = json["seats"]     as? String
+        showTime    = json["show_time"] as? String
     }
 }

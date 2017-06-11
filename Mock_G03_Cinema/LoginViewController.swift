@@ -11,7 +11,6 @@ import Firebase
 
 class LoginViewController: UIViewController {
     @IBOutlet var loginButton: UIButton!
-    @IBOutlet var titleLabel: UILabel!
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
     var isSignIn = true
@@ -50,12 +49,10 @@ class LoginViewController: UIViewController {
     @IBAction func signInSelectorChanged(_ sender: UISegmentedControl) {
         isSignIn = !isSignIn
         if (isSignIn) {
-            titleLabel.text = "Login"
             loginButton.setTitle("Login", for: .normal)
             resetTextField()
         }
         else {
-            titleLabel.text = "Register"
             loginButton.setTitle("Register", for: .normal)
             resetTextField()
         }

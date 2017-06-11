@@ -16,6 +16,7 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
     var movie: Movie?
     var seats = [Seat]()
     var count = 0
+    var showTimeId: String?
     
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
@@ -34,6 +35,9 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
         self.seatsCollectionView.dataSource = self
         self.seatsCollectionView.delegate = self
         getSeats()
+        if let id = showTimeId {
+            print("\(id)")
+        }
     }
     
     @IBAction func backButtonClick(_ sender: Any) {
@@ -46,10 +50,11 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
         let databaseRef = Database.database().reference()
         let userId = Auth.auth().currentUser?.uid
         var bookedSeats = ""
+        var showTime = ""
         for seat in seats {
             if seat.status == 2 {
                 if let movieId = movie?.id {
-                    databaseRef.child("movies").child("\(movieId)").child("screening").child("S1").child(seat.id!).setValue(["id": seat.id!,
+                    databaseRef.child("movies").child("\(movieId)").child("screening").child(showTimeId!).child(seat.id!).setValue(["id": seat.id!,
                                                                                                                              "col": seat.col!,
                                                                                                                              "row": seat.row!,
                                                                                                                              "status": 0])
@@ -62,11 +67,21 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
                 }
             }
         }
+        if showTimeId == "S1" {
+            showTime = "8:00"
+        }
+        else if showTimeId == "S2"  {
+            showTime = "11:00"
+        }
+        else {
+            showTime = "17:00"
+        }
         if bookedSeats != "" {
             if let movieId = movie?.id, let movieTitle = movie?.title {
                 databaseRef.child("users").child(userId!).child("booking").childByAutoId().setValue(["movie": movieId,
                                                                                                      "title": movieTitle,
-                                                                                                     "seats": bookedSeats])
+                                                                                                     "seats": bookedSeats,
+                                                                                                    "show_time": showTime])
             }
         }
         let srcUserInfo = self.storyboard?.instantiateViewController(withIdentifier: "userInfo") as! AccountViewController
@@ -106,13 +121,12 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
             self.displayMyAlertMessage(userMessage: "Seat was reserved by the other!")
         }
         seatsCollectionView.reloadItems(at: [indexPath])
-        // print(seat.id!)
     }
     
     func getSeats() {
         let databaseRef = Database.database().reference()
         if let movieId = movie?.id {
-            databaseRef.child("movies").child("\(movieId)").child("screening").child("S1").observe(.childAdded, with: {snapshot in
+            databaseRef.child("movies").child("\(movieId)").child("screening").child(showTimeId!).observe(.childAdded, with: {snapshot in
                 let snapshotValue = snapshot.value as? NSDictionary
                 self.seats.append(Seat(json: snapshotValue as! [String : Any]))
                 DispatchQueue.main.async {
