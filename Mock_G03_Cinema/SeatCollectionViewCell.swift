@@ -19,6 +19,8 @@ class SeatCollectionViewCell: UICollectionViewCell {
             backgroundColor = UIColor.lightGray
         case 2:
             backgroundColor = UIColor.green
+        case 3:
+            backgroundColor = UIColor.yellow
         default:
             backgroundColor = UIColor.clear
         }

@@ -49,12 +49,17 @@ class ChangePasswordViewController: UIViewController {
                 } else {
                     // User re-authenticated.
                     user?.updatePassword(to: self.newPasswordTextField.text!) { (error) in
-                        // ...
+                        if error != nil {
+                            self.displayMyAlertMessage(userMessage: "Change password failed!")
+                        } else {
+                            let alertView = UIAlertController(title: "Success", message: "Password changed!", preferredStyle: .alert)
+                            let action = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction) in
+                                self.dismiss(animated: true, completion: nil)
+                            })
+                            alertView.addAction(action)
+                            self.present(alertView, animated: true, completion: nil)
+                        }
                     }
-                    NSLog("Password Changed")
-                    let alert = UIAlertController(title: "Success", message: "Password Changed!", preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
                 }
             }
         }
@@ -71,4 +76,12 @@ class ChangePasswordViewController: UIViewController {
         oldPasswordTextField.text?.removeAll()
     }
 
+    func displayMyAlertMessage(userMessage: String) {
+        let myAlert = UIAlertController(title: "Alert", message: userMessage, preferredStyle: UIAlertControllerStyle.alert)
+        
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
+        
+        myAlert.addAction(okAction)
+        self.present(myAlert, animated: true, completion: nil)
+    }
 }

@@ -13,10 +13,13 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
     @IBOutlet var seatsCollectionView: UICollectionView!
     @IBOutlet var confirmButton: UIButton!
 
+    let databaseRef = Database.database().reference()
+    let userId = Auth.auth().currentUser?.uid
     var movie: Movie?
     var seats = [Seat]()
     var count = 0
     var showTimeId: String?
+    let currentDate = Date()
     
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
@@ -35,9 +38,11 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
         self.seatsCollectionView.dataSource = self
         self.seatsCollectionView.delegate = self
         getSeats()
-        if let id = showTimeId {
-            print("\(id)")
-        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        seats.removeAll()
+        getSeats()
     }
     
     @IBAction func backButtonClick(_ sender: Any) {
@@ -47,19 +52,18 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
     
     // * Under construction *
     @IBAction func confirmButtonClick(_ sender: Any) {
-        let databaseRef = Database.database().reference()
-        let userId = Auth.auth().currentUser?.uid
-        var bookedSeats = ""
+ /*       var bookedSeats = ""
         var showTime = ""
         for seat in seats {
-            if seat.status == 2 {
+            if (seat.status == 2) {
                 if let movieId = movie?.id {
                     databaseRef.child("movies").child("\(movieId)").child("screening").child(showTimeId!).child(seat.id!).setValue(["id": seat.id!,
                                                                                                                              "col": seat.col!,
                                                                                                                              "row": seat.row!,
-                                                                                                                             "status": 0])
+                                                                                                                             "status": 3,
+                                                                                                                             "booked_time": currentDate])
                 }
-                if bookedSeats == "" {
+                if (bookedSeats == "") {
                     bookedSeats = bookedSeats + seat.id!
                 }
                 else {
@@ -67,25 +71,26 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
                 }
             }
         }
-        if showTimeId == "S1" {
-            showTime = "8:00"
-        }
-        else if showTimeId == "S2"  {
+        if (showTimeId == "S1") {
             showTime = "11:00"
         }
-        else {
+        else if (showTimeId == "S2")  {
             showTime = "17:00"
         }
-        if bookedSeats != "" {
+        else {
+            showTime = "21:00"
+        }
+        if (bookedSeats != "") {
             if let movieId = movie?.id, let movieTitle = movie?.title {
                 databaseRef.child("users").child(userId!).child("booking").childByAutoId().setValue(["movie": movieId,
                                                                                                      "title": movieTitle,
                                                                                                      "seats": bookedSeats,
-                                                                                                    "show_time": showTime])
+                                                                                                    "show_time": showTime,
+                                                                                                    "booked_time": currentDate])
             }
         }
         let srcUserInfo = self.storyboard?.instantiateViewController(withIdentifier: "userInfo") as! AccountViewController
-        self.present(srcUserInfo, animated: true)
+        self.present(srcUserInfo, animated: true) */
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -117,7 +122,11 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
         else if (seat.status == 2) {
             seat.status = 1
             count -= 1
-        } else if (seat.status == 0) {
+        }
+        else if (seat.status == 3) {
+            self.displayMyAlertMessage(userMessage: "Seat was booked by the other!")
+        }
+        else if (seat.status == 0) {
             self.displayMyAlertMessage(userMessage: "Seat was reserved by the other!")
         }
         seatsCollectionView.reloadItems(at: [indexPath])
@@ -132,7 +141,19 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
                 DispatchQueue.main.async {
                     self.seatsCollectionView.reloadData()
                 }
+                self.checkPaymentDeadline()
             })
+        }
+    }
+    
+    // Reset seats status if user not pay in 24 hours until booked
+    func checkPaymentDeadline() {
+        for seat in seats {
+            if seat.status == 3 {
+                if let time = seat.bookedTime {
+                    print(time)
+                }
+            }
         }
     }
     

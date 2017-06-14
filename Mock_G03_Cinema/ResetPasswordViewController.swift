@@ -21,8 +21,6 @@ class ResetPasswordViewController: UIViewController {
     }
     
     @IBAction func backButton(_ sender: Any) {
-        //let login = self.storyboard?.instantiateViewController(withIdentifier: "login") as! LoginViewController
-        //self.present(login, animated: true)
         dismiss(animated: true, completion: nil)
     }
 
@@ -40,7 +38,12 @@ class ResetPasswordViewController: UIViewController {
                     self.displayMyAlertMessage(userMessage: "Email unavailable in system!")
                 }
                 else {
-                    self.displayMyAlertMessage(userMessage: "Reset password email sent, check your inbox!")
+                    let alertView = UIAlertController(title: "Success", message: "Reset password email sent, check your inbox!", preferredStyle: .alert)
+                    let action = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction) in
+                        self.dismiss(animated: true, completion: nil)
+                    })
+                    alertView.addAction(action)
+                    self.present(alertView, animated: true, completion: nil)
                 }
             }
         }
@@ -48,9 +51,7 @@ class ResetPasswordViewController: UIViewController {
     
     func displayMyAlertMessage(userMessage: String) {
         let myAlert = UIAlertController(title: "Alert", message: userMessage, preferredStyle: UIAlertControllerStyle.alert)
-        
         let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
-        
         myAlert.addAction(okAction)
         self.present(myAlert, animated: true, completion: nil)
     }

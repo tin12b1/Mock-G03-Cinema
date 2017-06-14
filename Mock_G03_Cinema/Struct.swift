@@ -47,4 +47,16 @@ class Struct {
         
         UIDevice.current.setValue(rotateOrientation.rawValue, forKey: "orientation")
     }
+    
+    static func getDateTime() -> [Int] {
+        let date = Date()
+        let calendar = Calendar.current
+        let day = calendar.component(.day, from: date)
+        let month = calendar.component(.month, from: date)
+        let year = calendar.component(.year, from: date)
+        let hour = calendar.component(.hour, from: date)
+        let minutes = calendar.component(.minute, from: date)
+        let bookTimeArray = [day, month, year, hour, minutes]
+        return bookTimeArray
+    }
 }

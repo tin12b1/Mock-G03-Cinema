@@ -24,6 +24,8 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet var styleImageView: UIImageView!
     var movie: Movie?
     var posterImg: UIImage?
+    let currentDate = Date()
+    let currentDateTime = Struct.getDateTime()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,10 +49,20 @@ class MovieDetailViewController: UIViewController {
             voteAverageLabel.text = "VOTE AVERAGE: \(vote)⭐️"
         }
         overviewLabel.text = "OVERVIEW: " + (movie?.overview)!
-        if (isNowShowingMovie()) {
+        if (!isNowShowingMovie() || currentDateTime[3] >= 20) {
             firstShowTimeButton.isHidden = true
             secondShowTimeButton.isHidden = true
             thirdShowTimeButton.isHidden = true
+        }
+        else if (currentDateTime[3] >= 16) {
+            firstShowTimeButton.isHidden = true
+            secondShowTimeButton.isHidden = true
+            thirdShowTimeButton.isHidden = false
+        }
+        else if (currentDateTime[3] >= 10) {
+            firstShowTimeButton.isHidden = true
+            secondShowTimeButton.isHidden = false
+            thirdShowTimeButton.isHidden = false
         }
         else {
             firstShowTimeButton.isHidden = false
@@ -62,9 +74,9 @@ class MovieDetailViewController: UIViewController {
     func isNowShowingMovie() -> Bool {
         let currentDate = Date()
         if (Struct.getDateFromString(releaseDate: (movie?.releaseDate!)!, interval: 86400) <= currentDate && currentDate <= Struct.getDateFromString(releaseDate: (movie?.releaseDate!)!, interval: 1814400)) {
-            return false
+            return true
         }
-        return true
+        return false
     }
     
     @IBAction func firstShowTimeButtonClick(_ sender: Any) {
@@ -89,6 +101,15 @@ class MovieDetailViewController: UIViewController {
             let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "login") as! LoginViewController
             self.present(loginVC, animated: true)
         }
+    }
+    
+    func displayMyAlertMessage(userMessage: String) {
+        let myAlert = UIAlertController(title: "Alert", message: userMessage, preferredStyle: UIAlertControllerStyle.alert)
+        
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
+        
+        myAlert.addAction(okAction)
+        self.present(myAlert, animated: true, completion: nil)
     }
     
     // MARK: - Navigation

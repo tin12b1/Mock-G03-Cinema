@@ -15,6 +15,8 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet var addressLabel: UILabel!
     @IBOutlet var bookingTableView: UITableView!
     
+    let databaseRef = Database.database().reference()
+    let userId = Auth.auth().currentUser?.uid
     var bookings = [Booking]()
     
     override func viewDidLoad() {
@@ -46,8 +48,6 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func getUserInfo() {
-        let databaseRef = Database.database().reference()
-        let userId = Auth.auth().currentUser?.uid
         databaseRef.child("users").child(userId!).observeSingleEvent(of: .value, with: { (snapshot) in
             // Get user info and show to view
             let value = snapshot.value as? NSDictionary
@@ -63,8 +63,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     @IBAction func homeButtonClick(_ sender: Any) {
-        let srcMain = self.storyboard?.instantiateViewController(withIdentifier: "main") as! ViewController
-        self.present(srcMain, animated: true)
+        self.dismiss(animated: true, completion: nil)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -80,7 +79,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         let booking: Booking
         booking = bookings[indexPath.row]
         cell.textLabel?.text = booking.title
-        cell.detailTextLabel?.text = "Show time: " + booking.showTime! + ", seats: " + booking.seats!
+        cell.detailTextLabel?.text = booking.seats
         return cell
     }
     
@@ -89,8 +88,6 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func getBookingList() {
-        let databaseRef = Database.database().reference()
-        let userId = Auth.auth().currentUser?.uid
         databaseRef.child("users").child(userId!).child("booking").observe(.childAdded, with: {snapshot in
             let snapshotValue = snapshot.value as? NSDictionary
             self.bookings.append(Booking(json: snapshotValue as! [String : Any]))
