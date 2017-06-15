@@ -10,17 +10,17 @@ import Foundation
 
 class Booking {
     
-    var id: Int?
+    var movieId: Int?
     var title: String?
-    var seats: String?
+    var seats: [String]?
     var showTime: String?
-    var bookedTime: Date?
+    var bookedTime: String?
     
     init(json: [String:Any]) {
-        id          = json["id"]            as? Int
+        movieId     = json["movie"]         as? Int
         title       = json["title"]         as? String
-        seats       = json["seats"]         as? String
+        seats       = json["seats"]         as? [String]
         showTime    = json["show_time"]     as? String
-        bookedTime  = json["booked_time"]   as? Date
+        bookedTime  = json["booked_time"]   as? String
     }
 }

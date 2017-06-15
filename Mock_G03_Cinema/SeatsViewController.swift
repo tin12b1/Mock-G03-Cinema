@@ -52,8 +52,9 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
     
     // * Under construction *
     @IBAction func confirmButtonClick(_ sender: Any) {
- /*       var bookedSeats = ""
-        var showTime = ""
+        var bookedSeats: [String] = []
+        var showTime = "11:00"
+        let bookingTime = Struct.getBookingTime()
         for seat in seats {
             if (seat.status == 2) {
                 if let movieId = movie?.id {
@@ -61,36 +62,29 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
                                                                                                                              "col": seat.col!,
                                                                                                                              "row": seat.row!,
                                                                                                                              "status": 3,
-                                                                                                                             "booked_time": currentDate])
+                                                                                                                             "booked_time": bookingTime])
                 }
-                if (bookedSeats == "") {
-                    bookedSeats = bookedSeats + seat.id!
-                }
-                else {
-                    bookedSeats = bookedSeats + ", " + seat.id!
-                }
+                bookedSeats.append(seat.id!)
             }
         }
-        if (showTimeId == "S1") {
-            showTime = "11:00"
-        }
-        else if (showTimeId == "S2")  {
+        if (showTimeId == "S2")  {
             showTime = "17:00"
         }
-        else {
+        else if (showTimeId == "S3") {
             showTime = "21:00"
         }
-        if (bookedSeats != "") {
+        if (bookedSeats != []) {
             if let movieId = movie?.id, let movieTitle = movie?.title {
-                databaseRef.child("users").child(userId!).child("booking").childByAutoId().setValue(["movie": movieId,
+                databaseRef.child("users").child(userId!).child("booking").child("\(movieId)-\(showTime)-\(bookedSeats[0])").setValue(["movie": movieId,
                                                                                                      "title": movieTitle,
                                                                                                      "seats": bookedSeats,
                                                                                                     "show_time": showTime,
-                                                                                                    "booked_time": currentDate])
+                                                                                                    "booked_time": bookingTime])
             }
         }
-        let srcUserInfo = self.storyboard?.instantiateViewController(withIdentifier: "userInfo") as! AccountViewController
-        self.present(srcUserInfo, animated: true) */
+        else {
+            self.displayMyAlertMessage(userMessage: "You must choose at least 1 seat!")
+        }
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -150,8 +144,25 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
     func checkPaymentDeadline() {
         for seat in seats {
             if seat.status == 3 {
-                if let time = seat.bookedTime {
-                    print(time)
+                let bookedTime = Struct.getDateTimeFromString(bookingTime: seat.bookedTime!, interval: 86400)
+                if (currentDate > bookedTime) {
+                    seat.status = 1
+                    if let movieId = movie?.id {
+                        databaseRef.child("movies").child("\(movieId)").child("screening").child(showTimeId!).child(seat.id!).setValue(["id": seat.id!,
+                                                                                                                                    "col": seat.col!,
+                                                                                                                                    "row": seat.row!,
+                                                                                                                                    "status": 1])
+                        if let seatId = seat.id {
+                            var showTime = "11:00"
+                            if (showTimeId == "S2")  {
+                                showTime = "17:00"
+                            }
+                            else if (showTimeId == "S3") {
+                                showTime = "21:00"
+                            }
+                            databaseRef.child("users").child(userId!).child("booking").child("\(movieId)-\(showTime)-\(seatId)").removeValue()
+                        }
+                    }
                 }
             }
         }

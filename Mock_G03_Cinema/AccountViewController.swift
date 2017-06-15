@@ -79,7 +79,9 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         let booking: Booking
         booking = bookings[indexPath.row]
         cell.textLabel?.text = booking.title
-        cell.detailTextLabel?.text = booking.seats
+        if let seat = booking.seats?.joined(separator: "-") {
+            cell.detailTextLabel?.text = seat
+        }
         return cell
     }
     

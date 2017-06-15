@@ -10,6 +10,7 @@
 		403252E51EE9A09400524820 /* SeatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403252E41EE9A09400524820 /* SeatsViewController.swift */; };
 		403252EC1EE9A49900524820 /* Seat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403252EA1EE9A49900524820 /* Seat.swift */; };
 		408AE58B1EDF31A70070C398 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408AE58A1EDF31A70070C398 /* AccountViewController.swift */; };
+		408E9C1D1EF3057000D46312 /* CheckoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E9C1C1EF3057000D46312 /* CheckoutViewController.swift */; };
 		409698A51EE1B35D007A1B08 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409698A41EE1B35D007A1B08 /* Movie.swift */; };
 		40D755711EEBA2F6003D6A2E /* Booking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D755701EEBA2F6003D6A2E /* Booking.swift */; };
 		40D8806E1EEAD48F007ED171 /* SeatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D8806D1EEAD48F007ED171 /* SeatCollectionViewCell.swift */; };
@@ -57,6 +58,7 @@
 		403252E41EE9A09400524820 /* SeatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeatsViewController.swift; sourceTree = "<group>"; };
 		403252EA1EE9A49900524820 /* Seat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Seat.swift; sourceTree = "<group>"; };
 		408AE58A1EDF31A70070C398 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
+		408E9C1C1EF3057000D46312 /* CheckoutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckoutViewController.swift; sourceTree = "<group>"; };
 		409698A41EE1B35D007A1B08 /* Movie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		40D755701EEBA2F6003D6A2E /* Booking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Booking.swift; sourceTree = "<group>"; };
 		40D8806D1EEAD48F007ED171 /* SeatCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeatCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -126,6 +128,14 @@
 				40D8806D1EEAD48F007ED171 /* SeatCollectionViewCell.swift */,
 			);
 			name = Booking;
+			sourceTree = "<group>";
+		};
+		408E9C1B1EF3053D00D46312 /* Checkout */ = {
+			isa = PBXGroup;
+			children = (
+				408E9C1C1EF3057000D46312 /* CheckoutViewController.swift */,
+			);
+			name = Checkout;
 			sourceTree = "<group>";
 		};
 		40F170991EDC74E800209E9D = {
@@ -207,6 +217,7 @@
 		B59256A71EE2B3C300810E8B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				408E9C1B1EF3053D00D46312 /* Checkout */,
 				403252E31EE9910D00524820 /* Booking */,
 				B59256A81EE2B3F200810E8B /* User */,
 				40F170A71EDC74E800209E9D /* ViewController.swift */,
@@ -551,6 +562,7 @@
 				40F9BF141EE076AC002FFF64 /* AddUserInfoViewController.swift in Sources */,
 				40E47C571EDEA91B004994CF /* LoginViewController.swift in Sources */,
 				403252E51EE9A09400524820 /* SeatsViewController.swift in Sources */,
+				408E9C1D1EF3057000D46312 /* CheckoutViewController.swift in Sources */,
 				B59256A51EE2B38C00810E8B /* Dowloader.swift in Sources */,
 				40DDE6611EE4815500A5115E /* MovieDetailViewController.swift in Sources */,
 				40F170AE1EDC74E800209E9D /* Mock_G03_Cinema.xcdatamodeld in Sources */,

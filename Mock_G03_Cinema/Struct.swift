@@ -48,6 +48,18 @@ class Struct {
         UIDevice.current.setValue(rotateOrientation.rawValue, forKey: "orientation")
     }
     
+    static func getBookingTime() -> String {
+        let date = Date()
+        let calendar = Calendar.current
+        let day = calendar.component(.day, from: date)
+        let month = calendar.component(.month, from: date)
+        let year = calendar.component(.year, from: date)
+        let hour = calendar.component(.hour, from: date)
+        let minute = calendar.component(.minute, from: date)
+        let result = "\(year)-\(month)-\(day) \(hour):\(minute)"
+        return result
+    }
+    
     static func getDateTime() -> [Int] {
         let date = Date()
         let calendar = Calendar.current
@@ -55,8 +67,16 @@ class Struct {
         let month = calendar.component(.month, from: date)
         let year = calendar.component(.year, from: date)
         let hour = calendar.component(.hour, from: date)
-        let minutes = calendar.component(.minute, from: date)
-        let bookTimeArray = [day, month, year, hour, minutes]
-        return bookTimeArray
+        let minute = calendar.component(.minute, from: date)
+        let result = [year, month, day, hour, minute]
+        return result
+    }
+    
+    class func getDateTimeFromString(bookingTime: String, interval: Double) -> Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm"
+        var date = dateFormatter.date(from: bookingTime)
+        date?.addTimeInterval(interval)
+        return date!
     }
 }
