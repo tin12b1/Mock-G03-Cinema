@@ -49,31 +49,36 @@ class MovieDetailViewController: UIViewController {
             voteAverageLabel.text = "VOTE AVERAGE: \(vote)⭐️"
         }
         overviewLabel.text = "OVERVIEW: " + (movie?.overview)!
-        if (!isNowShowingMovie() || currentDateTime[3] >= 20) {
+        if (!isNowShowingMovie()) {
             firstShowTimeButton.isHidden = true
             secondShowTimeButton.isHidden = true
             thirdShowTimeButton.isHidden = true
         }
+        else if (currentDateTime[3] >= 20) {
+            firstShowTimeButton.isEnabled = false
+            secondShowTimeButton.isEnabled = false
+            thirdShowTimeButton.isEnabled = false
+        }
         else if (currentDateTime[3] >= 16) {
-            firstShowTimeButton.isHidden = true
-            secondShowTimeButton.isHidden = true
-            thirdShowTimeButton.isHidden = false
+            firstShowTimeButton.isEnabled = false
+            secondShowTimeButton.isEnabled = false
+            thirdShowTimeButton.isEnabled = true
         }
         else if (currentDateTime[3] >= 10) {
-            firstShowTimeButton.isHidden = true
-            secondShowTimeButton.isHidden = false
-            thirdShowTimeButton.isHidden = false
+            firstShowTimeButton.isEnabled = false
+            secondShowTimeButton.isEnabled = true
+            thirdShowTimeButton.isEnabled = true
         }
         else {
-            firstShowTimeButton.isHidden = false
-            secondShowTimeButton.isHidden = false
-            thirdShowTimeButton.isHidden = false
+            firstShowTimeButton.isEnabled = true
+            secondShowTimeButton.isEnabled = true
+            thirdShowTimeButton.isEnabled = true
         }
     }
     
     func isNowShowingMovie() -> Bool {
         let currentDate = Date()
-        if (Struct.getDateFromString(releaseDate: (movie?.releaseDate!)!, interval: 86400) <= currentDate && currentDate <= Struct.getDateFromString(releaseDate: (movie?.releaseDate!)!, interval: 1814400)) {
+        if (Struct.getDateFromString(releaseDate: (movie?.releaseDate!)!, interval: 0) <= currentDate && currentDate <= Struct.getDateFromString(releaseDate: (movie?.releaseDate!)!, interval: 1814400)) {
             return true
         }
         return false

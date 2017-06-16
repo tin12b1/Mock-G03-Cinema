@@ -11,15 +11,11 @@ import Foundation
 class Seat {
     
     var id: String?
-    var col: Int?
-    var row: Int?
     var status: Int?
     var bookedTime: String?
     
     init(json: [String:Any]) {
         id          = json["id"]            as? String
-        col         = json["col"]           as? Int
-        row         = json["row"]           as? Int
         status      = json["status"]        as? Int
         bookedTime  = json["booked_time"]   as? String
     }

@@ -580,6 +580,7 @@
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Tl-qB-1Uf">
                                 <rect key="frame" x="90" y="612.5" width="75" height="29.5"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                 <state key="normal" title="11:00" backgroundImage="rounded button">
                                     <color key="titleColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -591,6 +592,7 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r1S-M0-ye6">
                                 <rect key="frame" x="185" y="612.5" width="75" height="29.5"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                 <state key="normal" title="17:00" backgroundImage="rounded button">
                                     <color key="titleColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -602,6 +604,7 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bp5-nv-PUA">
                                 <rect key="frame" x="280" y="612.5" width="75" height="29.5"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                 <state key="normal" title="21:00" backgroundImage="rounded button">
                                     <color key="titleColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -754,7 +757,7 @@
                                 </connections>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R4Z-Xh-xSv">
-                                <rect key="frame" x="137.5" y="430" width="100" height="40"/>
+                                <rect key="frame" x="137.5" y="480" width="100" height="40"/>
                                 <color key="backgroundColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="tvr-13-Lva"/>
@@ -771,18 +774,37 @@
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="confirmButtonClick:" destination="h3Z-C8-4Ce" eventType="touchUpInside" id="Yfh-lz-Dso"/>
-                                    <segue destination="rTx-r1-UIb" kind="show" id="R1E-5e-yJt"/>
+                                    <segue destination="rTx-r1-UIb" kind="show" identifier="show checkout" id="R1E-5e-yJt"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M1d-sz-Cbv">
+                                <rect key="frame" x="25" y="425" width="103.5" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="wvQ-wx-hEf"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TbV-Ax-KvF">
+                                <rect key="frame" x="143.5" y="425" width="206.5" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="3xa-1d-TL1" firstAttribute="top" secondItem="5Tw-hO-bFE" secondAttribute="bottom" id="2Cc-jn-MGr"/>
                             <constraint firstItem="Tzw-7J-BTi" firstAttribute="top" secondItem="aQy-zY-9Fl" secondAttribute="bottom" constant="30" id="3Qv-BB-OUm"/>
-                            <constraint firstItem="R4Z-Xh-xSv" firstAttribute="top" secondItem="Tzw-7J-BTi" secondAttribute="bottom" constant="30" id="563-iM-7Yz"/>
+                            <constraint firstItem="M1d-sz-Cbv" firstAttribute="centerY" secondItem="TbV-Ax-KvF" secondAttribute="centerY" id="4MI-qO-oRg"/>
+                            <constraint firstItem="M1d-sz-Cbv" firstAttribute="height" secondItem="TbV-Ax-KvF" secondAttribute="height" id="6Cp-ng-0JZ"/>
                             <constraint firstItem="U8y-gF-Vta" firstAttribute="leading" secondItem="3xa-1d-TL1" secondAttribute="leading" constant="40" id="6lR-k7-mcK"/>
                             <constraint firstItem="R4Z-Xh-xSv" firstAttribute="centerX" secondItem="9hV-FN-UJO" secondAttribute="centerX" id="6ly-2N-liz"/>
+                            <constraint firstItem="M1d-sz-Cbv" firstAttribute="width" secondItem="TbV-Ax-KvF" secondAttribute="width" multiplier="0.5" id="CIn-CK-9ce"/>
+                            <constraint firstAttribute="trailing" secondItem="TbV-Ax-KvF" secondAttribute="trailing" constant="25" id="Cdc-XE-pE3"/>
                             <constraint firstItem="U8y-gF-Vta" firstAttribute="centerX" secondItem="9hV-FN-UJO" secondAttribute="centerX" id="E2D-8M-en6"/>
+                            <constraint firstItem="M1d-sz-Cbv" firstAttribute="leading" secondItem="9hV-FN-UJO" secondAttribute="leading" constant="25" id="FoB-Yd-iPc"/>
                             <constraint firstItem="Tzw-7J-BTi" firstAttribute="leading" secondItem="9hV-FN-UJO" secondAttribute="leading" constant="10" id="LL0-L0-tSk"/>
                             <constraint firstAttribute="trailing" secondItem="U8y-gF-Vta" secondAttribute="trailing" constant="40" id="RFP-MD-Kig"/>
                             <constraint firstAttribute="trailing" secondItem="aQy-zY-9Fl" secondAttribute="trailing" constant="10" id="UVR-bq-sgc"/>
@@ -790,18 +812,22 @@
                             <constraint firstItem="aQy-zY-9Fl" firstAttribute="top" secondItem="U8y-gF-Vta" secondAttribute="bottom" constant="30" id="bkj-ta-GlV"/>
                             <constraint firstItem="3xa-1d-TL1" firstAttribute="leading" secondItem="9hV-FN-UJO" secondAttribute="leading" id="cTg-hY-kY3"/>
                             <constraint firstItem="U8y-gF-Vta" firstAttribute="top" secondItem="5Tw-hO-bFE" secondAttribute="bottom" constant="20" id="fCf-Ed-sIz"/>
+                            <constraint firstItem="R4Z-Xh-xSv" firstAttribute="top" secondItem="TbV-Ax-KvF" secondAttribute="bottom" constant="25" id="kZe-TT-xIv"/>
+                            <constraint firstItem="M1d-sz-Cbv" firstAttribute="top" secondItem="Tzw-7J-BTi" secondAttribute="bottom" constant="25" id="nx6-cx-X3r"/>
+                            <constraint firstItem="TbV-Ax-KvF" firstAttribute="leading" secondItem="M1d-sz-Cbv" secondAttribute="trailing" constant="15" id="o3K-ax-C0n"/>
                             <constraint firstItem="aQy-zY-9Fl" firstAttribute="leading" secondItem="9hV-FN-UJO" secondAttribute="leading" constant="10" id="tqB-10-YGz"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="confirmButton" destination="R4Z-Xh-xSv" id="y8f-jL-9Fp"/>
                         <outlet property="flowLayout" destination="yaU-UK-vzZ" id="dTZ-kP-lWX"/>
+                        <outlet property="priceLabel" destination="TbV-Ax-KvF" id="J2b-G0-8eB"/>
                         <outlet property="seatsCollectionView" destination="Tzw-7J-BTi" id="dOB-6b-xLx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mde-Zq-ONn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1996" y="1648"/>
+            <point key="canvasLocation" x="1996" y="1647.5262368815593"/>
         </scene>
         <!--Checkout View Controller-->
         <scene sceneID="8Th-JL-cid">
@@ -875,6 +901,9 @@
                                 <state key="normal" title="OK">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="okButtonClick:" destination="rTx-r1-UIb" eventType="touchUpInside" id="ubJ-pp-vWu"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.80000001190000003" green="1" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>

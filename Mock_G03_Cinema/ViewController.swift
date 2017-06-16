@@ -176,7 +176,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         moviesClass.removeAll()
         let currentDate = Date()
         for movie in movies {
-            if (Struct.getDateFromString(releaseDate: movie.releaseDate!, interval: 86400) <= currentDate && currentDate <= Struct.getDateFromString(releaseDate: movie.releaseDate!, interval: 1814400)) {
+            if (Struct.getDateFromString(releaseDate: movie.releaseDate!, interval: 0) <= currentDate && currentDate <= Struct.getDateFromString(releaseDate: movie.releaseDate!, interval: 1814400)) {
                 // Movie will be stop showing after release 20 days
                 moviesClass.append(movie)
             }
@@ -200,7 +200,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         moviesClass.removeAll()
         let currentDate = Date()
         for movie in movies {
-            if (Struct.getDateFromString(releaseDate: movie.releaseDate!, interval: 86400) > currentDate) {
+            if (Struct.getDateFromString(releaseDate: movie.releaseDate!, interval: 0) > currentDate) {
                 // Release date > Current date
                 moviesClass.append(movie)
             }

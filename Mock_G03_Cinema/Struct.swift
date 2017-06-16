@@ -74,7 +74,7 @@ class Struct {
     
     class func getDateTimeFromString(bookingTime: String, interval: Double) -> Date {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm"
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
         var date = dateFormatter.date(from: bookingTime)
         date?.addTimeInterval(interval)
         return date!
