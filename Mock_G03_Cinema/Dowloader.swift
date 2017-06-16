@@ -16,7 +16,8 @@ class Downloader {
         do {
             data = try Data(contentsOf: URL(string: url!)!)
             return UIImage(data: (data))
-        }catch {
+        }
+        catch {
             return nil
         }
     }

@@ -73,13 +73,15 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
             showTime = "21:00"
         }
         if (bookedSeats != []) {
+            let price = 100000*count
             if let movieId = movie?.id, let movieTitle = movie?.title {
                 databaseRef.child("users").child(userId!).child("booking").child("\(movieId)-\(showTime)-\(bookedSeats[0])").setValue(["movie": movieId,
                                                                                                      "title": movieTitle,
                                                                                                      "seats": bookedSeats,
                                                                                                     "show_time": showTime,
                                                                                                     "booked_time": bookingTime,
-                                                                                                    "payment_status": 0])
+                                                                                                    "payment_status": 0,
+                                                                                                    "total_price": price])
             }
         }
         else {

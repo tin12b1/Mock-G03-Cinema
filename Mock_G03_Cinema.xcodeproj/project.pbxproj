@@ -11,6 +11,7 @@
 		403252EC1EE9A49900524820 /* Seat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403252EA1EE9A49900524820 /* Seat.swift */; };
 		408AE58B1EDF31A70070C398 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408AE58A1EDF31A70070C398 /* AccountViewController.swift */; };
 		408E9C1D1EF3057000D46312 /* CheckoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E9C1C1EF3057000D46312 /* CheckoutViewController.swift */; };
+		408EA0781EF41CD100C80CF4 /* BookingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408EA0771EF41CD100C80CF4 /* BookingTableViewCell.swift */; };
 		409698A51EE1B35D007A1B08 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409698A41EE1B35D007A1B08 /* Movie.swift */; };
 		40D755711EEBA2F6003D6A2E /* Booking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D755701EEBA2F6003D6A2E /* Booking.swift */; };
 		40D8806E1EEAD48F007ED171 /* SeatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D8806D1EEAD48F007ED171 /* SeatCollectionViewCell.swift */; };
@@ -59,6 +60,7 @@
 		403252EA1EE9A49900524820 /* Seat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Seat.swift; sourceTree = "<group>"; };
 		408AE58A1EDF31A70070C398 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		408E9C1C1EF3057000D46312 /* CheckoutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckoutViewController.swift; sourceTree = "<group>"; };
+		408EA0771EF41CD100C80CF4 /* BookingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookingTableViewCell.swift; sourceTree = "<group>"; };
 		409698A41EE1B35D007A1B08 /* Movie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		40D755701EEBA2F6003D6A2E /* Booking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Booking.swift; sourceTree = "<group>"; };
 		40D8806D1EEAD48F007ED171 /* SeatCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeatCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 				40F9BF131EE076AC002FFF64 /* AddUserInfoViewController.swift */,
 				40DF47AD1EE14DD700399A6D /* ChangePasswordViewController.swift */,
 				EF4FADCD1EE7EAC5004D0E09 /* ResetPasswordViewController.swift */,
+				408EA0771EF41CD100C80CF4 /* BookingTableViewCell.swift */,
 			);
 			name = User;
 			sourceTree = "<group>";
@@ -568,6 +571,7 @@
 				40F170AE1EDC74E800209E9D /* Mock_G03_Cinema.xcdatamodeld in Sources */,
 				409698A51EE1B35D007A1B08 /* Movie.swift in Sources */,
 				40DF47AE1EE14DD700399A6D /* ChangePasswordViewController.swift in Sources */,
+				408EA0781EF41CD100C80CF4 /* BookingTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -75,12 +75,11 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "booking cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "booking cell", for: indexPath) as! BookingTableViewCell
         let booking: Booking
         booking = bookings[indexPath.row]
-        cell.textLabel?.text = booking.title
-        if let seat = booking.seats?.joined(separator: "-") {
-            cell.detailTextLabel?.text = seat
+        if booking.movieId != nil {
+            cell.configureCell(title: booking.title!, seats: (booking.seats?.joined(separator: "-"))!, showTime: booking.showTime!, totalPrice: booking.totalPrice!, checkoutStatus: booking.paymentStatus!)
         }
         return cell
     }
@@ -88,6 +87,8 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "LIST OF SEATS YOU BOOKED"
     }
+    
+    // MARK: - Helper Method
     
     func getBookingList() {
         databaseRef.child("users").child(userId!).child("booking").observe(.childAdded, with: {snapshot in

@@ -16,6 +16,7 @@ class Booking {
     var showTime: String?
     var bookedTime: String?
     var paymentStatus: Int?
+    var totalPrice: Int?
     
     init(json: [String:Any]) {
         movieId             = json["movie"]             as? Int
@@ -24,5 +25,6 @@ class Booking {
         showTime            = json["show_time"]         as? String
         bookedTime          = json["booked_time"]       as? String
         paymentStatus       = json["payment_status"]    as? Int
+        totalPrice          = json["total_price"]       as? Int
     }
 }
