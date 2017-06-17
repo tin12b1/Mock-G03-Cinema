@@ -96,8 +96,23 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
             questionController.addAction(UIAlertAction(title: "Delete Booking", style: .default, handler: {
                 (action:UIAlertAction!) -> Void in
                 print("Delete")
-                
-                self.bookingTableView.deleteRows(at: [indexPath], with: .fade)
+                if let ticketCount = booking.seats?.count, let movieId = booking.movieId, let showTime = booking.showTime, let seats = booking.seats {
+                    var showTimeId = "S1"
+                    if (showTime == "17:00") {
+                        showTimeId = "S2"
+                    }
+                    else if (showTime == "21:00") {
+                        showTimeId = "S3"
+                    }
+                    for i in 0...ticketCount - 1 {
+                        self.databaseRef.child("movies").child("\(movieId)").child("screening").child(showTimeId).child(seats[i]).setValue(["id": seats[i],
+                                                                                                                                "status": 1])
+                    }
+                    self.databaseRef.child("users").child(self.userId!).child("booking").child("\(movieId)-\(showTime)-\(seats[0])").removeValue()
+                }
+                self.bookings.removeAll()
+                self.getBookingList()
+                //self.bookingTableView.deleteRows(at: [indexPath], with: .fade)
             }))
             // Thông tin chi tiết event
             questionController.addAction(UIAlertAction(title: "Checkout", style: .default, handler: {

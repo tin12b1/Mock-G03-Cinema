@@ -83,6 +83,8 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
                                                                                                     "payment_status": 0,
                                                                                                     "total_price": price])
             }
+            count = 0
+            priceLabel.text = "0"
         }
         else {
             self.displayMyAlertMessage(userMessage: "You must choose at least 1 seat!")

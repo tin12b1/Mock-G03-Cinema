@@ -46,13 +46,20 @@ class CheckoutViewController: UIViewController {
 
             }
         }
-        if let movieId = movie?.id, let movieTitle = movie?.title, let firstSeat = bookedSeats?[0] {
+        if let movieId = movie?.id, let movieTitle = movie?.title, let firstSeat = bookedSeats?[0], let ticketCount = bookedSeats?.count {
             databaseRef.child("users").child(userId!).child("booking").child("\(movieId)-\(showTime)-\(firstSeat)").setValue(["movie": movieId,
                                                                                                                                    "title": movieTitle,
                                                                                                                                    "seats": bookedSeats!,
                                                                                                                                    "show_time": showTime,
-                                                                                                                                   "payment_status": 1])
+                                                                                                                                   "payment_status": 1,
+                                                                                                                             "total_price": 100000*ticketCount])
         }
+        let alertView = UIAlertController(title: "Success", message: "Checkout completed, please check in your account info!", preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction) in
+            self.dismiss(animated: true, completion: nil)
+        })
+        alertView.addAction(action)
+        self.present(alertView, animated: true, completion: nil)
     }
 
 }
