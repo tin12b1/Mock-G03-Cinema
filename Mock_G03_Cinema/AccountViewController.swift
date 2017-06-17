@@ -115,11 +115,12 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
                 //self.bookingTableView.deleteRows(at: [indexPath], with: .fade)
             }))
             // Thông tin chi tiết event
+            /*
             questionController.addAction(UIAlertAction(title: "Checkout", style: .default, handler: {
                 (action:UIAlertAction!) -> Void in
                 print("Checkout")
                 
-            }))
+            }))*/
             
             questionController.addAction(UIAlertAction(title: "Cancel", style: .default, handler: {
                 (action:UIAlertAction!) -> Void in

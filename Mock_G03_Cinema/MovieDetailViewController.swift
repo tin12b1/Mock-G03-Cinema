@@ -53,6 +53,7 @@ class MovieDetailViewController: UIViewController {
             firstShowTimeButton.isHidden = true
             secondShowTimeButton.isHidden = true
             thirdShowTimeButton.isHidden = true
+            styleImageView.isHidden = true
         }
         else if (currentDateTime[3] >= 20) {
             firstShowTimeButton.isEnabled = false
