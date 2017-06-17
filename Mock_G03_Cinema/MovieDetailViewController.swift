@@ -90,6 +90,9 @@ class MovieDetailViewController: UIViewController {
             let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "login") as! LoginViewController
             self.present(loginVC, animated: true)
         }
+        else {
+            performSegue(withIdentifier: "show seats 1", sender: self)
+        }
     }
     
     @IBAction func secondShowTimeButtonClick(_ sender: Any) {
@@ -98,6 +101,9 @@ class MovieDetailViewController: UIViewController {
             let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "login") as! LoginViewController
             self.present(loginVC, animated: true)
         }
+        else {
+            performSegue(withIdentifier: "show seats 2", sender: self)
+        }
     }
     
     @IBAction func thirdShowTimeButtonClick(_ sender: Any) {
@@ -105,6 +111,9 @@ class MovieDetailViewController: UIViewController {
             // No user is signed in.
             let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "login") as! LoginViewController
             self.present(loginVC, animated: true)
+        }
+        else {
+            performSegue(withIdentifier: "show seats 3", sender: self)
         }
     }
     

@@ -88,6 +88,33 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         return "LIST OF SEATS YOU BOOKED"
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let booking: Booking
+        booking = bookings[indexPath.row]
+        if booking.paymentStatus == 0 {
+            let questionController = UIAlertController(title: "What you want to do?", message: nil, preferredStyle: .alert)
+            questionController.addAction(UIAlertAction(title: "Delete Booking", style: .default, handler: {
+                (action:UIAlertAction!) -> Void in
+                print("Delete")
+                
+                self.bookingTableView.deleteRows(at: [indexPath], with: .fade)
+            }))
+            // Thông tin chi tiết event
+            questionController.addAction(UIAlertAction(title: "Checkout", style: .default, handler: {
+                (action:UIAlertAction!) -> Void in
+                print("Checkout")
+                
+            }))
+            
+            questionController.addAction(UIAlertAction(title: "Cancel", style: .default, handler: {
+                (action:UIAlertAction!) -> Void in
+                print("Cancel")
+            }))
+            
+            present(questionController, animated: true, completion: nil)
+        }
+    }
+    
     // MARK: - Helper Method
     
     func getBookingList() {
