@@ -140,6 +140,35 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
             DispatchQueue.main.async {
                 self.bookingTableView.reloadData()
             }
+            self.checkPaymentDeadline()
         })
+    }
+    
+    func checkPaymentDeadline() {
+        for booking in bookings {
+            if booking.paymentStatus == 0 {
+                let bookedTime = Struct.getDateTimeFromString(bookingTime: booking.bookedTime!, interval: 1800)
+                let currentDate = Date()
+                var showTimeId = "S1"
+                if (booking.showTime == "17:00")  {
+                    showTimeId = "S2"
+                }
+                else if (booking.showTime == "21:00") {
+                    showTimeId = "S3"
+                }
+                if (currentDate > bookedTime) {
+                    for seat in booking.seats! {
+                        if let movieId = booking.movieId {
+                            databaseRef.child("movies").child("\(movieId)").child("screening").child(showTimeId).child(seat).setValue(["id": seat,
+                                                                                                                                       "status": 1])
+                            if let showTime = booking.showTime {
+                                databaseRef.child("users").child(userId!).child("booking").child("\(movieId)-\(showTime)-\(seat)").removeValue()
+                                self.bookingTableView.reloadData()
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

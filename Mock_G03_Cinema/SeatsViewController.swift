@@ -77,57 +77,45 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
             self.displayMyAlertMessage(userMessage: "You must checkout your unpaid booking first!")
         }
         else {
-            for i in 0...44 {
-                if (seats[i].status == 2) {
+            for seat in seats {
+                if (seat.status == 2) {
                     if let movieId = movie?.id {
-                        databaseRef.child("movies").child("\(movieId)").child("screening").child(showTimeId!).observe(.childAdded, with: {snapshot in
-                            let snapshotValue = snapshot.value as? NSDictionary
-                            self.seatsTemp.append(Seat(json: snapshotValue as! [String : Any]))
-                            if (self.seatsTemp.count == 45) {
-                                if (self.seatsTemp[i].status == 3 || self.seatsTemp[i].status == 0) {
-                                    self.displayMyAlertMessage(userMessage: "Seats booked by other user!")
-                                }
-                                else {
-                                    self.databaseRef.child("movies").child("\(movieId)").child("screening").child(self.showTimeId!).child(self.seats[i].id!).setValue(["id": self.seats[i].id!,
-                                                                                                                                                                       "status": 3,
-                                                                                                                                                                       "booked_time": bookingTime])
-                                    
-                                    self.bookedSeats.append(self.seats[i].id!)
-                                }
-                            }
-                        })
+                        self.databaseRef.child("movies").child("\(movieId)").child("screening").child(self.showTimeId!).child(seat.id!).setValue(["id": seat.id!,
+                                                                                                                                                  "status": 3,
+                                                                                                                                                  "booked_time": bookingTime])
                     }
-                    
+                    self.bookedSeats.append(seat.id!)
                 }
             }
-            if (showTimeId == "S2")  {
-                showTime = "17:00"
-            }
-            else if (showTimeId == "S3") {
-                showTime = "21:00"
-            }
-            if (bookedSeats != []) {
-                let price = 100000*count
-                if let movieId = movie?.id, let movieTitle = movie?.title {
-                    databaseRef.child("users").child(userId!).child("booking").child("\(movieId)-\(showTime)-\(bookedSeats[0])").setValue(["movie": movieId,
-                                                                                                                                           "title": movieTitle,
-                                                                                                                                           "seats": bookedSeats,
-                                                                                                                                           "show_time": showTime,
-                                                                                                                                           "booked_time": bookingTime,
-                                                                                                                                           "payment_status": 0,
-                                                                                                                                           "total_price": price])
-                }
-            }
-            else {
-                self.displayMyAlertMessage(userMessage: "You must choose at least 1 seat!")
+            
+        }
+        if (showTimeId == "S2")  {
+            showTime = "17:00"
+        }
+        else if (showTimeId == "S3") {
+            showTime = "21:00"
+        }
+        if (bookedSeats != []) {
+            let price = 100000*count
+            if let movieId = movie?.id, let movieTitle = movie?.title {
+                databaseRef.child("users").child(userId!).child("booking").child("\(movieId)-\(showTime)-\(bookedSeats[0])").setValue(["movie": movieId,
+                                                                                                                                       "title": movieTitle,
+                                                                                                                                       "seats": bookedSeats,
+                                                                                                                                       "show_time": showTime,
+                                                                                                                                       "booked_time": bookingTime,
+                                                                                                                                       "payment_status": 0,
+                                                                                                                                       "total_price": price])
             }
         }
+        else {
+            self.displayMyAlertMessage(userMessage: "You must choose at least 1 seat!")
+        }
     }
-    
+
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return seats.count
     }

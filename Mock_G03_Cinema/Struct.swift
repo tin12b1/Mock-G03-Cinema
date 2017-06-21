@@ -12,7 +12,7 @@ import UIKit
 class Struct {
     
     // Check email format
-    class func isValidEmail(testStr:String) -> Bool {
+    static func isValidEmail(testStr:String) -> Bool {
         let emailRegEx = "(?:[\\p{L}0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[\\p{L}0-9!#$%\\&'*+/=?\\^_`{|}" +
             "~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\" +
             "x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[\\p{L}0-9](?:[a-" +
@@ -24,7 +24,7 @@ class Struct {
         return emailTest.evaluate(with: testStr)
     }
     
-    class func getDateFromString(releaseDate: String, interval: Double) -> Date {
+    static func getDateFromString(releaseDate: String, interval: Double) -> Date {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         var date = dateFormatter.date(from: releaseDate)
@@ -72,7 +72,7 @@ class Struct {
         return result
     }
     
-    class func getDateTimeFromString(bookingTime: String, interval: Double) -> Date {
+    static func getDateTimeFromString(bookingTime: String, interval: Double) -> Date {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
         var date = dateFormatter.date(from: bookingTime)
