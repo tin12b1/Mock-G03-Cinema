@@ -79,7 +79,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         let booking: Booking
         booking = bookings[indexPath.row]
         if booking.movieId != nil {
-            cell.configureCell(title: booking.title!, seats: (booking.seats?.joined(separator: "-"))!, showTime: booking.showTime!, totalPrice: booking.totalPrice!, checkoutStatus: booking.paymentStatus!)
+            cell.configureCell(title: booking.title!, seats: (booking.seats?.joined(separator: "-"))!, showTime: booking.showTime!, totalPrice: booking.totalPrice!, checkoutStatus: booking.paymentStatus!, date: booking.screeningDate!)
         }
         return cell
     }
@@ -96,31 +96,19 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
             questionController.addAction(UIAlertAction(title: "Delete Booking", style: .default, handler: {
                 (action:UIAlertAction!) -> Void in
                 print("Delete")
-                if let ticketCount = booking.seats?.count, let movieId = booking.movieId, let showTime = booking.showTime, let seats = booking.seats {
-                    var showTimeId = "S1"
-                    if (showTime == "17:00") {
-                        showTimeId = "S2"
-                    }
-                    else if (showTime == "21:00") {
-                        showTimeId = "S3"
-                    }
+                if let ticketCount = booking.seats?.count, let movieId = booking.movieId, let showTime = booking.showTime, let seats = booking.seats, let date = booking.screeningDate {
                     for i in 0...ticketCount - 1 {
-                        self.databaseRef.child("movies").child("\(movieId)").child("screening").child(showTimeId).child(seats[i]).setValue(["id": seats[i],
+                        self.databaseRef.child("movies").child("\(movieId)").child("screening").child("\(date)").child("\(showTime)").child(seats[i]).setValue(["id": seats[i],
                                                                                                                                 "status": 1])
                     }
-                    self.databaseRef.child("users").child(self.userId!).child("booking").child("\(movieId)-\(showTime)-\(seats[0])").removeValue()
+                    self.databaseRef.child("users").child(self.userId!).child("booking").child("\(movieId)-\(date)-\(showTime)-\(seats[0])").removeValue()
                 }
                 self.bookings.removeAll()
                 self.getBookingList()
-                //self.bookingTableView.deleteRows(at: [indexPath], with: .fade)
+                if self.bookings.count == 0 {
+                    self.dismiss(animated: true, completion: nil)
+                }
             }))
-            // Thông tin chi tiết event
-            /*
-            questionController.addAction(UIAlertAction(title: "Checkout", style: .default, handler: {
-                (action:UIAlertAction!) -> Void in
-                print("Checkout")
-                
-            }))*/
             
             questionController.addAction(UIAlertAction(title: "Cancel", style: .default, handler: {
                 (action:UIAlertAction!) -> Void in
@@ -147,24 +135,17 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     func checkPaymentDeadline() {
         for booking in bookings {
             if booking.paymentStatus == 0 {
-                let bookedTime = Struct.getDateTimeFromString(bookingTime: booking.bookedTime!, interval: 1800)
+                let bookedTime = Struct.getDateTimeFromString(string: booking.bookedTime!, interval: 1800)
                 let currentDate = Date()
-                var showTimeId = "S1"
-                if (booking.showTime == "17:00")  {
-                    showTimeId = "S2"
-                }
-                else if (booking.showTime == "21:00") {
-                    showTimeId = "S3"
-                }
                 if (currentDate > bookedTime) {
                     for seat in booking.seats! {
-                        if let movieId = booking.movieId {
-                            databaseRef.child("movies").child("\(movieId)").child("screening").child(showTimeId).child(seat).setValue(["id": seat,
-                                                                                                                                       "status": 1])
-                            if let showTime = booking.showTime {
-                                databaseRef.child("users").child(userId!).child("booking").child("\(movieId)-\(showTime)-\(seat)").removeValue()
-                                self.bookingTableView.reloadData()
-                            }
+                        if let movieId = booking.movieId, let showTime = booking.showTime, let date = booking.screeningDate {
+                            databaseRef.child("movies").child("\(movieId)").child("screening").child("\(date)").child("\(showTime)").child(seat).setValue(["id": seat,
+                                                                                                                                          "status": 1])
+                            
+                            databaseRef.child("users").child(userId!).child("booking").child("\(movieId)-\(date)-\(showTime)-\(seat)").removeValue()
+                            self.bookingTableView.reloadData()
+                            
                         }
                     }
                 }

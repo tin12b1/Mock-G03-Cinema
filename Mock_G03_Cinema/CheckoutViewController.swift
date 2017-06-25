@@ -16,6 +16,7 @@ class CheckoutViewController: UIViewController {
     var movie: Movie?
     var showTimeId: String?
     var bookedSeats: [String]?
+    var screeningDate: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,26 +31,20 @@ class CheckoutViewController: UIViewController {
     }
     
     @IBAction func okButtonClick(_ sender: Any) {
-        var showTime = "11:00"
-        if (showTimeId == "S2")  {
-            showTime = "17:00"
-        }
-        else if (showTimeId == "S3") {
-            showTime = "21:00"
-        }
         if let ticketCount = bookedSeats?.count {
             for i in 0...ticketCount - 1 {
                 if let movieId = movie?.id, let seatId = bookedSeats?[i]{
-                    databaseRef.child("movies").child("\(movieId)").child("screening").child(showTimeId!).child(seatId).setValue(["id": seatId,
+                    databaseRef.child("movies").child("\(movieId)").child("screening").child(screeningDate!).child(showTimeId!).child(seatId).setValue(["id": seatId,
                                                                                                                                   "status": 0])
                 }
 
             }
         }
-        if let movieId = movie?.id, let movieTitle = movie?.title, let firstSeat = bookedSeats?[0], let ticketCount = bookedSeats?.count {
-            databaseRef.child("users").child(userId!).child("booking").child("\(movieId)-\(showTime)-\(firstSeat)").setValue(["movie": movieId,
+        if let movieId = movie?.id, let movieTitle = movie?.title, let firstSeat = bookedSeats?[0], let ticketCount = bookedSeats?.count, let date = screeningDate, let showTime = showTimeId {
+            databaseRef.child("users").child(userId!).child("booking").child("\(movieId)-\(date)-\(showTime)-\(firstSeat)").setValue(["movie": movieId,
                                                                                                                                    "title": movieTitle,
                                                                                                                                    "seats": bookedSeats!,
+                                                                                                                                   "screening_date": date,
                                                                                                                                    "show_time": showTime,
                                                                                                                                    "payment_status": 1,
                                                                                                                              "total_price": 100000*ticketCount])

@@ -14,6 +14,7 @@ class BookingTableViewCell: UITableViewCell {
     @IBOutlet var showTimeLabel: UILabel!
     @IBOutlet var totalPriceLabel: UILabel!
     @IBOutlet var checkoutStatusLabel: UILabel!
+    @IBOutlet var screeningDateLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,7 +25,7 @@ class BookingTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
 
-    func configureCell(title: String, seats: String, showTime: String, totalPrice: Int, checkoutStatus: Int) {
+    func configureCell(title: String, seats: String, showTime: String, totalPrice: Int, checkoutStatus: Int, date: String) {
         movieTitleLabel.text = "Movie: " + title
         seatsLabel.text = "Seats: " + seats
         showTimeLabel.text = "Show Time: " + showTime
@@ -35,5 +36,6 @@ class BookingTableViewCell: UITableViewCell {
         else {
             checkoutStatusLabel.text = "Checkout: No"
         }
+        screeningDateLabel.text = "Screening Date: " + date
     }
 }

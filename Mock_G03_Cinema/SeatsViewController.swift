@@ -17,9 +17,10 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
     let databaseRef = Database.database().reference()
     let userId = Auth.auth().currentUser?.uid
     var movie: Movie?
+    var showTimeId: String?
+    var screeningDate: String?
     var seats = [Seat]()
     var seatsTemp = [Seat]()
-    var showTimeId: String?
     let currentDate = Date()
     var bookedSeats: [String] = []
     var count = 0
@@ -65,7 +66,16 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
     }
     
     @IBAction func confirmButtonClick(_ sender: Any) {
-        var showTime = "11:00"
+        /*
+        for i in 10...11 {
+        for seat in seats {
+                self.databaseRef.child("movies").child("335988").child("screening").child("2017-07-\(i)").child("07:00").child(seat.id!).setValue(["id": seat.id!,
+                                                                                                                                          "status": 1])
+                self.databaseRef.child("movies").child("335988").child("screening").child("2017-07-\(i)").child("11:00").child(seat.id!).setValue(["id": seat.id!,
+                                                                                                                                                     "status": 1])
+                self.databaseRef.child("movies").child("335988").child("screening").child("2017-07-\(i)").child("21:00").child(seat.id!).setValue(["id": seat.id!,
+                                                                                                                                                     "status": 1])
+            }}*/
         let bookingTime = Struct.getBookingTime()
         var unpaidBooking = 0
         for booking in bookings {
@@ -80,7 +90,7 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
             for seat in seats {
                 if (seat.status == 2) {
                     if let movieId = movie?.id {
-                        self.databaseRef.child("movies").child("\(movieId)").child("screening").child(self.showTimeId!).child(seat.id!).setValue(["id": seat.id!,
+                        self.databaseRef.child("movies").child("\(movieId)").child("screening").child(self.screeningDate!).child(self.showTimeId!).child(seat.id!).setValue(["id": seat.id!,
                                                                                                                                                   "status": 3,
                                                                                                                                                   "booked_time": bookingTime])
                     }
@@ -89,18 +99,13 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
             }
             
         }
-        if (showTimeId == "S2")  {
-            showTime = "17:00"
-        }
-        else if (showTimeId == "S3") {
-            showTime = "21:00"
-        }
         if (bookedSeats != []) {
             let price = 100000*count
-            if let movieId = movie?.id, let movieTitle = movie?.title {
-                databaseRef.child("users").child(userId!).child("booking").child("\(movieId)-\(showTime)-\(bookedSeats[0])").setValue(["movie": movieId,
+            if let movieId = movie?.id, let movieTitle = movie?.title, let showTime = showTimeId, let date = screeningDate {
+                databaseRef.child("users").child(userId!).child("booking").child("\(movieId)-\(date)-\(showTime)-\(bookedSeats[0])").setValue(["movie": movieId,
                                                                                                                                        "title": movieTitle,
                                                                                                                                        "seats": bookedSeats,
+                                                                                                                                       "screening_date": date,
                                                                                                                                        "show_time": showTime,
                                                                                                                                        "booked_time": bookingTime,
                                                                                                                                        "payment_status": 0,
@@ -157,7 +162,7 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
     func getSeats() {
         let databaseRef = Database.database().reference()
         if let movieId = movie?.id {
-            databaseRef.child("movies").child("\(movieId)").child("screening").child(showTimeId!).observe(.childAdded, with: {snapshot in
+            databaseRef.child("movies").child("\(movieId)").child("screening").child(screeningDate!).child(showTimeId!).observe(.childAdded, with: {snapshot in
                 let snapshotValue = snapshot.value as? NSDictionary
                 self.seats.append(Seat(json: snapshotValue as! [String : Any]))
                 DispatchQueue.main.async {
@@ -172,21 +177,14 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
     func checkPaymentDeadline() {
         for seat in seats {
             if seat.status == 3 {
-                let bookedTime = Struct.getDateTimeFromString(bookingTime: seat.bookedTime!, interval: 1800)
+                let bookedTime = Struct.getDateTimeFromString(string: seat.bookedTime!, interval: 1800)
                 if (currentDate > bookedTime) {
                     seat.status = 1
                     if let movieId = movie?.id {
-                        databaseRef.child("movies").child("\(movieId)").child("screening").child(showTimeId!).child(seat.id!).setValue(["id": seat.id!,
+                        databaseRef.child("movies").child("\(movieId)").child("screening").child(screeningDate!).child(showTimeId!).child(seat.id!).setValue(["id": seat.id!,
                                                                                                                                     "status": 1])
-                        if let seatId = seat.id {
-                            var showTime = "11:00"
-                            if (showTimeId == "S2")  {
-                                showTime = "17:00"
-                            }
-                            else if (showTimeId == "S3") {
-                                showTime = "21:00"
-                            }
-                            databaseRef.child("users").child(userId!).child("booking").child("\(movieId)-\(showTime)-\(seatId)").removeValue()
+                        if let seatId = seat.id, let showTime = showTimeId, let date = screeningDate {
+                            databaseRef.child("users").child(userId!).child("booking").child("\(movieId)-\(date)-\(showTime)-\(seatId)").removeValue()
                         }
                     }
                 }
@@ -218,6 +216,7 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
                 checkoutVC.movie = movie
                 checkoutVC.showTimeId = showTimeId
                 checkoutVC.bookedSeats = bookedSeats
+                checkoutVC.screeningDate = screeningDate
                 break
                 
             default:

@@ -17,15 +17,28 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet var genresLabel: UILabel!
     @IBOutlet var voteAverageLabel: UILabel!
     @IBOutlet var overviewLabel: UILabel!
+    // Today
+    @IBOutlet var todayLabel: UILabel!
     @IBOutlet var firstShowTimeButton: UIButton!
     @IBOutlet var secondShowTimeButton: UIButton!
     @IBOutlet var thirdShowTimeButton: UIButton!
-    
     @IBOutlet var styleImageView: UIImageView!
+    // Tomorrow
+    @IBOutlet var tomorrowLabel: UILabel!
+    @IBOutlet var tomorrowFirstShowTimeButton: UIButton!
+    @IBOutlet var tomorrowSecondShowTimeButton: UIButton!
+    @IBOutlet var tomorrowThirdShowTimeButton: UIButton!
+    @IBOutlet var tomorrowStyleImageView: UIImageView!
+    // The day after tomorrow
+    @IBOutlet var dayAfterTomorrowLabel: UILabel!
+    @IBOutlet var afterTomorrowFirstButton: UIButton!
+    @IBOutlet var afterTomorrowSecondButton: UIButton!
+    @IBOutlet var afterTomorrowThirdButton: UIButton!
+    @IBOutlet var afterTomorrowStyleImageView: UIImageView!
+
     var movie: Movie?
     var posterImg: UIImage?
     let currentDate = Date()
-    let currentDateTime = Struct.getDateTime()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,37 +56,95 @@ class MovieDetailViewController: UIViewController {
     func setContent() {
         posterImageView.image = posterImg
         titleLabel.text = movie?.title?.uppercased()
-        releaseDateLabel.text = "RELEASE DATE: " + (movie?.releaseDate)!
+        releaseDateLabel.text = "📆 " + (movie?.releaseDate)!
         genresLabel.text = "GENRES: " + (movie?.genres)!
         if let vote = movie?.voteAverage {
-            voteAverageLabel.text = "VOTE AVERAGE: \(vote)⭐️"
+            voteAverageLabel.text = "⭐️ \(vote)"
         }
         overviewLabel.text = "OVERVIEW: " + (movie?.overview)!
         if (!isNowShowingMovie()) {
+            todayLabel.isHidden = true
             firstShowTimeButton.isHidden = true
             secondShowTimeButton.isHidden = true
             thirdShowTimeButton.isHidden = true
             styleImageView.isHidden = true
+            
+            tomorrowLabel.isHidden = true
+            tomorrowFirstShowTimeButton.isHidden = true
+            tomorrowSecondShowTimeButton.isHidden = true
+            tomorrowThirdShowTimeButton.isHidden = true
+            tomorrowStyleImageView.isHidden = true
+            
+            dayAfterTomorrowLabel.isHidden = true
+            afterTomorrowFirstButton.isHidden = true
+            afterTomorrowSecondButton.isHidden = true
+            afterTomorrowThirdButton.isHidden = true
+            afterTomorrowStyleImageView.isHidden = true
         }
-        else if (currentDateTime[3] >= 20) {
-            firstShowTimeButton.isEnabled = false
-            secondShowTimeButton.isEnabled = false
-            thirdShowTimeButton.isEnabled = false
+        else if (Struct.getDateFromString(releaseDate: (movie?.releaseDate!)!, interval: 1814400) < currentDate.addingTimeInterval(86400)) {
+            firstShowTimeButton.setTitle(movie?.showTimes?[0], for: .normal)
+            secondShowTimeButton.setTitle(movie?.showTimes?[1], for: .normal)
+            thirdShowTimeButton.setTitle(movie?.showTimes?[2], for: .normal)
+            
+            tomorrowLabel.isHidden = true
+            tomorrowFirstShowTimeButton.isHidden = true
+            tomorrowSecondShowTimeButton.isHidden = true
+            tomorrowThirdShowTimeButton.isHidden = true
+            tomorrowStyleImageView.isHidden = true
+            
+            dayAfterTomorrowLabel.isHidden = true
+            afterTomorrowFirstButton.isHidden = true
+            afterTomorrowSecondButton.isHidden = true
+            afterTomorrowThirdButton.isHidden = true
+            afterTomorrowStyleImageView.isHidden = true
         }
-        else if (currentDateTime[3] >= 16) {
-            firstShowTimeButton.isEnabled = false
-            secondShowTimeButton.isEnabled = false
-            thirdShowTimeButton.isEnabled = true
-        }
-        else if (currentDateTime[3] >= 10) {
-            firstShowTimeButton.isEnabled = false
-            secondShowTimeButton.isEnabled = true
-            thirdShowTimeButton.isEnabled = true
+        else if (Struct.getDateFromString(releaseDate: (movie?.releaseDate!)!, interval: 1814400) < currentDate.addingTimeInterval(172800)) {
+            firstShowTimeButton.setTitle(movie?.showTimes?[0], for: .normal)
+            secondShowTimeButton.setTitle(movie?.showTimes?[1], for: .normal)
+            thirdShowTimeButton.setTitle(movie?.showTimes?[2], for: .normal)
+            tomorrowFirstShowTimeButton.setTitle(movie?.showTimes?[0], for: .normal)
+            tomorrowSecondShowTimeButton.setTitle(movie?.showTimes?[1], for: .normal)
+            tomorrowThirdShowTimeButton.setTitle(movie?.showTimes?[2], for: .normal)
+            
+            dayAfterTomorrowLabel.isHidden = true
+            afterTomorrowFirstButton.isHidden = true
+            afterTomorrowSecondButton.isHidden = true
+            afterTomorrowThirdButton.isHidden = true
+            afterTomorrowStyleImageView.isHidden = true
         }
         else {
-            firstShowTimeButton.isEnabled = true
-            secondShowTimeButton.isEnabled = true
-            thirdShowTimeButton.isEnabled = true
+            firstShowTimeButton.setTitle(movie?.showTimes?[0], for: .normal)
+            secondShowTimeButton.setTitle(movie?.showTimes?[1], for: .normal)
+            thirdShowTimeButton.setTitle(movie?.showTimes?[2], for: .normal)
+            tomorrowFirstShowTimeButton.setTitle(movie?.showTimes?[0], for: .normal)
+            tomorrowSecondShowTimeButton.setTitle(movie?.showTimes?[1], for: .normal)
+            tomorrowThirdShowTimeButton.setTitle(movie?.showTimes?[2], for: .normal)
+            afterTomorrowFirstButton.setTitle(movie?.showTimes?[0], for: .normal)
+            afterTomorrowSecondButton.setTitle(movie?.showTimes?[1], for: .normal)
+            afterTomorrowThirdButton.setTitle(movie?.showTimes?[2], for: .normal)
+            let dayOfWeek = getDayOfWeek(Struct.getDate(interval: 172800))
+            dayAfterTomorrowLabel.text = dayOfWeek + ", \(Struct.getDate(interval: 172800))"
+        }
+        if (isNowShowingMovie()) {
+            var showTimeString = Struct.getDate(interval: 0) + " " + (movie?.showTimes?[2])!
+            if (currentDate > Struct.getDateTimeFromString(string: showTimeString, interval: 0)) {
+                firstShowTimeButton.isEnabled = false
+                secondShowTimeButton.isEnabled = false
+                thirdShowTimeButton.isEnabled = false
+            }
+            else {
+                showTimeString = Struct.getDate(interval: 0) + " " + (movie?.showTimes?[1])!
+                if (currentDate > Struct.getDateTimeFromString(string: showTimeString, interval: 0)) {
+                    firstShowTimeButton.isEnabled = false
+                    secondShowTimeButton.isEnabled = false
+                }
+                else {
+                    showTimeString = Struct.getDate(interval: 0) + " " + (movie?.showTimes?[0])!
+                    if (currentDate > Struct.getDateTimeFromString(string: showTimeString, interval: 0)) {
+                        firstShowTimeButton.isEnabled = false
+                    }
+                }
+            }
         }
     }
     
@@ -85,6 +156,29 @@ class MovieDetailViewController: UIViewController {
         return false
     }
     
+    func getDayOfWeek(_ today:String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        let todayDate = formatter.date(from: today)
+        let myCalendar = Calendar(identifier: .gregorian)
+        let weekDay = myCalendar.component(.weekday, from: todayDate!)
+        if weekDay == 1 {
+            return "SUNDAY"
+        } else if weekDay == 2 {
+            return "MONDAY"
+        } else if weekDay == 3 {
+            return "TUESDAY"
+        } else if weekDay == 4 {
+            return "WEDNESDAY"
+        } else if weekDay == 5 {
+            return "THUSDAY"
+        } else if weekDay == 6 {
+            return "FRIDAY"
+        } else {
+            return "SATURDAY"
+        }
+    }
+    
     @IBAction func firstShowTimeButtonClick(_ sender: Any) {
         if Auth.auth().currentUser == nil {
             // No user is signed in.
@@ -92,7 +186,7 @@ class MovieDetailViewController: UIViewController {
             self.present(loginVC, animated: true)
         }
         else {
-            performSegue(withIdentifier: "show seats 1", sender: self)
+            performSegue(withIdentifier: "today seats 1", sender: self)
         }
     }
     
@@ -103,7 +197,7 @@ class MovieDetailViewController: UIViewController {
             self.present(loginVC, animated: true)
         }
         else {
-            performSegue(withIdentifier: "show seats 2", sender: self)
+            performSegue(withIdentifier: "today seats 2", sender: self)
         }
     }
     
@@ -114,7 +208,73 @@ class MovieDetailViewController: UIViewController {
             self.present(loginVC, animated: true)
         }
         else {
-            performSegue(withIdentifier: "show seats 3", sender: self)
+            performSegue(withIdentifier: "today seats 3", sender: self)
+        }
+    }
+    
+    @IBAction func TomorrowFirstShowTimeButtonClick(_ sender: Any) {
+        if Auth.auth().currentUser == nil {
+            // No user is signed in.
+            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "login") as! LoginViewController
+            self.present(loginVC, animated: true)
+        }
+        else {
+            performSegue(withIdentifier: "tomorrow seats 1", sender: self)
+        }
+    }
+    
+    @IBAction func TomorrowSecondShowTimeButtonClick(_ sender: Any) {
+        if Auth.auth().currentUser == nil {
+            // No user is signed in.
+            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "login") as! LoginViewController
+            self.present(loginVC, animated: true)
+        }
+        else {
+            performSegue(withIdentifier: "tomorrow seats 2", sender: self)
+        }
+    }
+    
+    @IBAction func TomorrowThirdShowTimeButtonClick(_ sender: Any) {
+        if Auth.auth().currentUser == nil {
+            // No user is signed in.
+            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "login") as! LoginViewController
+            self.present(loginVC, animated: true)
+        }
+        else {
+            performSegue(withIdentifier: "tomorrow seats 3", sender: self)
+        }
+    }
+    
+    @IBAction func AfterTomorrowFirstShowTimeButtonClick(_ sender: Any) {
+        if Auth.auth().currentUser == nil {
+            // No user is signed in.
+            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "login") as! LoginViewController
+            self.present(loginVC, animated: true)
+        }
+        else {
+            performSegue(withIdentifier: "after tomorrow seats 1", sender: self)
+        }
+    }
+    
+    @IBAction func AfterTomorrowSecondShowTimeButtonClick(_ sender: Any) {
+        if Auth.auth().currentUser == nil {
+            // No user is signed in.
+            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "login") as! LoginViewController
+            self.present(loginVC, animated: true)
+        }
+        else {
+            performSegue(withIdentifier: "after tomorrow seats 2", sender: self)
+        }
+    }
+    
+    @IBAction func AfterTomorrowThirdShowTimeButtonClick(_ sender: Any) {
+        if Auth.auth().currentUser == nil {
+            // No user is signed in.
+            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "login") as! LoginViewController
+            self.present(loginVC, animated: true)
+        }
+        else {
+            performSegue(withIdentifier: "after tomorrow seats 3", sender: self)
         }
     }
     
@@ -132,20 +292,59 @@ class MovieDetailViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = segue.identifier {
             switch identifier {
-            case "show seats 1":
+            case "today seats 1":
                 let seatsVC = segue.destination as! SeatsViewController
                 seatsVC.movie = movie
-                seatsVC.showTimeId = "S1"
+                seatsVC.showTimeId = movie?.showTimes?[0]
+                seatsVC.screeningDate = Struct.getDate(interval: 0)
                 break
-            case "show seats 2":
+            case "today seats 2":
                 let seatsVC = segue.destination as! SeatsViewController
                 seatsVC.movie = movie
-                seatsVC.showTimeId = "S2"
+                seatsVC.showTimeId = movie?.showTimes?[1]
+                seatsVC.screeningDate = Struct.getDate(interval: 0)
                 break
-            case "show seats 3":
+            case "today seats 3":
                 let seatsVC = segue.destination as! SeatsViewController
                 seatsVC.movie = movie
-                seatsVC.showTimeId = "S3"
+                seatsVC.showTimeId = movie?.showTimes?[2]
+                seatsVC.screeningDate = Struct.getDate(interval: 0)
+                break
+            case "tomorrow seats 1":
+                let seatsVC = segue.destination as! SeatsViewController
+                seatsVC.movie = movie
+                seatsVC.showTimeId = movie?.showTimes?[0]
+                seatsVC.screeningDate = Struct.getDate(interval: 86400)
+                break
+            case "tomorrow seats 2":
+                let seatsVC = segue.destination as! SeatsViewController
+                seatsVC.movie = movie
+                seatsVC.showTimeId = movie?.showTimes?[1]
+                seatsVC.screeningDate = Struct.getDate(interval: 86400)
+                break
+            case "tomorrow seats 3":
+                let seatsVC = segue.destination as! SeatsViewController
+                seatsVC.movie = movie
+                seatsVC.showTimeId = movie?.showTimes?[2]
+                seatsVC.screeningDate = Struct.getDate(interval: 86400)
+                break
+            case "after tomorrow seats 1":
+                let seatsVC = segue.destination as! SeatsViewController
+                seatsVC.movie = movie
+                seatsVC.showTimeId = movie?.showTimes?[0]
+                seatsVC.screeningDate = Struct.getDate(interval: 172800)
+                break
+            case "after tomorrow seats 2":
+                let seatsVC = segue.destination as! SeatsViewController
+                seatsVC.movie = movie
+                seatsVC.showTimeId = movie?.showTimes?[1]
+                seatsVC.screeningDate = Struct.getDate(interval: 172800)
+                break
+            case "after tomorrow seats 3":
+                let seatsVC = segue.destination as! SeatsViewController
+                seatsVC.movie = movie
+                seatsVC.showTimeId = movie?.showTimes?[2]
+                seatsVC.screeningDate = Struct.getDate(interval: 172800)
                 break
                 
             default:
@@ -154,3 +353,4 @@ class MovieDetailViewController: UIViewController {
         }
     }
 }
+

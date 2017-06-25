@@ -13,11 +13,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet var shownButton: UIButton!
     @IBOutlet var nowShowingButton: UIButton!
     @IBOutlet var comingSoonButton: UIButton!
+    @IBOutlet var movieTableView: UITableView!
+    
     
     let searchController = UISearchController(searchResultsController: nil)
     var filtereMovies = [Movie]()
-    
-    @IBOutlet var movieTableView: UITableView!
     var movies = [Movie]()
     var moviesClass = [Movie]()
     var posterImage: [Int:UIImage] = [:]
