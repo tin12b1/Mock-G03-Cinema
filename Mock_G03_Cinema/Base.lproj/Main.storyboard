@@ -751,7 +751,6 @@
                                     <constraint firstItem="r1S-M0-ye6" firstAttribute="leading" secondItem="5Tl-qB-1Uf" secondAttribute="trailing" constant="5" id="Bb2-ww-K5Z"/>
                                     <constraint firstItem="Oi7-yV-rSh" firstAttribute="leading" secondItem="1LV-H5-5jQ" secondAttribute="leading" constant="5" id="CQW-mz-F5x"/>
                                     <constraint firstItem="KCb-Yy-LHG" firstAttribute="width" secondItem="i1d-Jg-va5" secondAttribute="width" id="EjJ-EZ-05w"/>
-                                    <constraint firstAttribute="bottom" secondItem="QI7-Cq-6kd" secondAttribute="bottom" id="FLr-Ea-JTc"/>
                                     <constraint firstItem="i1d-Jg-va5" firstAttribute="leading" secondItem="UKN-8e-GjT" secondAttribute="trailing" constant="5" id="Ibr-fe-DIO"/>
                                     <constraint firstItem="UKN-8e-GjT" firstAttribute="top" secondItem="TBL-tQ-uwm" secondAttribute="bottom" constant="5" id="ImW-zp-Kvg"/>
                                     <constraint firstItem="dJH-57-cu9" firstAttribute="centerY" secondItem="dMx-zM-1Ae" secondAttribute="centerY" id="JyS-5m-4xP"/>
@@ -759,6 +758,7 @@
                                     <constraint firstItem="bp5-nv-PUA" firstAttribute="height" secondItem="r1S-M0-ye6" secondAttribute="height" id="N02-Zn-96g"/>
                                     <constraint firstItem="KCb-Yy-LHG" firstAttribute="height" secondItem="i1d-Jg-va5" secondAttribute="height" id="PE9-xI-WGG"/>
                                     <constraint firstItem="TBL-tQ-uwm" firstAttribute="top" secondItem="dMx-zM-1Ae" secondAttribute="bottom" constant="10" id="TqR-6H-ykV"/>
+                                    <constraint firstAttribute="bottom" secondItem="UKN-8e-GjT" secondAttribute="bottom" constant="20" id="TwI-o0-xNX"/>
                                     <constraint firstItem="zmk-xP-6oE" firstAttribute="height" secondItem="dJH-57-cu9" secondAttribute="height" id="Ud0-gY-8WG"/>
                                     <constraint firstItem="cQ8-dk-ZWN" firstAttribute="top" secondItem="Oi7-yV-rSh" secondAttribute="bottom" constant="10" id="UrR-fC-UqA"/>
                                     <constraint firstItem="Oi7-yV-rSh" firstAttribute="top" secondItem="HDh-UY-Fru" secondAttribute="bottom" constant="5" id="WAM-no-4xY"/>
@@ -1161,7 +1161,7 @@
                                         <rect key="frame" x="0.0" y="28" width="355" height="90"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bmy-qs-29b" id="BDD-dg-Ojk">
-                                            <rect key="frame" x="0.0" y="0.0" width="355" height="90"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="355" height="89.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="movie title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vF5-Cj-T84">
@@ -1177,13 +1177,13 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="price" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kwb-p7-pIG">
-                                                    <rect key="frame" x="222" y="23.5" width="33" height="17"/>
+                                                    <rect key="frame" x="167" y="23.5" width="33" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="checkout status" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iok-Ce-ucr">
-                                                    <rect key="frame" x="222" y="45.5" width="104" height="17"/>
+                                                    <rect key="frame" x="167" y="45.5" width="104" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
