@@ -23,6 +23,10 @@ class AddUserInfoViewController: UIViewController, UIPickerViewDataSource, UIPic
         agePickerView.dataSource = self
         agePickerView.delegate = self
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        checkUserInfoAvailable()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -36,13 +40,17 @@ class AddUserInfoViewController: UIViewController, UIPickerViewDataSource, UIPic
             self.present(alert, animated: true, completion: nil)
         }
         else {
-            let databaseRef = Database.database().reference()
             let userId = Auth.auth().currentUser?.uid
-            let post : [String: AnyObject] = ["name": nameTextField.text as AnyObject,
-                                              "age": ageSelected as AnyObject,
-                                              "address": addressTextField.text as AnyObject]
-            databaseRef.child("users").child(userId!).setValue(post)
-            self.performSegue(withIdentifier: "show account", sender: self)
+            let userModel = User(name: nameTextField.text!, age: ageSelected, address: addressTextField.text!)
+            DAOUser.addNewUser(userId: userId!, userInfo: userModel, completionHandler: { (error) in
+                if error == nil {
+                    self.performSegue(withIdentifier: "show account", sender: self)
+                } else {
+                    let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
+                    let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                    alertController.addAction(defaultAction)
+                }
+            })
         }
     }
     
@@ -65,5 +73,14 @@ class AddUserInfoViewController: UIViewController, UIPickerViewDataSource, UIPic
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
+    }
+    
+    func checkUserInfoAvailable() {
+        let userId = Auth.auth().currentUser?.uid
+        DAOUser.getUserInfo(userId: userId!, completionHandler: { (userInfo, error) in
+            if error == nil {
+                self.dismiss(animated: true, completion: nil)
+            }
+        })
     }
 }

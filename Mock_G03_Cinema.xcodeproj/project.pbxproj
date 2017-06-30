@@ -13,6 +13,10 @@
 		408E9C1D1EF3057000D46312 /* CheckoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E9C1C1EF3057000D46312 /* CheckoutViewController.swift */; };
 		408EA0781EF41CD100C80CF4 /* BookingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408EA0771EF41CD100C80CF4 /* BookingTableViewCell.swift */; };
 		409698A51EE1B35D007A1B08 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409698A41EE1B35D007A1B08 /* Movie.swift */; };
+		40D09CC71F04F5190072F712 /* DAOMovies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D09CC61F04F5190072F712 /* DAOMovies.swift */; };
+		40D09CCB1F04F8A50072F712 /* DAOBooking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D09CCA1F04F8A50072F712 /* DAOBooking.swift */; };
+		40D09CCD1F04F8D00072F712 /* DAOUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D09CCC1F04F8D00072F712 /* DAOUser.swift */; };
+		40D09CCF1F04FFF30072F712 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D09CCE1F04FFF30072F712 /* User.swift */; };
 		40D755711EEBA2F6003D6A2E /* Booking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D755701EEBA2F6003D6A2E /* Booking.swift */; };
 		40D8806E1EEAD48F007ED171 /* SeatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D8806D1EEAD48F007ED171 /* SeatCollectionViewCell.swift */; };
 		40DDE6611EE4815500A5115E /* MovieDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DDE6601EE4815500A5115E /* MovieDetailViewController.swift */; };
@@ -62,6 +66,10 @@
 		408E9C1C1EF3057000D46312 /* CheckoutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckoutViewController.swift; sourceTree = "<group>"; };
 		408EA0771EF41CD100C80CF4 /* BookingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookingTableViewCell.swift; sourceTree = "<group>"; };
 		409698A41EE1B35D007A1B08 /* Movie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		40D09CC61F04F5190072F712 /* DAOMovies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAOMovies.swift; sourceTree = "<group>"; };
+		40D09CCA1F04F8A50072F712 /* DAOBooking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAOBooking.swift; sourceTree = "<group>"; };
+		40D09CCC1F04F8D00072F712 /* DAOUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAOUser.swift; sourceTree = "<group>"; };
+		40D09CCE1F04FFF30072F712 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		40D755701EEBA2F6003D6A2E /* Booking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Booking.swift; sourceTree = "<group>"; };
 		40D8806D1EEAD48F007ED171 /* SeatCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeatCollectionViewCell.swift; sourceTree = "<group>"; };
 		40DDE6601EE4815500A5115E /* MovieDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieDetailViewController.swift; sourceTree = "<group>"; };
@@ -140,6 +148,16 @@
 			name = Checkout;
 			sourceTree = "<group>";
 		};
+		40D09CC51F04F4CF0072F712 /* DAO */ = {
+			isa = PBXGroup;
+			children = (
+				40D09CC61F04F5190072F712 /* DAOMovies.swift */,
+				40D09CCA1F04F8A50072F712 /* DAOBooking.swift */,
+				40D09CCC1F04F8D00072F712 /* DAOUser.swift */,
+			);
+			name = DAO;
+			sourceTree = "<group>";
+		};
 		40F170991EDC74E800209E9D = {
 			isa = PBXGroup;
 			children = (
@@ -165,6 +183,7 @@
 		40F170A41EDC74E800209E9D /* Mock_G03_Cinema */ = {
 			isa = PBXGroup;
 			children = (
+				40D09CC51F04F4CF0072F712 /* DAO */,
 				B59256AA1EE2B43600810E8B /* Library */,
 				B59256A61EE2B3AA00810E8B /* Model */,
 				B59256A71EE2B3C300810E8B /* Controller */,
@@ -212,6 +231,7 @@
 				403252EA1EE9A49900524820 /* Seat.swift */,
 				409698A41EE1B35D007A1B08 /* Movie.swift */,
 				40D755701EEBA2F6003D6A2E /* Booking.swift */,
+				40D09CCE1F04FFF30072F712 /* User.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -554,6 +574,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40D09CCB1F04F8A50072F712 /* DAOBooking.swift in Sources */,
 				EF4FADD01EE7EEDD004D0E09 /* Struct.swift in Sources */,
 				40D755711EEBA2F6003D6A2E /* Booking.swift in Sources */,
 				403252EC1EE9A49900524820 /* Seat.swift in Sources */,
@@ -562,6 +583,8 @@
 				40F170A61EDC74E800209E9D /* AppDelegate.swift in Sources */,
 				40D8806E1EEAD48F007ED171 /* SeatCollectionViewCell.swift in Sources */,
 				EF4FADCE1EE7EAC5004D0E09 /* ResetPasswordViewController.swift in Sources */,
+				40D09CC71F04F5190072F712 /* DAOMovies.swift in Sources */,
+				40D09CCF1F04FFF30072F712 /* User.swift in Sources */,
 				40F9BF141EE076AC002FFF64 /* AddUserInfoViewController.swift in Sources */,
 				40E47C571EDEA91B004994CF /* LoginViewController.swift in Sources */,
 				403252E51EE9A09400524820 /* SeatsViewController.swift in Sources */,
@@ -572,6 +595,7 @@
 				409698A51EE1B35D007A1B08 /* Movie.swift in Sources */,
 				40DF47AE1EE14DD700399A6D /* ChangePasswordViewController.swift in Sources */,
 				408EA0781EF41CD100C80CF4 /* BookingTableViewCell.swift in Sources */,
+				40D09CCD1F04F8D00072F712 /* DAOUser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

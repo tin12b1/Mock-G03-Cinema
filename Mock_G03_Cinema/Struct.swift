@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import FirebaseAuth
 
 class Struct {
     
@@ -71,5 +72,16 @@ class Struct {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let result = dateFormatter.string(from: date)
         return result
+    }
+    
+    static func isUserInfoAvailable() -> Bool {
+        let userId = Auth.auth().currentUser?.uid
+        var check = true
+        DAOUser.getUserInfo(userId: userId!, completionHandler: { (userInfo, error) in
+            if (error != nil) {
+                check = false
+            }
+        })
+        return check
     }
 }

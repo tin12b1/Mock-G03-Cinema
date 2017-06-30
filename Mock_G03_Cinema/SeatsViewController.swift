@@ -15,7 +15,6 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
     @IBOutlet var priceLabel: UILabel!
 
     let databaseRef = Database.database().reference()
-    let userId = Auth.auth().currentUser?.uid
     var movie: Movie?
     var showTimeId: String?
     var screeningDate: String?
@@ -41,15 +40,26 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
         Struct.lockOrientation(.portrait)
         self.seatsCollectionView.dataSource = self
         self.seatsCollectionView.delegate = self
+        seats.removeAll()
         getSeats()
-        getBookingList()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         seats.removeAll()
         getSeats()
         bookings.removeAll()
-        getBookingList()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if (Auth.auth().currentUser == nil) {
+            let alertView = UIAlertController(title: "Alert", message: "You must login first!", preferredStyle: .alert)
+            let action = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction) in
+                let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "login") as! LoginViewController
+                self.present(loginVC, animated: true)
+            })
+            alertView.addAction(action)
+            self.present(alertView, animated: true, completion: nil)
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -66,55 +76,69 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
     }
     
     @IBAction func confirmButtonClick(_ sender: Any) {
-        /*
-        for i in 10...11 {
-        for seat in seats {
-                self.databaseRef.child("movies").child("335988").child("screening").child("2017-07-\(i)").child("07:00").child(seat.id!).setValue(["id": seat.id!,
-                                                                                                                                          "status": 1])
-                self.databaseRef.child("movies").child("335988").child("screening").child("2017-07-\(i)").child("11:00").child(seat.id!).setValue(["id": seat.id!,
-                                                                                                                                                     "status": 1])
-                self.databaseRef.child("movies").child("335988").child("screening").child("2017-07-\(i)").child("21:00").child(seat.id!).setValue(["id": seat.id!,
-                                                                                                                                                     "status": 1])
-            }}*/
+        let userId = Auth.auth().currentUser?.uid
         let bookingTime = Struct.getBookingTime()
         var unpaidBooking = 0
-        for booking in bookings {
-            if (booking.paymentStatus == 0) {
-                unpaidBooking += 1
-            }
-        }
-        if (unpaidBooking >= 1) {
-            self.displayMyAlertMessage(userMessage: "You must checkout your unpaid booking first!")
-        }
-        else {
-            for seat in seats {
-                if (seat.status == 2) {
-                    if let movieId = movie?.id {
-                        self.databaseRef.child("movies").child("\(movieId)").child("screening").child(self.screeningDate!).child(self.showTimeId!).child(seat.id!).setValue(["id": seat.id!,
-                                                                                                                                                  "status": 3,
-                                                                                                                                                  "booked_time": bookingTime])
+        DAOBooking.getBookingList(userId: userId!, completionHandler: { (bookingList, error) in
+            if error == nil {
+                self.bookings = []
+                self.bookings = bookingList!
+                self.bookings.reverse()
+                if self.bookings.count != 0 {
+                    for booking in self.bookings {
+                        if (booking.paymentStatus == 0) {
+                            unpaidBooking += 1
+                        }
                     }
-                    self.bookedSeats.append(seat.id!)
+                    if (unpaidBooking >= 1) {
+                        let alertView = UIAlertController(title: "Alert", message: "You must checkout or delete your unpaid booking first!", preferredStyle: .alert)
+                        let action = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction) in
+                            self.dismiss(animated: true, completion: nil)
+                        })
+                        alertView.addAction(action)
+                        self.present(alertView, animated: true, completion: nil)
+                    }
+                    else {
+                        for seat in self.seats {
+                            if (seat.status == 2) {
+                                if let movieId = self.movie?.id {
+                                    DAOBooking.setSeatStatusBooking(movieId, self.screeningDate!, self.showTimeId!, seat.id!, bookingTime, completionHandler: { (error) in
+                                        if error != nil {
+                                            let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
+                                            let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                                            alertController.addAction(defaultAction)
+                                        }
+                                    })
+                                }
+                                self.bookedSeats.append(seat.id!)
+                            }
+                        }
+                        
+                        if (self.bookedSeats != []) {
+                            let price = 100000*self.count
+                            if let movieId = self.movie?.id, let movieTitle = self.movie?.title, let showTime = self.showTimeId, let date = self.screeningDate {
+                                self.databaseRef.child("users").child(userId!).child("booking").child("\(movieId)-\(date)-\(showTime)-\(self.bookedSeats[0])").setValue(["movie": movieId,
+                                                                                                                                                                         "title": movieTitle,
+                                                                                                                                                                         "seats": self.bookedSeats,
+                                                                                                                                                                         "screening_date": date,
+                                                                                                                                                                         "show_time": showTime,
+                                                                                                                                                                         "booked_time": bookingTime,
+                                                                                                                                                                         "payment_status": 0,
+                                                                                                                                                                         "total_price": price])
+                            }
+                            self.performSegue(withIdentifier: "show checkout", sender: self)
+                        }
+                        else {
+                            self.displayMyAlertMessage(userMessage: "You must choose at least 1 seat!")
+                        }
+                    }
+                }
+            } else {
+                if let err = error {
+                    print(err)
                 }
             }
-            
-        }
-        if (bookedSeats != []) {
-            let price = 100000*count
-            if let movieId = movie?.id, let movieTitle = movie?.title, let showTime = showTimeId, let date = screeningDate {
-                databaseRef.child("users").child(userId!).child("booking").child("\(movieId)-\(date)-\(showTime)-\(bookedSeats[0])").setValue(["movie": movieId,
-                                                                                                                                       "title": movieTitle,
-                                                                                                                                       "seats": bookedSeats,
-                                                                                                                                       "screening_date": date,
-                                                                                                                                       "show_time": showTime,
-                                                                                                                                       "booked_time": bookingTime,
-                                                                                                                                       "payment_status": 0,
-                                                                                                                                       "total_price": price])
-            }
-        }
-        else {
-            self.displayMyAlertMessage(userMessage: "You must choose at least 1 seat!")
-        }
+        })
     }
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -160,31 +184,43 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
     }
     
     func getSeats() {
-        let databaseRef = Database.database().reference()
         if let movieId = movie?.id {
-            databaseRef.child("movies").child("\(movieId)").child("screening").child(screeningDate!).child(showTimeId!).observe(.childAdded, with: {snapshot in
-                let snapshotValue = snapshot.value as? NSDictionary
-                self.seats.append(Seat(json: snapshotValue as! [String : Any]))
-                DispatchQueue.main.async {
-                    self.seatsCollectionView.reloadData()
+            DAOMovies.getSeatsList(movieId, screeningDate!, showTimeId!, completionHandler: { (seatsList, error) in
+                if error == nil {
+                    self.seats = []
+                    self.seats = seatsList!
+                    DispatchQueue.main.async {
+                        self.seatsCollectionView.reloadData()
+                    }
+                    self.checkPaymentDeadline()
+                } else {
+                    let alertController = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
+                    let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                    alertController.addAction(defaultAction)
+                    self.present(alertController, animated: true, completion: nil)
                 }
-                self.checkPaymentDeadline()
             })
         }
     }
     
-    // Reset seats status if user not pay in 24 hours until booked
+    // Reset seats status if user not pay in 30 minutes until booked
     func checkPaymentDeadline() {
+        let userId = Auth.auth().currentUser?.uid
         for seat in seats {
             if seat.status == 3 {
                 let bookedTime = Struct.getDateTimeFromString(string: seat.bookedTime!, interval: 1800)
                 if (currentDate > bookedTime) {
                     seat.status = 1
                     if let movieId = movie?.id {
-                        databaseRef.child("movies").child("\(movieId)").child("screening").child(screeningDate!).child(showTimeId!).child(seat.id!).setValue(["id": seat.id!,
-                                                                                                                                    "status": 1])
+                        DAOBooking.setSeatStatus(movieId, screeningDate!, showTimeId!, seat.id!, 1, completionHandler: { (error) in
+                            if error != nil {
+                                let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
+                                let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                                alertController.addAction(defaultAction)
+                            }
+                        })
                         if let seatId = seat.id, let showTime = showTimeId, let date = screeningDate {
-                            databaseRef.child("users").child(userId!).child("booking").child("\(movieId)-\(date)-\(showTime)-\(seatId)").removeValue()
+                            DAOBooking.removeBooking(userId!, movieId, date, showTime, seatId)
                         }
                     }
                 }
@@ -198,13 +234,37 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
         myAlert.addAction(okAction)
         self.present(myAlert, animated: true, completion: nil)
     }
-    
-    func getBookingList() {
-        databaseRef.child("users").child(userId!).child("booking").observe(.childAdded, with: {snapshot in
-            let snapshotValue = snapshot.value as? NSDictionary
-            self.bookings.append(Booking(json: snapshotValue as! [String : Any]))
+    /*
+    func checkUnpaidBooking() {
+        var unpaidBooking = 0
+        let userId = Auth.auth().currentUser?.uid
+        DAOBooking.getBookingList(userId: userId!, completionHandler: { (bookingList, error) in
+            if error == nil {
+                self.bookings = []
+                self.bookings = bookingList!
+                self.bookings.reverse()
+                if self.bookings.count != 0 {
+                    for booking in self.bookings {
+                        if (booking.paymentStatus == 0) {
+                            unpaidBooking += 1
+                        }
+                    }
+                    if (unpaidBooking >= 1) {
+                        let alertView = UIAlertController(title: "Alert", message: "You must checkout or delete your unpaid booking first!", preferredStyle: .alert)
+                        let action = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction) in
+                            self.dismiss(animated: true, completion: nil)
+                        })
+                        alertView.addAction(action)
+                        self.present(alertView, animated: true, completion: nil)
+                    }
+                }
+            } else {
+                if let err = error {
+                    print(err)
+                }
+            }
         })
-    }
+    }*/
     
     // MARK: - Navigation
     

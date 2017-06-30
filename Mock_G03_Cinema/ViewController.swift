@@ -209,14 +209,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func getMoviesList() {
-        let databaseRef = Database.database().reference()
-        databaseRef.child("movies").observe(.childAdded, with: {snapshot in
-            let snapshotValue = snapshot.value as? NSDictionary
-            self.movies.append(Movie(json: snapshotValue as! [String : Any]))
-            DispatchQueue.main.async {
-                self.movieTableView.reloadData()
+        DAOMovies.getMoviesList(completionHandler: { (moviesList, error) in
+            if error == nil {
+                self.movies = []
+                self.movies = moviesList!
+                self.getNowShowingMovies()
+                DispatchQueue.main.async {
+                    self.movieTableView.reloadData()
+                }
+            } else {
+                let alertController = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
+                let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                alertController.addAction(defaultAction)
+                self.present(alertController, animated: true, completion: nil)
             }
-            self.getNowShowingMovies()
         })
     }
     

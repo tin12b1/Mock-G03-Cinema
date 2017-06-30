@@ -381,7 +381,7 @@
         <!--Add User Info View Controller-->
         <scene sceneID="YO2-qn-Yf2">
             <objects>
-                <viewController id="Mlb-sC-B5o" customClass="AddUserInfoViewController" customModule="Mock_G03_Cinema" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="addUserInfo" id="Mlb-sC-B5o" customClass="AddUserInfoViewController" customModule="Mock_G03_Cinema" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="WUP-Yn-Yt0"/>
                         <viewControllerLayoutGuide type="bottom" id="q8K-HN-MCn"/>
@@ -939,7 +939,6 @@
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="confirmButtonClick:" destination="h3Z-C8-4Ce" eventType="touchUpInside" id="Yfh-lz-Dso"/>
-                                    <segue destination="rTx-r1-UIb" kind="show" identifier="show checkout" id="R1E-5e-yJt"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M1d-sz-Cbv">
@@ -988,6 +987,7 @@
                         <outlet property="flowLayout" destination="yaU-UK-vzZ" id="dTZ-kP-lWX"/>
                         <outlet property="priceLabel" destination="TbV-Ax-KvF" id="J2b-G0-8eB"/>
                         <outlet property="seatsCollectionView" destination="Tzw-7J-BTi" id="dOB-6b-xLx"/>
+                        <segue destination="rTx-r1-UIb" kind="show" identifier="show checkout" id="mId-g9-CEw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mde-Zq-ONn" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1161,7 +1161,7 @@
                                         <rect key="frame" x="0.0" y="28" width="355" height="90"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bmy-qs-29b" id="BDD-dg-Ojk">
-                                            <rect key="frame" x="0.0" y="0.0" width="355" height="89.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="355" height="90"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="movie title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vF5-Cj-T84">
@@ -1177,13 +1177,13 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="price" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kwb-p7-pIG">
-                                                    <rect key="frame" x="167" y="23.5" width="33" height="17"/>
+                                                    <rect key="frame" x="222" y="23.5" width="33" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="checkout status" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iok-Ce-ucr">
-                                                    <rect key="frame" x="167" y="45.5" width="104" height="17"/>
+                                                    <rect key="frame" x="222" y="45.5" width="104" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -1420,7 +1420,7 @@
         <image name="rounded button" width="181" height="84"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="6y3-Oj-SCH"/>
         <segue reference="RHQ-aQ-QRC"/>
+        <segue reference="6y3-Oj-SCH"/>
     </inferredMetricsTieBreakers>
 </document>

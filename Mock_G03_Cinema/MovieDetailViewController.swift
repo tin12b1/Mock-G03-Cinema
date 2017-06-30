@@ -202,14 +202,7 @@ class MovieDetailViewController: UIViewController {
     }
     
     @IBAction func thirdShowTimeButtonClick(_ sender: Any) {
-        if Auth.auth().currentUser == nil {
-            // No user is signed in.
-            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "login") as! LoginViewController
-            self.present(loginVC, animated: true)
-        }
-        else {
-            performSegue(withIdentifier: "today seats 3", sender: self)
-        }
+
     }
     
     @IBAction func TomorrowFirstShowTimeButtonClick(_ sender: Any) {

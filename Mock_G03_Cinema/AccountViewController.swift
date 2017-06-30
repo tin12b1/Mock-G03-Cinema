@@ -48,18 +48,18 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func getUserInfo() {
-        databaseRef.child("users").child(userId!).observeSingleEvent(of: .value, with: { (snapshot) in
-            // Get user info and show to view
-            let value = snapshot.value as? NSDictionary
-            let name = value?["name"] as? String
-            let age = value?["age"] as? Int
-            let address = value?["address"] as? String
-            self.nameLabel.text = name
-            self.ageLabel.text = String(age!)
-            self.addressLabel.text = address
-        }) { (error) in
-            print(error.localizedDescription)
-        }
+        DAOUser.getUserInfo(userId: userId!, completionHandler: { (userInfo, error) in
+            if error == nil {
+                self.nameLabel.text = userInfo?.name
+                if let age = userInfo?.age {
+                    self.ageLabel.text = "\(age)"
+                }
+                self.addressLabel.text = userInfo?.address
+            } else {
+                let srcAddUserInfo = self.storyboard?.instantiateViewController(withIdentifier: "addUserInfo") as! AddUserInfoViewController
+                self.present(srcAddUserInfo, animated: true)
+            }
+        })
     }
     
     @IBAction func homeButtonClick(_ sender: Any) {
@@ -98,16 +98,18 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
                 print("Delete")
                 if let ticketCount = booking.seats?.count, let movieId = booking.movieId, let showTime = booking.showTime, let seats = booking.seats, let date = booking.screeningDate {
                     for i in 0...ticketCount - 1 {
-                        self.databaseRef.child("movies").child("\(movieId)").child("screening").child("\(date)").child("\(showTime)").child(seats[i]).setValue(["id": seats[i],
-                                                                                                                                "status": 1])
+                        DAOBooking.setSeatStatus(movieId, date, showTime, seats[i], 1, completionHandler: { (error) in
+                            if error != nil {
+                                let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
+                                let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                                alertController.addAction(defaultAction)
+                            }
+                        })
                     }
-                    self.databaseRef.child("users").child(self.userId!).child("booking").child("\(movieId)-\(date)-\(showTime)-\(seats[0])").removeValue()
+                    DAOBooking.removeBooking(self.userId!, movieId, date, showTime, seats[0])
                 }
                 self.bookings.removeAll()
                 self.getBookingList()
-                if self.bookings.count == 0 {
-                    self.dismiss(animated: true, completion: nil)
-                }
             }))
             
             questionController.addAction(UIAlertAction(title: "Cancel", style: .default, handler: {
@@ -122,13 +124,20 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     // MARK: - Helper Method
     
     func getBookingList() {
-        databaseRef.child("users").child(userId!).child("booking").observe(.childAdded, with: {snapshot in
-            let snapshotValue = snapshot.value as? NSDictionary
-            self.bookings.append(Booking(json: snapshotValue as! [String : Any]))
-            DispatchQueue.main.async {
-                self.bookingTableView.reloadData()
+        DAOBooking.getBookingList(userId: userId!, completionHandler: { (bookingList, error) in
+            if error == nil {
+                self.bookings = []
+                self.bookings = bookingList!
+                self.bookings.reverse()
+                DispatchQueue.main.async {
+                    self.bookingTableView.reloadData()
+                }
+                self.checkPaymentDeadline()
+            } else {
+                if let err = error {
+                    print(err)
+                }
             }
-            self.checkPaymentDeadline()
         })
     }
     
@@ -140,10 +149,14 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
                 if (currentDate > bookedTime) {
                     for seat in booking.seats! {
                         if let movieId = booking.movieId, let showTime = booking.showTime, let date = booking.screeningDate {
-                            databaseRef.child("movies").child("\(movieId)").child("screening").child("\(date)").child("\(showTime)").child(seat).setValue(["id": seat,
-                                                                                                                                          "status": 1])
-                            
-                            databaseRef.child("users").child(userId!).child("booking").child("\(movieId)-\(date)-\(showTime)-\(seat)").removeValue()
+                            DAOBooking.setSeatStatus(movieId, date, showTime, seat, 1, completionHandler: { (error) in
+                                if error != nil {
+                                    let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
+                                    let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                                    alertController.addAction(defaultAction)
+                                }
+                            })
+                            DAOBooking.removeBooking(userId!, movieId, date, showTime, seat)
                             self.bookingTableView.reloadData()
                             
                         }
