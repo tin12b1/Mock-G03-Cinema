@@ -14,6 +14,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet var nowShowingButton: UIButton!
     @IBOutlet var comingSoonButton: UIButton!
     @IBOutlet var movieTableView: UITableView!
+    @IBOutlet var loadingMovieActivity: UIActivityIndicatorView!
     
     
     let searchController = UISearchController(searchResultsController: nil)
@@ -24,6 +25,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadingMovieActivity.startAnimating()
         self.navigationController?.isNavigationBarHidden = true
         self.movieTableView.dataSource = self
         self.movieTableView.delegate = self
@@ -217,6 +219,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 DispatchQueue.main.async {
                     self.movieTableView.reloadData()
                 }
+                self.loadingMovieActivity.stopAnimating()
+                self.loadingMovieActivity.isHidden = true
             } else {
                 let alertController = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
                 let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)

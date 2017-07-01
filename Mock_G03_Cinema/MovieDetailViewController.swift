@@ -179,96 +179,8 @@ class MovieDetailViewController: UIViewController {
         }
     }
     
-    @IBAction func firstShowTimeButtonClick(_ sender: Any) {
-        if Auth.auth().currentUser == nil {
-            // No user is signed in.
-            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "login") as! LoginViewController
-            self.present(loginVC, animated: true)
-        }
-        else {
-            performSegue(withIdentifier: "today seats 1", sender: self)
-        }
-    }
-    
-    @IBAction func secondShowTimeButtonClick(_ sender: Any) {
-        if Auth.auth().currentUser == nil {
-            // No user is signed in.
-            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "login") as! LoginViewController
-            self.present(loginVC, animated: true)
-        }
-        else {
-            performSegue(withIdentifier: "today seats 2", sender: self)
-        }
-    }
-    
-    @IBAction func thirdShowTimeButtonClick(_ sender: Any) {
-
-    }
-    
-    @IBAction func TomorrowFirstShowTimeButtonClick(_ sender: Any) {
-        if Auth.auth().currentUser == nil {
-            // No user is signed in.
-            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "login") as! LoginViewController
-            self.present(loginVC, animated: true)
-        }
-        else {
-            performSegue(withIdentifier: "tomorrow seats 1", sender: self)
-        }
-    }
-    
-    @IBAction func TomorrowSecondShowTimeButtonClick(_ sender: Any) {
-        if Auth.auth().currentUser == nil {
-            // No user is signed in.
-            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "login") as! LoginViewController
-            self.present(loginVC, animated: true)
-        }
-        else {
-            performSegue(withIdentifier: "tomorrow seats 2", sender: self)
-        }
-    }
-    
-    @IBAction func TomorrowThirdShowTimeButtonClick(_ sender: Any) {
-        if Auth.auth().currentUser == nil {
-            // No user is signed in.
-            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "login") as! LoginViewController
-            self.present(loginVC, animated: true)
-        }
-        else {
-            performSegue(withIdentifier: "tomorrow seats 3", sender: self)
-        }
-    }
-    
-    @IBAction func AfterTomorrowFirstShowTimeButtonClick(_ sender: Any) {
-        if Auth.auth().currentUser == nil {
-            // No user is signed in.
-            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "login") as! LoginViewController
-            self.present(loginVC, animated: true)
-        }
-        else {
-            performSegue(withIdentifier: "after tomorrow seats 1", sender: self)
-        }
-    }
-    
-    @IBAction func AfterTomorrowSecondShowTimeButtonClick(_ sender: Any) {
-        if Auth.auth().currentUser == nil {
-            // No user is signed in.
-            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "login") as! LoginViewController
-            self.present(loginVC, animated: true)
-        }
-        else {
-            performSegue(withIdentifier: "after tomorrow seats 2", sender: self)
-        }
-    }
-    
-    @IBAction func AfterTomorrowThirdShowTimeButtonClick(_ sender: Any) {
-        if Auth.auth().currentUser == nil {
-            // No user is signed in.
-            let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "login") as! LoginViewController
-            self.present(loginVC, animated: true)
-        }
-        else {
-            performSegue(withIdentifier: "after tomorrow seats 3", sender: self)
-        }
+    @IBAction func playTrailerButtonClick(_ sender: Any) {
+        
     }
     
     func displayMyAlertMessage(userMessage: String) {
@@ -338,6 +250,10 @@ class MovieDetailViewController: UIViewController {
                 seatsVC.movie = movie
                 seatsVC.showTimeId = movie?.showTimes?[2]
                 seatsVC.screeningDate = Struct.getDate(interval: 172800)
+                break
+            case "show trailer":
+                let youtubeVC = segue.destination as! YoutubeViewController
+                youtubeVC.videoCode = movie?.videoCode
                 break
                 
             default:

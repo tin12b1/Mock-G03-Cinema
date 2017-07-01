@@ -18,6 +18,7 @@ class Movie {
     var voteAverage: Double?
     var genres: String?
     var showTimes: [String]?
+    var videoCode: String?
     
     init(json: [String:Any]) {
         posterPath              = json["poster_path"]       as? String
@@ -28,5 +29,6 @@ class Movie {
         id                      = json["id"]                as? Int
         voteAverage             = json["vote_average"]      as? Double
         showTimes               = json["show_times"]        as? [String]
+        videoCode               = json["video_code"]        as? String
     }
 }

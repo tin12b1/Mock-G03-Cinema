@@ -124,6 +124,13 @@
                                     <action selector="accountButtonClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="3Lw-1q-eAB"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="bf6-ji-5KO">
+                                <rect key="frame" x="167.5" y="313.5" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="XFa-YX-j7a"/>
+                                    <constraint firstAttribute="height" constant="40" id="cgt-MA-SPn"/>
+                                </constraints>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.91073624929999997" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -134,6 +141,7 @@
                             <constraint firstItem="2R4-hl-7Ee" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="10" id="AZ7-RZ-iR6"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="GG0-vB-Smm" secondAttribute="bottom" id="BOy-Xh-sTC"/>
                             <constraint firstAttribute="trailing" secondItem="ZCg-K5-Euw" secondAttribute="trailing" id="I5c-pL-iPy"/>
+                            <constraint firstItem="bf6-ji-5KO" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Tji-b9-CzQ"/>
                             <constraint firstItem="LLW-Gq-CP7" firstAttribute="centerY" secondItem="ZCg-K5-Euw" secondAttribute="centerY" id="VZ4-Rf-OAA"/>
                             <constraint firstItem="2R4-hl-7Ee" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Wj6-WA-yal"/>
                             <constraint firstItem="LLW-Gq-CP7" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="dQJ-vj-HhE"/>
@@ -141,6 +149,7 @@
                             <constraint firstItem="MRn-xZ-qZi" firstAttribute="centerY" secondItem="2R4-hl-7Ee" secondAttribute="centerY" id="i8V-8W-ipK"/>
                             <constraint firstItem="du3-UD-Qkm" firstAttribute="leading" secondItem="LLW-Gq-CP7" secondAttribute="trailing" id="jov-wG-Guq"/>
                             <constraint firstItem="GG0-vB-Smm" firstAttribute="top" secondItem="ZCg-K5-Euw" secondAttribute="bottom" id="ngU-M4-HOD"/>
+                            <constraint firstItem="bf6-ji-5KO" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="obH-tr-N5Q"/>
                             <constraint firstItem="LLW-Gq-CP7" firstAttribute="centerY" secondItem="du3-UD-Qkm" secondAttribute="centerY" id="tIO-sv-GLd"/>
                             <constraint firstItem="LLW-Gq-CP7" firstAttribute="width" secondItem="du3-UD-Qkm" secondAttribute="width" id="xM6-tI-yKa"/>
                             <constraint firstAttribute="trailing" secondItem="GG0-vB-Smm" secondAttribute="trailing" id="xwa-hA-xGp"/>
@@ -155,6 +164,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="comingSoonButton" destination="ZCg-K5-Euw" id="STo-hc-yYI"/>
+                        <outlet property="loadingMovieActivity" destination="bf6-ji-5KO" id="8jD-cV-YKJ"/>
                         <outlet property="movieTableView" destination="GG0-vB-Smm" id="oqc-ch-0cz"/>
                         <outlet property="nowShowingButton" destination="du3-UD-Qkm" id="jCi-dy-cWr"/>
                         <outlet property="shownButton" destination="LLW-Gq-CP7" id="4wQ-Un-F0S"/>
@@ -497,6 +507,73 @@
             </objects>
             <point key="canvasLocation" x="3644" y="122.78860569715144"/>
         </scene>
+        <!--Youtube View Controller-->
+        <scene sceneID="ss3-c0-SRk">
+            <objects>
+                <viewController id="D8a-g3-lFe" customClass="YoutubeViewController" customModule="Mock_G03_Cinema" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Qsz-iN-Vhx"/>
+                        <viewControllerLayoutGuide type="bottom" id="wZw-7R-dni"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="EzS-hy-x8m">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cn3-aG-5l3">
+                                <rect key="frame" x="0.0" y="86.5" width="375" height="187.5"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="cn3-aG-5l3" secondAttribute="height" multiplier="2:1" id="Nww-zn-5E4"/>
+                                </constraints>
+                            </webView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TRAILER" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rex-i2-mcI">
+                                <rect key="frame" x="20" y="40" width="335" height="26.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <color key="textColor" red="1" green="0.0" blue="0.06950727541" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ubX-No-JZM">
+                                <rect key="frame" x="0.0" y="33.5" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="oYk-xA-AHK"/>
+                                    <constraint firstAttribute="width" constant="40" id="qpg-PY-BqQ"/>
+                                </constraints>
+                                <state key="normal" image="back"/>
+                                <connections>
+                                    <action selector="backButtonClick:" destination="D8a-g3-lFe" eventType="touchUpInside" id="dnE-AN-ziY"/>
+                                </connections>
+                            </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="H4p-XY-TNn">
+                                <rect key="frame" x="167" y="313.5" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="7xX-k9-km2"/>
+                                    <constraint firstAttribute="height" constant="40" id="uKR-sa-maw"/>
+                                </constraints>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="cn3-aG-5l3" firstAttribute="leading" secondItem="EzS-hy-x8m" secondAttribute="leading" id="1fe-Gv-Qy8"/>
+                            <constraint firstItem="H4p-XY-TNn" firstAttribute="centerY" secondItem="EzS-hy-x8m" secondAttribute="centerY" id="2wz-rh-mpK"/>
+                            <constraint firstItem="rex-i2-mcI" firstAttribute="leading" secondItem="EzS-hy-x8m" secondAttribute="leading" constant="20" id="5gm-s1-BZ9"/>
+                            <constraint firstItem="H4p-XY-TNn" firstAttribute="centerX" secondItem="EzS-hy-x8m" secondAttribute="centerX" id="DRN-ux-mPL"/>
+                            <constraint firstItem="ubX-No-JZM" firstAttribute="centerY" secondItem="rex-i2-mcI" secondAttribute="centerY" id="FCE-IW-nlc"/>
+                            <constraint firstItem="cn3-aG-5l3" firstAttribute="top" secondItem="rex-i2-mcI" secondAttribute="bottom" constant="20" id="GXA-VI-Osv"/>
+                            <constraint firstAttribute="trailing" secondItem="cn3-aG-5l3" secondAttribute="trailing" id="Wrn-0I-9AC"/>
+                            <constraint firstItem="rex-i2-mcI" firstAttribute="top" secondItem="Qsz-iN-Vhx" secondAttribute="bottom" constant="20" id="jUz-YM-lnO"/>
+                            <constraint firstAttribute="trailing" secondItem="rex-i2-mcI" secondAttribute="trailing" constant="20" id="pYB-KU-fqJ"/>
+                            <constraint firstItem="ubX-No-JZM" firstAttribute="leading" secondItem="EzS-hy-x8m" secondAttribute="leading" id="uS8-3D-jtH"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="trailerLoadingIndicator" destination="H4p-XY-TNn" id="bOC-E4-kgh"/>
+                        <outlet property="youtubeWebView" destination="cn3-aG-5l3" id="Lhk-fp-lmp"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6Qb-rS-4hW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="876" y="885"/>
+        </scene>
         <!--Movie Detail View Controller-->
         <scene sceneID="w5Y-F7-QLQ">
             <objects>
@@ -581,7 +658,6 @@
                                             <color key="titleColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="secondShowTimeButtonClick:" destination="yUt-eG-w9j" eventType="touchUpInside" id="FQl-tF-A6v"/>
                                             <segue destination="h3Z-C8-4Ce" kind="show" identifier="today seats 2" id="hB1-a7-0v9"/>
                                         </connections>
                                     </button>
@@ -596,7 +672,6 @@
                                             <color key="titleColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="firstShowTimeButtonClick:" destination="yUt-eG-w9j" eventType="touchUpInside" id="26V-3V-crz"/>
                                             <segue destination="h3Z-C8-4Ce" kind="show" identifier="today seats 1" id="7kG-sB-D3p"/>
                                         </connections>
                                     </button>
@@ -621,7 +696,6 @@
                                             <color key="titleColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="thirdShowTimeButtonClick:" destination="yUt-eG-w9j" eventType="touchUpInside" id="Krd-gL-HwI"/>
                                             <segue destination="h3Z-C8-4Ce" kind="show" identifier="today seats 3" id="qVQ-UV-9yN"/>
                                         </connections>
                                     </button>
@@ -655,7 +729,6 @@
                                             <color key="titleColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="TomorrowSecondShowTimeButtonClick:" destination="yUt-eG-w9j" eventType="touchUpInside" id="GVD-F5-axT"/>
                                             <segue destination="h3Z-C8-4Ce" kind="show" identifier="tomorrow seats 2" id="khs-1H-LTR"/>
                                         </connections>
                                     </button>
@@ -670,7 +743,6 @@
                                             <color key="titleColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="TomorrowFirstShowTimeButtonClick:" destination="yUt-eG-w9j" eventType="touchUpInside" id="ywe-M2-XXx"/>
                                             <segue destination="h3Z-C8-4Ce" kind="show" identifier="tomorrow seats 1" id="kWr-B1-Aao"/>
                                         </connections>
                                     </button>
@@ -682,7 +754,6 @@
                                             <color key="titleColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="TomorrowThirdShowTimeButtonClick:" destination="yUt-eG-w9j" eventType="touchUpInside" id="kLw-VP-SUH"/>
                                             <segue destination="h3Z-C8-4Ce" kind="show" identifier="tomorrow seats 3" id="MPT-fy-gUy"/>
                                         </connections>
                                     </button>
@@ -704,7 +775,6 @@
                                             <color key="titleColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="AfterTomorrowSecondShowTimeButtonClick:" destination="yUt-eG-w9j" eventType="touchUpInside" id="6oB-pX-mrv"/>
                                             <segue destination="h3Z-C8-4Ce" kind="show" identifier="after tomorrow seats 2" id="Lpe-ag-Ipq"/>
                                         </connections>
                                     </button>
@@ -719,7 +789,6 @@
                                             <color key="titleColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="AfterTomorrowFirstShowTimeButtonClick:" destination="yUt-eG-w9j" eventType="touchUpInside" id="sKW-i7-VZb"/>
                                             <segue destination="h3Z-C8-4Ce" kind="show" identifier="after tomorrow seats 1" id="oDU-CW-CrC"/>
                                         </connections>
                                     </button>
@@ -731,7 +800,6 @@
                                             <color key="titleColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="AfterTomorrowThirdShowTimeButtonClick:" destination="yUt-eG-w9j" eventType="touchUpInside" id="7Zv-BA-ZoC"/>
                                             <segue destination="h3Z-C8-4Ce" kind="show" identifier="after tomorrow seats 3" id="6y3-Oj-SCH"/>
                                         </connections>
                                     </button>
@@ -789,6 +857,15 @@
                                     <constraint firstItem="QI7-Cq-6kd" firstAttribute="top" secondItem="1LV-H5-5jQ" secondAttribute="top" id="wWu-Cr-6JU"/>
                                 </constraints>
                             </scrollView>
+                            <button contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XOV-TQ-KVN">
+                                <rect key="frame" x="35" y="110" width="40" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="play"/>
+                                <connections>
+                                    <action selector="playTrailerButtonClick:" destination="yUt-eG-w9j" eventType="touchUpInside" id="mXH-uj-Y2p"/>
+                                    <segue destination="D8a-g3-lFe" kind="show" identifier="show trailer" id="rba-v1-8lC"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -1095,7 +1172,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Age:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N6c-xW-yo7">
-                                <rect key="frame" x="20" y="187" width="75" height="21"/>
+                                <rect key="frame" x="20" y="187.5" width="75" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="75" id="aNW-m1-8sL"/>
                                 </constraints>
@@ -1128,7 +1205,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="txE-mK-uJ8">
-                                <rect key="frame" x="100" y="237" width="255" height="89"/>
+                                <rect key="frame" x="100" y="237" width="255" height="88.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -1154,14 +1231,14 @@
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="x2w-xp-sgW">
-                                <rect key="frame" x="10" y="346" width="355" height="177"/>
+                                <rect key="frame" x="10" y="345.5" width="355" height="177.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="booking cell" rowHeight="90" id="bmy-qs-29b" customClass="BookingTableViewCell" customModule="Mock_G03_Cinema" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="355" height="90"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bmy-qs-29b" id="BDD-dg-Ojk">
-                                            <rect key="frame" x="0.0" y="0.0" width="355" height="90"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="355" height="89"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="movie title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vF5-Cj-T84">
@@ -1417,6 +1494,7 @@
         <image name="back" width="64" height="64"/>
         <image name="defaultImg" width="160" height="240"/>
         <image name="eye_button" width="16" height="16"/>
+        <image name="play" width="64" height="64"/>
         <image name="rounded button" width="181" height="84"/>
     </resources>
     <inferredMetricsTieBreakers>
