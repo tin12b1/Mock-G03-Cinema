@@ -14,7 +14,7 @@ class CheckoutViewController: UIViewController {
     let databaseRef = Database.database().reference()
     let userId = Auth.auth().currentUser?.uid
     var movie: Movie?
-    var showTimeId: String?
+    var showTime: String?
     var bookedSeats: [String]?
     var screeningDate: String?
 
@@ -34,20 +34,25 @@ class CheckoutViewController: UIViewController {
         if let ticketCount = bookedSeats?.count {
             for i in 0...ticketCount - 1 {
                 if let movieId = movie?.id, let seatId = bookedSeats?[i]{
-                    databaseRef.child("movies").child("\(movieId)").child("screening").child(screeningDate!).child(showTimeId!).child(seatId).setValue(["id": seatId,
-                                                                                                                                  "status": 0])
+                    DAOBooking.setSeatStatus(movieId, screeningDate!, showTime!, seatId, 0, completionHandler: { (error) in
+                        if error != nil {
+                            let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
+                            let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                            alertController.addAction(defaultAction)
+                        }
+                    })
                 }
 
             }
         }
-        if let movieId = movie?.id, let movieTitle = movie?.title, let firstSeat = bookedSeats?[0], let ticketCount = bookedSeats?.count, let date = screeningDate, let showTime = showTimeId {
-            databaseRef.child("users").child(userId!).child("booking").child("\(movieId)-\(date)-\(showTime)-\(firstSeat)").setValue(["movie": movieId,
-                                                                                                                                   "title": movieTitle,
-                                                                                                                                   "seats": bookedSeats!,
-                                                                                                                                   "screening_date": date,
-                                                                                                                                   "show_time": showTime,
-                                                                                                                                   "payment_status": 1,
-                                                                                                                             "total_price": 100000*ticketCount])
+        if let movieId = movie?.id, let movieTitle = movie?.title, let firstSeat = bookedSeats?[0], let ticketCount = bookedSeats?.count, let date = screeningDate, let showTime = showTime {
+            DAOBooking.saveTicketsToUser(movieId, movieTitle, date, showTime, bookedSeats!, 100000*ticketCount, userId!, firstSeat, completionHandler: { (error) in
+                if error != nil {
+                    let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
+                    let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                    alertController.addAction(defaultAction)
+                }
+            })
         }
         let alertView = UIAlertController(title: "Success", message: "Checkout completed, please check in your account info!", preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction) in

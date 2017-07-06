@@ -58,6 +58,41 @@ class DAOBooking {
         })
     }
     
+    static func saveBookingToUser(_ movieId: Int,_ movieTitle: String,_ screeningDate: String,_ showTime: String,_ bookedSeats: [String],_ bookingTime: String,_ price: Int,_ userId: String,_ firstSeat: String, completionHandler: @escaping (_ error: Error?) -> Void) {
+        let databaseRef = Database.database().reference()
+        let data = [
+            "movie": movieId,
+            "title": movieTitle,
+            "seats": bookedSeats,
+            "screening_date": screeningDate,
+            "show_time": showTime,
+            "booked_time": bookingTime,
+            "payment_status": 0,
+            "total_price": price
+            ] as [String : Any]
+        
+        databaseRef.child("users").child(userId).child("booking").child("\(movieId)-\(screeningDate)-\(showTime)-\(firstSeat)").setValue(data, withCompletionBlock: { (error, databaseRef) in
+            completionHandler(error)
+        })
+    }
+    
+    static func saveTicketsToUser(_ movieId: Int,_ movieTitle: String,_ screeningDate: String,_ showTime: String,_ bookedSeats: [String],_ price: Int,_ userId: String,_ firstSeat: String, completionHandler: @escaping (_ error: Error?) -> Void) {
+        let databaseRef = Database.database().reference()
+        let data = [
+            "movie": movieId,
+            "title": movieTitle,
+            "seats": bookedSeats,
+            "screening_date": screeningDate,
+            "show_time": showTime,
+            "payment_status": 1,
+            "total_price": price
+            ] as [String : Any]
+        
+        databaseRef.child("users").child(userId).child("booking").child("\(movieId)-\(screeningDate)-\(showTime)-\(firstSeat)").setValue(data, withCompletionBlock: { (error, databaseRef) in
+            completionHandler(error)
+        })
+    }
+    
     static func removeBooking(_ userId: String,_ movieId: Int,_ screeningDate: String,_ showTime: String,_ seat: String) {
         let databaseRef = Database.database().reference()
         databaseRef.child("users").child(userId).child("booking").child("\(movieId)-\(screeningDate)-\(showTime)-\(seat)").removeValue()
