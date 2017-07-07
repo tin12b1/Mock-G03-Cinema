@@ -46,9 +46,10 @@ class AddUserInfoViewController: UIViewController, UIPickerViewDataSource, UIPic
                 if error == nil {
                     self.performSegue(withIdentifier: "show account", sender: self)
                 } else {
-                    let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
+                    let alert = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
                     let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                    alertController.addAction(defaultAction)
+                    alert.addAction(defaultAction)
+                    self.present(alert, animated: true, completion: nil)
                 }
             })
         }

@@ -14,12 +14,10 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
     @IBOutlet var confirmButton: UIButton!
     @IBOutlet var priceLabel: UILabel!
     
-    let databaseRef = Database.database().reference()
     var movie: Movie?
     var showTimeId: String?
     var screeningDate: String?
     var seats = [Seat]()
-    var seatsTemp = [Seat]()
     let currentDate = Date()
     var bookedSeats: [String] = []
     var count = 0

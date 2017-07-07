@@ -15,7 +15,6 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet var addressLabel: UILabel!
     @IBOutlet var bookingTableView: UITableView!
     
-    let databaseRef = Database.database().reference()
     let userId = Auth.auth().currentUser?.uid
     var bookings = [Booking]()
     

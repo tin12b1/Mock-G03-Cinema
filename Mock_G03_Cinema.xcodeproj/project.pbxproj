@@ -255,8 +255,8 @@
 			isa = PBXGroup;
 			children = (
 				40E47C561EDEA91B004994CF /* LoginViewController.swift */,
-				408AE58A1EDF31A70070C398 /* AccountViewController.swift */,
 				40F9BF131EE076AC002FFF64 /* AddUserInfoViewController.swift */,
+				408AE58A1EDF31A70070C398 /* AccountViewController.swift */,
 				40DF47AD1EE14DD700399A6D /* ChangePasswordViewController.swift */,
 				EF4FADCD1EE7EAC5004D0E09 /* ResetPasswordViewController.swift */,
 				408EA0771EF41CD100C80CF4 /* BookingTableViewCell.swift */,

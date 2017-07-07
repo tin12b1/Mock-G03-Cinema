@@ -18,7 +18,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     
     let searchController = UISearchController(searchResultsController: nil)
-    var filtereMovies = [Movie]()
+    var filteredMovies = [Movie]()
     var movies = [Movie]()
     var moviesClass = [Movie]()
     var posterImage: [Int:UIImage] = [:]
@@ -26,7 +26,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         loadingMovieActivity.startAnimating()
-        self.navigationController?.isNavigationBarHidden = true
         self.movieTableView.dataSource = self
         self.movieTableView.delegate = self
         getMoviesList()
@@ -40,10 +39,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.isNavigationBarHidden = true
     }
     
     @IBAction func accountButtonClick(_ sender: Any) {
@@ -63,7 +58,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchController.isActive && searchController.searchBar.text != "" {
-            return filtereMovies.count
+            return filteredMovies.count
         }
         else {
             return moviesClass.count
@@ -75,7 +70,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let queue = OperationQueue()
         let movie: Movie
         if searchController.isActive && searchController.searchBar.text != "" {
-            movie = filtereMovies[indexPath.row]
+            movie = filteredMovies[indexPath.row]
         }
         else{
             movie = moviesClass[indexPath.row]
@@ -88,7 +83,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 // Update in main thread
                 OperationQueue.main.addOperation({
                     if self.searchController.isActive && self.searchController.searchBar.text != ""{
-                        self.posterImage[self.filtereMovies[indexPath.row].id!] = img
+                        self.posterImage[self.filteredMovies[indexPath.row].id!] = img
                     }
                     else{
                         self.posterImage[self.moviesClass[indexPath.row].id!] = img
@@ -153,7 +148,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     {
         if searchController.isActive && searchController.searchBar.text != ""
         {
-            return filtereMovies[indexPath.row]
+            return filteredMovies[indexPath.row]
         }
         else
         {
@@ -165,7 +160,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     {
         if searchController.isActive && searchController.searchBar.text != ""
         {
-            return posterImage[filtereMovies[indexPath.row].id!]!
+            return posterImage[filteredMovies[indexPath.row].id!]!
         }
         else
         {
@@ -232,7 +227,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func filterContentForSearchText(seachText:String)
     {
-        filtereMovies = moviesClass.filter { movie in
+        filteredMovies = moviesClass.filter { movie in
             return (movie.title?.lowercased().contains(seachText.lowercased()))!
         }
         movieTableView.reloadData()

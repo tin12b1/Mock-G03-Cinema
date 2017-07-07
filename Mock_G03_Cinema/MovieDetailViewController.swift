@@ -156,6 +156,7 @@ class MovieDetailViewController: UIViewController {
         return false
     }
     
+    // Return day of week
     func getDayOfWeek(_ today:String) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
@@ -180,7 +181,6 @@ class MovieDetailViewController: UIViewController {
     }
     
     @IBAction func playTrailerButtonClick(_ sender: Any) {
-        
     }
     
     func displayMyAlertMessage(userMessage: String) {

@@ -64,10 +64,15 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func loginButtonClick(_ sender: Any) {
-        if let email = emailTextField.text, let password = passwordTextField.text {
-            let valid = Struct.isValidEmail(testStr: email)
+        if (emailTextField.text == "" || passwordTextField.text == "") {
+            self.displayMyAlertMessage(userMessage: "You must input all fields!")
+        }
+        else {
+            let email = emailTextField.text
+            let password = passwordTextField.text
+            let valid = Struct.isValidEmail(testStr: email!)
             if (isSignIn) {
-                Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
+                Auth.auth().signIn(withEmail: email!, password: password!) { (user, error) in
                     if error != nil {
                         self.displayMyAlertMessage(userMessage: "Wrong email or password!")
                         self.passwordTextField.text?.removeAll()
@@ -82,11 +87,11 @@ class LoginViewController: UIViewController {
                     self.displayMyAlertMessage(userMessage: "Wrong email format!")
                 }
                 else {
-                    if (password.characters.count < 6) {
+                    if ((password?.characters.count)! < 6) {
                         self.displayMyAlertMessage(userMessage: "Password must be at least 6 characters!")
                     }
                     else {
-                        Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
+                        Auth.auth().createUser(withEmail: email!, password: password!) { (user, error) in
                             if error != nil {
                                 self.displayMyAlertMessage(userMessage: "Email Unavailable!")
                                 self.passwordTextField.text?.removeAll()
@@ -97,9 +102,9 @@ class LoginViewController: UIViewController {
                         }
                     }
                 }
+                
             }
         }
-        
     }
     
     @IBAction func backButtonClick(_ sender: Any) {

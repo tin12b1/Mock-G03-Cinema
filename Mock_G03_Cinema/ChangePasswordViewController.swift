@@ -24,7 +24,21 @@ class ChangePasswordViewController: UIViewController {
     }
     
     @IBAction func confirmButtonClick(_ sender: Any) {
-        if (newPasswordTextField.text != confirmPasswordTextField.text) {
+        if (oldPasswordTextField.text == "" || newPasswordTextField.text == "" || confirmPasswordTextField.text == "") {
+            let alert = UIAlertController(title: "Error", message: "You must fill all fields!", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: {
+                self.resetTextField()
+            })
+        }
+        else if ((newPasswordTextField.text?.characters.count)! < 6) {
+            let alert = UIAlertController(title: "Error", message: "Password atleast 6 characters!", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: {
+                self.resetTextField()
+            })
+        }
+        else if (newPasswordTextField.text != confirmPasswordTextField.text) {
             let alert = UIAlertController(title: "Error", message: "New password mismatch!", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
             self.present(alert, animated: true, completion: {
@@ -37,7 +51,7 @@ class ChangePasswordViewController: UIViewController {
             
             // Prompt the user to re-provide their sign-in credentials
             credential = EmailAuthProvider.credential(withEmail: (user?.email)!, password: oldPasswordTextField.text!)
-            
+
             user?.reauthenticate(with: credential) { error in
                 if error != nil {
                     // An error happened.
