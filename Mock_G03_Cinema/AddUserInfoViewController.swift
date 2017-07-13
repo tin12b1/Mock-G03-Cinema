@@ -11,17 +11,23 @@ import Firebase
 
 class AddUserInfoViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
     
+    @IBOutlet var btmConstraint: NSLayoutConstraint!
     @IBOutlet var agePickerView: UIPickerView!
     @IBOutlet var nameTextField: UITextField!
     @IBOutlet var addressTextField: UITextField!
     
     let age: [Int] = Array(13...100)
     var ageSelected = 13
+    var keyboardIsShow = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
         agePickerView.dataSource = self
         agePickerView.delegate = self
+        let dismiss: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(AddUserInfoViewController.DismissKeyboard))
+        view.addGestureRecognizer(dismiss)
+        NotificationCenter.default.addObserver(self, selector: #selector(AddUserInfoViewController.keyboardWillShow), name:NSNotification.Name.UIKeyboardWillShow, object: self.view.window)
+        NotificationCenter.default.addObserver(self, selector: #selector(AddUserInfoViewController.keyboardWillHide), name:NSNotification.Name.UIKeyboardWillHide, object: self.view.window)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -40,18 +46,24 @@ class AddUserInfoViewController: UIViewController, UIPickerViewDataSource, UIPic
             self.present(alert, animated: true, completion: nil)
         }
         else {
-            let userId = Auth.auth().currentUser?.uid
-            let userModel = User(name: nameTextField.text!, age: ageSelected, address: addressTextField.text!)
-            DAOUser.addNewUser(userId: userId!, userInfo: userModel, completionHandler: { (error) in
-                if error == nil {
-                    self.performSegue(withIdentifier: "show account", sender: self)
-                } else {
-                    let alert = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
-                    let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                    alert.addAction(defaultAction)
-                    self.present(alert, animated: true, completion: nil)
-                }
-            })
+            if (!Reachability.isConnectedToNetwork()) {
+                let srcNoInternet = self.storyboard?.instantiateViewController(withIdentifier: "noInternet") as! NoInternetViewController
+                self.present(srcNoInternet, animated: true)
+            }
+            else {
+                let userId = Auth.auth().currentUser?.uid
+                let userModel = User(name: nameTextField.text!, age: ageSelected, address: addressTextField.text!)
+                DAOUser.addNewUser(userId: userId!, userInfo: userModel, completionHandler: { (error) in
+                    if error == nil {
+                        self.performSegue(withIdentifier: "show account", sender: self)
+                    } else {
+                        let alert = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
+                        let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                        alert.addAction(defaultAction)
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                })
+            }
         }
     }
     
@@ -82,6 +94,37 @@ class AddUserInfoViewController: UIViewController, UIPickerViewDataSource, UIPic
             if error == nil {
                 self.dismiss(animated: true, completion: nil)
             }
+        })
+    }
+    
+    func DismissKeyboard(){
+        view.endEditing(true)
+    }
+    
+    func keyboardWillShow(notification:NSNotification) {
+        if !keyboardIsShow {
+            adjustingHeight(show: true, notification: notification)
+            keyboardIsShow = true
+        }
+    }
+    
+    func keyboardWillHide(notification:NSNotification) {
+        if keyboardIsShow {
+            adjustingHeight(show: false, notification: notification)
+            keyboardIsShow = false
+        }
+    }
+
+    func adjustingHeight(show:Bool, notification:NSNotification) {
+        var userInfo = notification.userInfo!
+        let keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+        
+        let animationDurarion = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! TimeInterval
+        
+        let changeInHeight = (keyboardFrame.height) * (show ? 1 : -1)
+        
+        UIView.animate(withDuration: animationDurarion, animations: { () -> Void in
+            self.btmConstraint.constant += changeInHeight
         })
     }
 }

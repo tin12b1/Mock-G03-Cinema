@@ -26,33 +26,38 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadingMovieActivity.startAnimating()
         self.movieTableView.dataSource = self
         self.movieTableView.delegate = self
-        getMoviesList()
+        loadingMovieActivity.startAnimating()
         searchController.searchResultsUpdater = self
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.dimsBackgroundDuringPresentation = false
         searchController.searchBar.sizeToFit()
         self.movieTableView.tableHeaderView = searchController.searchBar
         definesPresentationContext = true
-        if (!Reachability.isConnectedToNetwork()) {
-            print("Disconnected!")
-        }
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        getMoviesList()
+    }
+    
     @IBAction func accountButtonClick(_ sender: Any) {
-        if Auth.auth().currentUser != nil {
-            // User is signed in.
-            let srcUserInfo = self.storyboard?.instantiateViewController(withIdentifier: "userInfo") as! AccountViewController
-            self.present(srcUserInfo, animated: true)
-        } else {
-            // No user is signed in.
-            performSegue(withIdentifier: "show login", sender: self)
+        if (!Reachability.isConnectedToNetwork()) {
+            performSegue(withIdentifier: "show no internet", sender: self)
+        }
+        else {
+            if Auth.auth().currentUser != nil {
+                // User is signed in.
+                let srcUserInfo = self.storyboard?.instantiateViewController(withIdentifier: "userInfo") as! AccountViewController
+                self.present(srcUserInfo, animated: true)
+            } else {
+                // No user is signed in.
+                performSegue(withIdentifier: "show login", sender: self)
+            }
         }
     }
     
@@ -101,30 +106,45 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     @IBAction func shownButtonClick(_ sender: Any) {
-        searchController.isActive = false
-        searchController.searchBar.text = ""
-        nowShowingButton.isSelected = false
-        shownButton.isSelected = true
-        comingSoonButton.isSelected = false
-        getShownMovies()
+        if (!Reachability.isConnectedToNetwork()) {
+            performSegue(withIdentifier: "show no internet", sender: self)
+        }
+        else {
+            searchController.isActive = false
+            searchController.searchBar.text = ""
+            nowShowingButton.isSelected = false
+            shownButton.isSelected = true
+            comingSoonButton.isSelected = false
+            getShownMovies()
+        }
     }
     
     @IBAction func nowShowingButtonClick(_ sender: Any) {
-        searchController.isActive = false
-        searchController.searchBar.text = ""
-        nowShowingButton.isSelected = true
-        shownButton.isSelected = false
-        comingSoonButton.isSelected = false
-        getNowShowingMovies()
+        if (!Reachability.isConnectedToNetwork()) {
+            performSegue(withIdentifier: "show no internet", sender: self)
+        }
+        else {
+            searchController.isActive = false
+            searchController.searchBar.text = ""
+            nowShowingButton.isSelected = true
+            shownButton.isSelected = false
+            comingSoonButton.isSelected = false
+            getNowShowingMovies()
+        }
     }
     
     @IBAction func comingSoonButtonClick(_ sender: Any) {
-        searchController.isActive = false
-        searchController.searchBar.text = ""
-        nowShowingButton.isSelected = false
-        shownButton.isSelected = false
-        comingSoonButton.isSelected = true
-        getComingSoonMovies()
+        if (!Reachability.isConnectedToNetwork()) {
+            performSegue(withIdentifier: "show no internet", sender: self)
+        }
+        else {
+            searchController.isActive = false
+            searchController.searchBar.text = ""
+            nowShowingButton.isSelected = false
+            shownButton.isSelected = false
+            comingSoonButton.isSelected = true
+            getComingSoonMovies()
+        }
     }
     
     // MARK: - Navigation
@@ -210,6 +230,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func getMoviesList() {
+        if (!Reachability.isConnectedToNetwork()) {
+            showAlertDialog(message: "No Internet Access!")
+        }
+        else {
         DAOMovies.getMoviesList(completionHandler: { (moviesList, error) in
             if error == nil {
                 self.movies = []
@@ -227,6 +251,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 self.present(alertController, animated: true, completion: nil)
             }
         })
+        }
+    }
+    
+    func showAlertDialog(message: String) {
+        let alertView = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+        
+        let tryAgainAction = UIAlertAction(title: "Try again", style: .default, handler: { (action: UIAlertAction) in
+            self.getMoviesList()
+        })
+        
+        alertView.addAction(cancelAction)
+        alertView.addAction(tryAgainAction)
+        present(alertView, animated: true, completion: nil)
     }
     
     func filterContentForSearchText(seachText:String)

@@ -13,11 +13,18 @@ class LoginViewController: UIViewController {
     @IBOutlet var loginButton: UIButton!
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
+    @IBOutlet var btmConstraint: NSLayoutConstraint!
+    
     var isSignIn = true
     var isHidePassword = true
+    var keyboardIsShow = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let dismiss: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LoginViewController.DismissKeyboard))
+        view.addGestureRecognizer(dismiss)
+        NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardWillShow), name:NSNotification.Name.UIKeyboardWillShow, object: self.view.window)
+        NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardWillHide), name:NSNotification.Name.UIKeyboardWillHide, object: self.view.window)
     }
     
     @IBOutlet weak var btnShowPassword: UIButton!
@@ -68,41 +75,46 @@ class LoginViewController: UIViewController {
             self.displayMyAlertMessage(userMessage: "You must input all fields!")
         }
         else {
-            let email = emailTextField.text
-            let password = passwordTextField.text
-            let valid = Struct.isValidEmail(testStr: email!)
-            if (isSignIn) {
-                Auth.auth().signIn(withEmail: email!, password: password!) { (user, error) in
-                    if error != nil {
-                        self.displayMyAlertMessage(userMessage: "Wrong email or password!")
-                        self.passwordTextField.text?.removeAll()
-                    }
-                    else {
-                        self.performSegue(withIdentifier: "show account", sender: self)
-                    }
-                }
+            if (!Reachability.isConnectedToNetwork()) {
+                let srcNoInternet = self.storyboard?.instantiateViewController(withIdentifier: "noInternet") as! NoInternetViewController
+                self.present(srcNoInternet, animated: true)
             }
             else {
-                if (!valid) {
-                    self.displayMyAlertMessage(userMessage: "Wrong email format!")
+                let email = emailTextField.text
+                let password = passwordTextField.text
+                let valid = Struct.isValidEmail(testStr: email!)
+                if (isSignIn) {
+                    Auth.auth().signIn(withEmail: email!, password: password!) { (user, error) in
+                        if error != nil {
+                            self.displayMyAlertMessage(userMessage: "Wrong email or password!")
+                            self.passwordTextField.text?.removeAll()
+                        }
+                        else {
+                            self.performSegue(withIdentifier: "show account", sender: self)
+                        }
+                    }
                 }
                 else {
-                    if ((password?.characters.count)! < 6) {
-                        self.displayMyAlertMessage(userMessage: "Password must be at least 6 characters!")
+                    if (!valid) {
+                        self.displayMyAlertMessage(userMessage: "Wrong email format!")
                     }
                     else {
-                        Auth.auth().createUser(withEmail: email!, password: password!) { (user, error) in
-                            if error != nil {
-                                self.displayMyAlertMessage(userMessage: "Email Unavailable!")
-                                self.passwordTextField.text?.removeAll()
-                            }
-                            else {
-                                self.performSegue(withIdentifier: "add user info", sender: self)
+                        if ((password?.characters.count)! < 6) {
+                            self.displayMyAlertMessage(userMessage: "Password must be at least 6 characters!")
+                        }
+                        else {
+                            Auth.auth().createUser(withEmail: email!, password: password!) { (user, error) in
+                                if error != nil {
+                                    self.displayMyAlertMessage(userMessage: "Email Unavailable!")
+                                    self.passwordTextField.text?.removeAll()
+                                }
+                                else {
+                                    self.performSegue(withIdentifier: "add user info", sender: self)
+                                }
                             }
                         }
                     }
                 }
-                
             }
         }
     }
@@ -116,5 +128,38 @@ class LoginViewController: UIViewController {
         let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
         myAlert.addAction(okAction)
         self.present(myAlert, animated: true, completion: nil)
+    }
+    
+    // MARK: - Keyboard Hide/Show
+    
+    func DismissKeyboard(){
+        view.endEditing(true)
+    }
+    
+    func keyboardWillShow(notification:NSNotification) {
+        if !keyboardIsShow {
+            adjustingHeight(show: true, notification: notification)
+            keyboardIsShow = true
+        }
+    }
+    
+    func keyboardWillHide(notification:NSNotification) {
+        if keyboardIsShow {
+            adjustingHeight(show: false, notification: notification)
+            keyboardIsShow = false
+        }
+    }
+    
+    func adjustingHeight(show:Bool, notification:NSNotification) {
+        var userInfo = notification.userInfo!
+        let keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+        
+        let animationDurarion = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! TimeInterval
+        
+        let changeInHeight = (keyboardFrame.height) * (show ? 1 : -1)
+        
+        UIView.animate(withDuration: animationDurarion, animations: { () -> Void in
+            self.btmConstraint.constant += changeInHeight
+        })
     }
 }

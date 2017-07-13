@@ -127,20 +127,25 @@ class MovieDetailViewController: UIViewController {
         }
         if (isNowShowingMovie()) {
             var showTimeString = Struct.getDate(interval: 0) + " " + (movie?.showTimes?[2])!
-            if (currentDate > Struct.getDateTimeFromString(string: showTimeString, interval: 0)) {
+            if (currentDate.addingTimeInterval(3600) > Struct.getDateTimeFromString(string: showTimeString, interval: 0)) {
                 firstShowTimeButton.isEnabled = false
                 secondShowTimeButton.isEnabled = false
                 thirdShowTimeButton.isEnabled = false
+                firstShowTimeButton.isHidden = true
+                secondShowTimeButton.isHidden = true
+                thirdShowTimeButton.isHidden = true
+                todayLabel.isHidden = true
+                styleImageView.isHidden = true
             }
             else {
                 showTimeString = Struct.getDate(interval: 0) + " " + (movie?.showTimes?[1])!
-                if (currentDate > Struct.getDateTimeFromString(string: showTimeString, interval: 0)) {
+                if (currentDate.addingTimeInterval(3600) > Struct.getDateTimeFromString(string: showTimeString, interval: 0)) {
                     firstShowTimeButton.isEnabled = false
                     secondShowTimeButton.isEnabled = false
                 }
                 else {
                     showTimeString = Struct.getDate(interval: 0) + " " + (movie?.showTimes?[0])!
-                    if (currentDate > Struct.getDateTimeFromString(string: showTimeString, interval: 0)) {
+                    if (currentDate.addingTimeInterval(3600) > Struct.getDateTimeFromString(string: showTimeString, interval: 0)) {
                         firstShowTimeButton.isEnabled = false
                     }
                 }
@@ -181,6 +186,13 @@ class MovieDetailViewController: UIViewController {
     }
     
     @IBAction func playTrailerButtonClick(_ sender: Any) {
+        if (!Reachability.isConnectedToNetwork()) {
+            let srcNoInternet = self.storyboard?.instantiateViewController(withIdentifier: "noInternet") as! NoInternetViewController
+            self.present(srcNoInternet, animated: true)
+        }
+        else {
+            performSegue(withIdentifier: "show trailer", sender: self)
+        }
     }
     
     func displayMyAlertMessage(userMessage: String) {

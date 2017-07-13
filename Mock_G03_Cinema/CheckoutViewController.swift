@@ -17,11 +17,11 @@ class CheckoutViewController: UIViewController {
     var showTime: String?
     var bookedSeats: [String]?
     var screeningDate: String?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -31,35 +31,41 @@ class CheckoutViewController: UIViewController {
     }
     
     @IBAction func okButtonClick(_ sender: Any) {
-        if let ticketCount = bookedSeats?.count {
-            for i in 0...ticketCount - 1 {
-                if let movieId = movie?.id, let seatId = bookedSeats?[i]{
-                    DAOBooking.setSeatStatus(movieId, screeningDate!, showTime!, seatId, 0, completionHandler: { (error) in
-                        if error != nil {
-                            let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
-                            let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                            alertController.addAction(defaultAction)
-                        }
-                    })
+        if (!Reachability.isConnectedToNetwork()) {
+            let srcNoInternet = self.storyboard?.instantiateViewController(withIdentifier: "noInternet") as! NoInternetViewController
+            self.present(srcNoInternet, animated: true)
+        }
+        else {
+            if let ticketCount = bookedSeats?.count {
+                for i in 0...ticketCount - 1 {
+                    if let movieId = movie?.id, let seatId = bookedSeats?[i]{
+                        DAOBooking.setSeatStatus(movieId, screeningDate!, showTime!, seatId, 0, completionHandler: { (error) in
+                            if error != nil {
+                                let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
+                                let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                                alertController.addAction(defaultAction)
+                            }
+                        })
+                    }
+                    
                 }
-
             }
-        }
-        if let movieId = movie?.id, let movieTitle = movie?.title, let firstSeat = bookedSeats?[0], let ticketCount = bookedSeats?.count, let date = screeningDate, let showTime = showTime {
-            DAOBooking.saveTicketsToUser(movieId, movieTitle, date, showTime, bookedSeats!, 100000*ticketCount, userId!, firstSeat, completionHandler: { (error) in
-                if error != nil {
-                    let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
-                    let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                    alertController.addAction(defaultAction)
-                }
+            if let movieId = movie?.id, let movieTitle = movie?.title, let firstSeat = bookedSeats?[0], let ticketCount = bookedSeats?.count, let date = screeningDate, let showTime = showTime {
+                DAOBooking.saveTicketsToUser(movieId, movieTitle, date, showTime, bookedSeats!, 100000*ticketCount, userId!, firstSeat, completionHandler: { (error) in
+                    if error != nil {
+                        let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
+                        let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                        alertController.addAction(defaultAction)
+                    }
+                })
+            }
+            let alertView = UIAlertController(title: "Success", message: "Checkout completed, please check in your account info!", preferredStyle: .alert)
+            let action = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction) in
+                self.dismiss(animated: true, completion: nil)
             })
+            alertView.addAction(action)
+            self.present(alertView, animated: true, completion: nil)
         }
-        let alertView = UIAlertController(title: "Success", message: "Checkout completed, please check in your account info!", preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction) in
-            self.dismiss(animated: true, completion: nil)
-        })
-        alertView.addAction(action)
-        self.present(alertView, animated: true, completion: nil)
     }
-
+    
 }
