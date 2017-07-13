@@ -23,6 +23,8 @@
 		40DDE6611EE4815500A5115E /* MovieDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DDE6601EE4815500A5115E /* MovieDetailViewController.swift */; };
 		40DF47AE1EE14DD700399A6D /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DF47AD1EE14DD700399A6D /* ChangePasswordViewController.swift */; };
 		40E47C571EDEA91B004994CF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E47C561EDEA91B004994CF /* LoginViewController.swift */; };
+		40EBC2791F1778C500D16992 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EBC2781F1778C500D16992 /* Reachability.swift */; };
+		40EBC27B1F17848500D16992 /* NoInternetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EBC27A1F17848500D16992 /* NoInternetViewController.swift */; };
 		40F170A61EDC74E800209E9D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F170A51EDC74E800209E9D /* AppDelegate.swift */; };
 		40F170A81EDC74E800209E9D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F170A71EDC74E800209E9D /* ViewController.swift */; };
 		40F170AB1EDC74E800209E9D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40F170A91EDC74E800209E9D /* Main.storyboard */; };
@@ -77,6 +79,8 @@
 		40DDE6601EE4815500A5115E /* MovieDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieDetailViewController.swift; sourceTree = "<group>"; };
 		40DF47AD1EE14DD700399A6D /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		40E47C561EDEA91B004994CF /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		40EBC2781F1778C500D16992 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		40EBC27A1F17848500D16992 /* NoInternetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoInternetViewController.swift; sourceTree = "<group>"; };
 		40F170A21EDC74E800209E9D /* Mock_G03_Cinema.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mock_G03_Cinema.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40F170A51EDC74E800209E9D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		40F170A71EDC74E800209E9D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -160,6 +164,24 @@
 			name = DAO;
 			sourceTree = "<group>";
 		};
+		40EBC2761F1775FC00D16992 /* YouTube */ = {
+			isa = PBXGroup;
+			children = (
+				40329AE51F0794E8005939CD /* YoutubeViewController.swift */,
+			);
+			name = YouTube;
+			sourceTree = "<group>";
+		};
+		40EBC2771F17761B00D16992 /* Movie */ = {
+			isa = PBXGroup;
+			children = (
+				40F170A71EDC74E800209E9D /* ViewController.swift */,
+				40DDE6601EE4815500A5115E /* MovieDetailViewController.swift */,
+				40EBC27A1F17848500D16992 /* NoInternetViewController.swift */,
+			);
+			name = Movie;
+			sourceTree = "<group>";
+		};
 		40F170991EDC74E800209E9D = {
 			isa = PBXGroup;
 			children = (
@@ -241,12 +263,11 @@
 		B59256A71EE2B3C300810E8B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				40EBC2771F17761B00D16992 /* Movie */,
+				40EBC2761F1775FC00D16992 /* YouTube */,
 				408E9C1B1EF3053D00D46312 /* Checkout */,
 				403252E31EE9910D00524820 /* Booking */,
 				B59256A81EE2B3F200810E8B /* User */,
-				40F170A71EDC74E800209E9D /* ViewController.swift */,
-				40DDE6601EE4815500A5115E /* MovieDetailViewController.swift */,
-				40329AE51F0794E8005939CD /* YoutubeViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -278,6 +299,7 @@
 			children = (
 				B59256A41EE2B38C00810E8B /* Dowloader.swift */,
 				EF4FADCF1EE7EEDD004D0E09 /* Struct.swift */,
+				40EBC2781F1778C500D16992 /* Reachability.swift */,
 			);
 			name = Library;
 			sourceTree = "<group>";
@@ -591,9 +613,11 @@
 				40F9BF141EE076AC002FFF64 /* AddUserInfoViewController.swift in Sources */,
 				40E47C571EDEA91B004994CF /* LoginViewController.swift in Sources */,
 				403252E51EE9A09400524820 /* SeatsViewController.swift in Sources */,
+				40EBC2791F1778C500D16992 /* Reachability.swift in Sources */,
 				408E9C1D1EF3057000D46312 /* CheckoutViewController.swift in Sources */,
 				B59256A51EE2B38C00810E8B /* Dowloader.swift in Sources */,
 				40DDE6611EE4815500A5115E /* MovieDetailViewController.swift in Sources */,
+				40EBC27B1F17848500D16992 /* NoInternetViewController.swift in Sources */,
 				40F170AE1EDC74E800209E9D /* Mock_G03_Cinema.xcdatamodeld in Sources */,
 				409698A51EE1B35D007A1B08 /* Movie.swift in Sources */,
 				40329AE61F0794E8005939CD /* YoutubeViewController.swift in Sources */,

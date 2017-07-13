@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate,UISearchResultsUpdating {
+    
     @IBOutlet var shownButton: UIButton!
     @IBOutlet var nowShowingButton: UIButton!
     @IBOutlet var comingSoonButton: UIButton!
@@ -35,6 +36,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         searchController.searchBar.sizeToFit()
         self.movieTableView.tableHeaderView = searchController.searchBar
         definesPresentationContext = true
+        if (!Reachability.isConnectedToNetwork()) {
+            print("Disconnected!")
+        }
     }
     
     override func didReceiveMemoryWarning() {
