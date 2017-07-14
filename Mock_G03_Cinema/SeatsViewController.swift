@@ -7,26 +7,28 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseAuth
 
 class SeatsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     @IBOutlet var seatsCollectionView: UICollectionView!
     @IBOutlet var confirmButton: UIButton!
     @IBOutlet var priceLabel: UILabel!
+    @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
+    // Global variables
     var movie: Movie?
     var showTimeId: String?
     var screeningDate: String?
     var seats = [Seat]()
-    let currentDate = Date()
     var bookedSeats: [String] = []
     var count = 0
     var bookings = [Booking]()
-    
-    @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
+    let currentDate = Date()
+    let netPrice = 100000
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        // 9 seats per row
         let maxNumberOfItemsPerRow = 9
         let width = (seatsCollectionView.frame.width - flowLayout.sectionInset.left - flowLayout.sectionInset.right - flowLayout.minimumInteritemSpacing * CGFloat(maxNumberOfItemsPerRow - 1)) / CGFloat(maxNumberOfItemsPerRow)
         flowLayout.itemSize = CGSize(width: width, height: width)
@@ -49,6 +51,7 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        // Check if no user login
         if (Auth.auth().currentUser == nil) {
             let alertView = UIAlertController(title: "Alert", message: "You must login first!", preferredStyle: .alert)
             let action = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction) in
@@ -74,6 +77,7 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
     }
     
     @IBAction func confirmButtonClick(_ sender: Any) {
+        // Check internet connection
         if (!Reachability.isConnectedToNetwork()) {
             let srcNoInternet = self.storyboard?.instantiateViewController(withIdentifier: "noInternet") as! NoInternetViewController
             self.present(srcNoInternet, animated: true)
@@ -83,14 +87,16 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
             let bookingTime = Struct.getBookingTime()
             var unpaidBooking = 0
             var reCount = 0
+            // Re-count choosing seats
             for seat in seats {
                 if (seat.status == 2) {
                     reCount += 1
                 }
             }
+            // Check if any seat booked by another user
             if (reCount != count) {
                 count = reCount
-                priceLabel.text = "\(100000*reCount)"
+                priceLabel.text = "\(netPrice*reCount)"
                 let myAlert = UIAlertController(title: "Alert", message: "Seat was booked by another user, please choose another seat", preferredStyle: UIAlertControllerStyle.alert)
                 let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
                 myAlert.addAction(okAction)
@@ -102,7 +108,8 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
                         self.bookings = []
                         self.bookings = bookingList!
                         self.bookings.reverse()
-                        if self.bookings.count != 0 {
+                        // Check if user got an unpaid booking
+                        if (self.bookings.count != 0) {
                             for booking in self.bookings {
                                 if (booking.paymentStatus == 0) {
                                     unpaidBooking += 1
@@ -116,26 +123,11 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
                                 alertView.addAction(action)
                                 self.present(alertView, animated: true, completion: nil)
                             }
-                            else {
-                                for seat in self.seats {
-                                    if (seat.status == 2) {
-                                        if let movieId = self.movie?.id {
-                                            DAOBooking.setSeatStatusBooking(movieId, self.screeningDate!, self.showTimeId!, seat.id!, bookingTime, completionHandler: { (error) in
-                                                if error != nil {
-                                                    let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
-                                                    let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                                                    alertController.addAction(defaultAction)
-                                                }
-                                            })
-                                        }
-                                        self.bookedSeats.append(seat.id!)
-                                    }
-                                }
-                                
-                                if (self.bookedSeats != []) {
-                                    let price = 100000*self.count
-                                    if let movieId = self.movie?.id, let movieTitle = self.movie?.title, let showTime = self.showTimeId, let date = self.screeningDate {
-                                        DAOBooking.saveBookingToUser(movieId, movieTitle, date, showTime, self.bookedSeats, bookingTime, price, userId!, self.bookedSeats[0], completionHandler: { (error) in
+                            // Set booking
+                            for seat in self.seats {
+                                if (seat.status == 2) {
+                                    if let movieId = self.movie?.id {
+                                        DAOBooking.setSeatStatusBooking(movieId, self.screeningDate!, self.showTimeId!, seat.id!, bookingTime, completionHandler: { (error) in
                                             if error != nil {
                                                 let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
                                                 let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
@@ -143,12 +135,28 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
                                             }
                                         })
                                     }
-                                    self.performSegue(withIdentifier: "show checkout", sender: self)
-                                }
-                                else {
-                                    self.displayMyAlertMessage(userMessage: "You must choose at least 1 seat!")
+                                    self.bookedSeats.append(seat.id!)
                                 }
                             }
+                            
+                            //Save booking to user info
+                            if (self.bookedSeats != []) {
+                                let price = self.netPrice*self.count
+                                if let movieId = self.movie?.id, let movieTitle = self.movie?.title, let showTime = self.showTimeId, let date = self.screeningDate {
+                                    DAOBooking.saveBookingToUser(movieId, movieTitle, date, showTime, self.bookedSeats, bookingTime, price, userId!, self.bookedSeats[0], completionHandler: { (error) in
+                                        if error != nil {
+                                            let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
+                                            let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                                            alertController.addAction(defaultAction)
+                                        }
+                                    })
+                                }
+                                self.performSegue(withIdentifier: "show checkout", sender: self)
+                            }
+                            else {
+                                self.displayMyAlertMessage(userMessage: "You must choose at least 1 seat!")
+                            }
+                            
                         }
                     } else {
                         if let err = error {
@@ -160,10 +168,13 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
         }
     }
     
+    // MARK: - Seats collection view data source
+    // Each theater only need 1 section to show all seats
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
+    // Return number of seats
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return seats.count
     }
@@ -179,7 +190,6 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let seat: Seat
         seat = seats[indexPath.row]
-        var price = 100000
         if (count == 3 && seat.status == 1) {
             self.displayMyAlertMessage(userMessage: "Maximum number of seats reached!")
         }
@@ -197,11 +207,12 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
         else if (seat.status == 0) {
             self.displayMyAlertMessage(userMessage: "Seat was reserved by the other!")
         }
-        price *= count
+        let price = netPrice*count
         priceLabel.text = "\(price)"
         seatsCollectionView.reloadItems(at: [indexPath])
     }
     
+    // Get seats from database
     func getSeats() {
         if let movieId = movie?.id {
             DAOMovies.getSeatsList(movieId, screeningDate!, showTimeId!, completionHandler: { (seatsList, error) in

@@ -10,13 +10,14 @@ import UIKit
 import FirebaseAuth
 
 class LoginViewController: UIViewController {
+    //khai bao cac nut login vs button
     @IBOutlet var loginButton: UIButton!
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
     @IBOutlet var btmConstraint: NSLayoutConstraint!
     
-    var isSignIn = true
-    var isHidePassword = true
+    var isSignIn = true// bien isSignIn xem nguoi dung danh nhap hay dk true:dk
+    var isHidePassword = true //hien thi mk
     var keyboardIsShow = false
     
     override func viewDidLoad() {
@@ -43,6 +44,7 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func btnShowPasswordClick(_ sender: Any) {
+        //2 trang thai an hien mk
         if isHidePassword {
             passwordTextField.isSecureTextEntry = false
             isHidePassword = false
@@ -52,6 +54,7 @@ class LoginViewController: UIViewController {
         }
     }
     // Process when selector change (login/register)
+    //trang thai dang nhap hay dk
     @IBAction func signInSelectorChanged(_ sender: UISegmentedControl) {
         isSignIn = !isSignIn
         if (isSignIn) {
@@ -80,8 +83,10 @@ class LoginViewController: UIViewController {
                 self.present(srcNoInternet, animated: true)
             }
             else {
+                //khai bao 2 textfiled
                 let email = emailTextField.text
                 let password = passwordTextField.text
+                //lop.ham
                 let valid = Struct.isValidEmail(testStr: email!)
                 if (isSignIn) {
                     Auth.auth().signIn(withEmail: email!, password: password!) { (user, error) in
