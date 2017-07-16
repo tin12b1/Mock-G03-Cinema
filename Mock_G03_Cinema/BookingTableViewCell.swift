@@ -15,16 +15,16 @@ class BookingTableViewCell: UITableViewCell {
     @IBOutlet var totalPriceLabel: UILabel!
     @IBOutlet var checkoutStatusLabel: UILabel!
     @IBOutlet var screeningDateLabel: UILabel!
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-
+    
+    // Config booking table view cell
     func configureCell(title: String, seats: String, showTime: String, totalPrice: Int, checkoutStatus: Int, date: String) {
         movieTitleLabel.text = "Movie: " + title
         seatsLabel.text = "Seats: " + seats

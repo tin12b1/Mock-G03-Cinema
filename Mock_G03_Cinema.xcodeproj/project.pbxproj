@@ -20,6 +20,7 @@
 		40D09CCF1F04FFF30072F712 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D09CCE1F04FFF30072F712 /* User.swift */; };
 		40D755711EEBA2F6003D6A2E /* Booking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D755701EEBA2F6003D6A2E /* Booking.swift */; };
 		40D8806E1EEAD48F007ED171 /* SeatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D8806D1EEAD48F007ED171 /* SeatCollectionViewCell.swift */; };
+		40DD36501F1BAB2E0010183C /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DD364F1F1BAB2E0010183C /* Message.swift */; };
 		40DDE6611EE4815500A5115E /* MovieDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DDE6601EE4815500A5115E /* MovieDetailViewController.swift */; };
 		40DF47AE1EE14DD700399A6D /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DF47AD1EE14DD700399A6D /* ChangePasswordViewController.swift */; };
 		40E47C571EDEA91B004994CF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E47C561EDEA91B004994CF /* LoginViewController.swift */; };
@@ -76,6 +77,7 @@
 		40D09CCE1F04FFF30072F712 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		40D755701EEBA2F6003D6A2E /* Booking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Booking.swift; sourceTree = "<group>"; };
 		40D8806D1EEAD48F007ED171 /* SeatCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeatCollectionViewCell.swift; sourceTree = "<group>"; };
+		40DD364F1F1BAB2E0010183C /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		40DDE6601EE4815500A5115E /* MovieDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieDetailViewController.swift; sourceTree = "<group>"; };
 		40DF47AD1EE14DD700399A6D /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		40E47C561EDEA91B004994CF /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 				409698A41EE1B35D007A1B08 /* Movie.swift */,
 				40D755701EEBA2F6003D6A2E /* Booking.swift */,
 				40D09CCE1F04FFF30072F712 /* User.swift */,
+				40DD364F1F1BAB2E0010183C /* Message.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -608,6 +611,7 @@
 				40F170A61EDC74E800209E9D /* AppDelegate.swift in Sources */,
 				40D8806E1EEAD48F007ED171 /* SeatCollectionViewCell.swift in Sources */,
 				EF4FADCE1EE7EAC5004D0E09 /* ResetPasswordViewController.swift in Sources */,
+				40DD36501F1BAB2E0010183C /* Message.swift in Sources */,
 				40D09CC71F04F5190072F712 /* DAOMovies.swift in Sources */,
 				40D09CCF1F04FFF30072F712 /* User.swift in Sources */,
 				40F9BF141EE076AC002FFF64 /* AddUserInfoViewController.swift in Sources */,
@@ -779,7 +783,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Mock_G03_Cinema/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "NIT.Mock-G03-Cinema";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -793,7 +797,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Mock_G03_Cinema/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "NIT.Mock-G03-Cinema";
 				PRODUCT_NAME = "$(TARGET_NAME)";

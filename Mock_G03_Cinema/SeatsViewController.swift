@@ -10,6 +10,7 @@ import UIKit
 import FirebaseAuth
 
 class SeatsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+    
     @IBOutlet var seatsCollectionView: UICollectionView!
     @IBOutlet var confirmButton: UIButton!
     @IBOutlet var priceLabel: UILabel!
@@ -48,6 +49,7 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
         seats.removeAll()
         getSeats()
         bookings.removeAll()
+        checkUnpaidBooking()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -85,7 +87,6 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
         else {
             let userId = Auth.auth().currentUser?.uid
             let bookingTime = Struct.getBookingTime()
-            var unpaidBooking = 0
             var reCount = 0
             // Re-count choosing seats
             for seat in seats {
@@ -103,82 +104,54 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
                 self.present(myAlert, animated: true, completion: nil)
             }
             else {
-                DAOBooking.getBookingList(userId: userId!, completionHandler: { (bookingList, error) in
-                    if (error == nil) {
-                        self.bookings = []
-                        self.bookings = bookingList!
-                        self.bookings.reverse()
-                        // Check if user got an unpaid booking
-                        if (self.bookings.count != 0) {
-                            for booking in self.bookings {
-                                if (booking.paymentStatus == 0) {
-                                    unpaidBooking += 1
+                // Set booking
+                for seat in self.seats {
+                    if (seat.status == 2) {
+                        if let movieId = self.movie?.id {
+                            DAOBooking.setSeatStatusBooking(movieId, self.screeningDate!, self.showTimeId!, seat.id!, bookingTime, completionHandler: { (error) in
+                                if error != nil {
+                                    let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
+                                    let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                                    alertController.addAction(defaultAction)
                                 }
-                            }
-                            if (unpaidBooking >= 1) {
-                                let alertView = UIAlertController(title: "Alert", message: "You must checkout or delete your unpaid booking first!", preferredStyle: .alert)
-                                let action = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction) in
-                                    self.dismiss(animated: true, completion: nil)
-                                })
-                                alertView.addAction(action)
-                                self.present(alertView, animated: true, completion: nil)
-                            }
-                            // Set booking
-                            for seat in self.seats {
-                                if (seat.status == 2) {
-                                    if let movieId = self.movie?.id {
-                                        DAOBooking.setSeatStatusBooking(movieId, self.screeningDate!, self.showTimeId!, seat.id!, bookingTime, completionHandler: { (error) in
-                                            if error != nil {
-                                                let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
-                                                let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                                                alertController.addAction(defaultAction)
-                                            }
-                                        })
-                                    }
-                                    self.bookedSeats.append(seat.id!)
-                                }
-                            }
-                            
-                            //Save booking to user info
-                            if (self.bookedSeats != []) {
-                                let price = self.netPrice*self.count
-                                if let movieId = self.movie?.id, let movieTitle = self.movie?.title, let showTime = self.showTimeId, let date = self.screeningDate {
-                                    DAOBooking.saveBookingToUser(movieId, movieTitle, date, showTime, self.bookedSeats, bookingTime, price, userId!, self.bookedSeats[0], completionHandler: { (error) in
-                                        if error != nil {
-                                            let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
-                                            let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                                            alertController.addAction(defaultAction)
-                                        }
-                                    })
-                                }
-                                self.performSegue(withIdentifier: "show checkout", sender: self)
-                            }
-                            else {
-                                self.displayMyAlertMessage(userMessage: "You must choose at least 1 seat!")
-                            }
-                            
+                            })
                         }
-                    } else {
-                        if let err = error {
-                            print(err)
-                        }
+                        self.bookedSeats.append(seat.id!)
                     }
-                })
+                }
+                
+                //Save booking to user info
+                if (self.bookedSeats != []) {
+                    let price = self.netPrice*self.count
+                    if let movieId = self.movie?.id, let movieTitle = self.movie?.title, let showTime = self.showTimeId, let date = self.screeningDate {
+                        DAOBooking.saveBookingToUser(movieId, movieTitle, date, showTime, self.bookedSeats, bookingTime, price, userId!, self.bookedSeats[0], completionHandler: { (error) in
+                            if error != nil {
+                                let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
+                                let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                                alertController.addAction(defaultAction)
+                            }
+                        })
+                    }
+                    self.performSegue(withIdentifier: "show checkout", sender: self)
+                }
+                else {
+                    self.displayMyAlertMessage(userMessage: "You must choose at least 1 seat!")
+                }
             }
         }
     }
-    
+
     // MARK: - Seats collection view data source
     // Each theater only need 1 section to show all seats
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
-    
+
     // Return number of seats
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return seats.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "seat cell", for: indexPath) as! SeatCollectionViewCell
         let seat: Seat
@@ -212,6 +185,35 @@ class SeatsViewController: UIViewController, UICollectionViewDataSource, UIColle
         seatsCollectionView.reloadItems(at: [indexPath])
     }
     
+    // MARK: - Helper Methods
+    
+    func checkUnpaidBooking() {
+        let userId = Auth.auth().currentUser?.uid
+        var unpaidBooking = 0
+        DAOBooking.getBookingList(userId: userId!, completionHandler: { (bookingList, error) in
+            if (error == nil) {
+                self.bookings = []
+                self.bookings = bookingList!
+                // Check if user got an unpaid booking
+                if (self.bookings.count != 0) {
+                    for booking in self.bookings {
+                        if (booking.paymentStatus == 0) {
+                            unpaidBooking += 1
+                        }
+                    }
+                    if (unpaidBooking >= 1) {
+                        let alertView = UIAlertController(title: "Alert", message: "You must checkout or delete your unpaid booking first!", preferredStyle: .alert)
+                        let action = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction) in
+                            self.dismiss(animated: true, completion: nil)
+                        })
+                        alertView.addAction(action)
+                        self.present(alertView, animated: true, completion: nil)
+                    }
+                }
+            }
+        })
+    }
+        
     // Get seats from database
     func getSeats() {
         if let movieId = movie?.id {
