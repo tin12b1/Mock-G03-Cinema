@@ -35,9 +35,7 @@ class Struct {
     
     /// OPTIONAL Added method to adjust lock and rotate to the desired orientation
     static func lockOrientation(_ orientation: UIInterfaceOrientationMask, andRotateTo rotateOrientation:UIInterfaceOrientation) {
-        
         self.lockOrientation(orientation)
-        
         UIDevice.current.setValue(rotateOrientation.rawValue, forKey: "orientation")
     }
     
@@ -72,16 +70,5 @@ class Struct {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let result = dateFormatter.string(from: date)
         return result
-    }
-    
-    static func isUserInfoAvailable() -> Bool {
-        let userId = Auth.auth().currentUser?.uid
-        var check = true
-        DAOUser.getUserInfo(userId: userId!, completionHandler: { (userInfo, error) in
-            if (error != nil) {
-                check = false
-            }
-        })
-        return check
     }
 }

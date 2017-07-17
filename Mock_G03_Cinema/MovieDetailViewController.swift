@@ -11,31 +11,33 @@ import Firebase
 
 class MovieDetailViewController: UIViewController {
     
+    // UI items to show movie detail
     @IBOutlet var posterImageView: UIImageView!
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var releaseDateLabel: UILabel!
     @IBOutlet var genresLabel: UILabel!
     @IBOutlet var voteAverageLabel: UILabel!
     @IBOutlet var overviewLabel: UILabel!
-    // Today
+    // Today UI items
     @IBOutlet var todayLabel: UILabel!
     @IBOutlet var firstShowTimeButton: UIButton!
     @IBOutlet var secondShowTimeButton: UIButton!
     @IBOutlet var thirdShowTimeButton: UIButton!
     @IBOutlet var styleImageView: UIImageView!
-    // Tomorrow
+    // Tomorrow UI item
     @IBOutlet var tomorrowLabel: UILabel!
     @IBOutlet var tomorrowFirstShowTimeButton: UIButton!
     @IBOutlet var tomorrowSecondShowTimeButton: UIButton!
     @IBOutlet var tomorrowThirdShowTimeButton: UIButton!
     @IBOutlet var tomorrowStyleImageView: UIImageView!
-    // The day after tomorrow
+    // The day after tomorrow UI item
     @IBOutlet var dayAfterTomorrowLabel: UILabel!
     @IBOutlet var afterTomorrowFirstButton: UIButton!
     @IBOutlet var afterTomorrowSecondButton: UIButton!
     @IBOutlet var afterTomorrowThirdButton: UIButton!
     @IBOutlet var afterTomorrowStyleImageView: UIImageView!
 
+    // Global variables
     var movie: Movie?
     var posterImg: UIImage?
     let currentDate = Date()
@@ -49,20 +51,37 @@ class MovieDetailViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
+    // Process when user click Back button
     @IBAction func backButtonClick(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
     
+    // Process when user click Play trailer button
+    @IBAction func playTrailerButtonClick(_ sender: Any) {
+        if (!Reachability.isConnectedToNetwork()) {
+            // Check internet connection
+            let srcNoInternet = self.storyboard?.instantiateViewController(withIdentifier: "noInternet") as! NoInternetViewController
+            self.present(srcNoInternet, animated: true)
+        }
+        else {
+            performSegue(withIdentifier: "show trailer", sender: self)
+        }
+    }
+    
+    // MARK: - Helper Methods
+    
+    // Set movie detail content and all book buttons
     func setContent() {
         posterImageView.image = posterImg
         titleLabel.text = movie?.title?.uppercased()
         releaseDateLabel.text = "📆 " + (movie?.releaseDate)!
-        genresLabel.text = "GENRES: " + (movie?.genres)!
+        genresLabel.text = "🔖 " + (movie?.genres)!
         if let vote = movie?.voteAverage {
             voteAverageLabel.text = "⭐️ \(vote)"
         }
-        overviewLabel.text = "OVERVIEW: " + (movie?.overview)!
+        overviewLabel.text = "📜 " + (movie?.overview)!
         if (!isNowShowingMovie()) {
+            // Not now showing movie
             todayLabel.isHidden = true
             firstShowTimeButton.isHidden = true
             secondShowTimeButton.isHidden = true
@@ -82,6 +101,7 @@ class MovieDetailViewController: UIViewController {
             afterTomorrowStyleImageView.isHidden = true
         }
         else if (Struct.getDateFromString(releaseDate: (movie?.releaseDate!)!, interval: 1814400) < currentDate.addingTimeInterval(86400)) {
+            // Last day showing
             firstShowTimeButton.setTitle(movie?.showTimes?[0], for: .normal)
             secondShowTimeButton.setTitle(movie?.showTimes?[1], for: .normal)
             thirdShowTimeButton.setTitle(movie?.showTimes?[2], for: .normal)
@@ -99,6 +119,7 @@ class MovieDetailViewController: UIViewController {
             afterTomorrowStyleImageView.isHidden = true
         }
         else if (Struct.getDateFromString(releaseDate: (movie?.releaseDate!)!, interval: 1814400) < currentDate.addingTimeInterval(172800)) {
+            // 2 more days showing
             firstShowTimeButton.setTitle(movie?.showTimes?[0], for: .normal)
             secondShowTimeButton.setTitle(movie?.showTimes?[1], for: .normal)
             thirdShowTimeButton.setTitle(movie?.showTimes?[2], for: .normal)
@@ -113,6 +134,7 @@ class MovieDetailViewController: UIViewController {
             afterTomorrowStyleImageView.isHidden = true
         }
         else {
+            // Still showing 3 days or more
             firstShowTimeButton.setTitle(movie?.showTimes?[0], for: .normal)
             secondShowTimeButton.setTitle(movie?.showTimes?[1], for: .normal)
             thirdShowTimeButton.setTitle(movie?.showTimes?[2], for: .normal)
@@ -128,6 +150,7 @@ class MovieDetailViewController: UIViewController {
         if (isNowShowingMovie()) {
             var showTimeString = Struct.getDate(interval: 0) + " " + (movie?.showTimes?[2])!
             if (currentDate.addingTimeInterval(3600) > Struct.getDateTimeFromString(string: showTimeString, interval: 0)) {
+                // Current time passed all show times (today)
                 firstShowTimeButton.isEnabled = false
                 secondShowTimeButton.isEnabled = false
                 thirdShowTimeButton.isEnabled = false
@@ -140,12 +163,14 @@ class MovieDetailViewController: UIViewController {
             else {
                 showTimeString = Struct.getDate(interval: 0) + " " + (movie?.showTimes?[1])!
                 if (currentDate.addingTimeInterval(3600) > Struct.getDateTimeFromString(string: showTimeString, interval: 0)) {
+                    // Current time passed first and second show times (today)
                     firstShowTimeButton.isEnabled = false
                     secondShowTimeButton.isEnabled = false
                 }
                 else {
                     showTimeString = Struct.getDate(interval: 0) + " " + (movie?.showTimes?[0])!
                     if (currentDate.addingTimeInterval(3600) > Struct.getDateTimeFromString(string: showTimeString, interval: 0)) {
+                        // Current time passed first show time (today)
                         firstShowTimeButton.isEnabled = false
                     }
                 }
@@ -153,6 +178,7 @@ class MovieDetailViewController: UIViewController {
         }
     }
     
+    // Check if movie is now showing movie
     func isNowShowingMovie() -> Bool {
         let currentDate = Date()
         if (Struct.getDateFromString(releaseDate: (movie?.releaseDate!)!, interval: 0) <= currentDate && currentDate <= Struct.getDateFromString(releaseDate: (movie?.releaseDate!)!, interval: 1814400)) {
@@ -185,16 +211,7 @@ class MovieDetailViewController: UIViewController {
         }
     }
     
-    @IBAction func playTrailerButtonClick(_ sender: Any) {
-        if (!Reachability.isConnectedToNetwork()) {
-            let srcNoInternet = self.storyboard?.instantiateViewController(withIdentifier: "noInternet") as! NoInternetViewController
-            self.present(srcNoInternet, animated: true)
-        }
-        else {
-            performSegue(withIdentifier: "show trailer", sender: self)
-        }
-    }
-    
+    // Display alert dialog
     func displayMyAlertMessage(userMessage: String) {
         let myAlert = UIAlertController(title: "Alert", message: userMessage, preferredStyle: UIAlertControllerStyle.alert)
         
@@ -206,6 +223,7 @@ class MovieDetailViewController: UIViewController {
     
     // MARK: - Navigation
     
+    // Prepare all info required to navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = segue.identifier {
             switch identifier {

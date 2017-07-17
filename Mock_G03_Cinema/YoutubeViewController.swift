@@ -10,6 +10,7 @@ import UIKit
 
 class YoutubeViewController: UIViewController {
 
+    // UI items and global variables
     @IBOutlet var trailerLoadingIndicator: UIActivityIndicatorView!
     @IBOutlet var youtubeWebView: UIWebView!
     var videoCode: String?
@@ -24,6 +25,7 @@ class YoutubeViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
+    // Get youtube video from video code and load it to web view
     func getVideo(videoCode: String) {
         let url = URL(string: "https://www.youtube.com/embed/\(videoCode)")
         youtubeWebView.loadRequest(URLRequest(url: url!))
@@ -31,6 +33,8 @@ class YoutubeViewController: UIViewController {
             trailerLoadingIndicator.stopAnimating()
         }
     }
+    
+    // Process when user click Back button
     @IBAction func backButtonClick(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }

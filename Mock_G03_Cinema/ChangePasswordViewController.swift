@@ -43,7 +43,7 @@ class ChangePasswordViewController: UIViewController {
                 self.resetTextField()
             })
         }
-        // Password too short
+            // Password too short
         else if ((newPasswordTextField.text?.characters.count)! < 6) {
             let alert = UIAlertController(title: "Error", message: userMessage.passwordShort, preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
@@ -51,7 +51,7 @@ class ChangePasswordViewController: UIViewController {
                 self.resetTextField()
             })
         }
-        // Confirm password missmatch
+            // Confirm password missmatch
         else if (newPasswordTextField.text != confirmPasswordTextField.text) {
             let alert = UIAlertController(title: "Error", message: userMessage.passwordMissmatch, preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
