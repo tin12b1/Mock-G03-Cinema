@@ -68,7 +68,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         let cell = tableView.dequeueReusableCell(withIdentifier: "booking cell", for: indexPath) as! BookingTableViewCell
         let booking: Booking
         booking = bookings[indexPath.row]
-        if booking.movieId != nil {
+        if (booking.movieId != nil) {
             cell.configureCell(title: booking.title!, seats: (booking.seats?.joined(separator: "-"))!, showTime: booking.showTime!, totalPrice: booking.totalPrice!, checkoutStatus: booking.paymentStatus!, date: booking.screeningDate!)
         }
         return cell
@@ -82,7 +82,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let booking: Booking
         booking = bookings[indexPath.row]
-        if booking.paymentStatus == 0 {
+        if (booking.paymentStatus == 0) {
             let questionController = UIAlertController(title: "What you want to do?", message: nil, preferredStyle: .alert)
             questionController.addAction(UIAlertAction(title: "Delete Booking", style: .default, handler: {
                 (action:UIAlertAction!) -> Void in
@@ -90,7 +90,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
                     for i in 0...ticketCount - 1 {
                         // Reset seats status
                         DAOBooking.setSeatStatus(movieId, date, showTime, seats[i], 1, completionHandler: { (error) in
-                            if error != nil {
+                            if (error != nil) {
                                 let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
                                 let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
                                 alertController.addAction(defaultAction)
@@ -116,13 +116,14 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     // Get user info from database and set to view
     func getUserInfo() {
         DAOUser.getUserInfo(userId: userId!, completionHandler: { (userInfo, error) in
-            if error == nil {
+            if (error == nil) {
                 self.nameLabel.text = userInfo?.name
                 if let age = userInfo?.age {
                     self.ageLabel.text = "\(age)"
                 }
                 self.addressLabel.text = userInfo?.address
-            } else {
+            }
+            else {
                 let srcAddUserInfo = self.storyboard?.instantiateViewController(withIdentifier: "addUserInfo") as! AddUserInfoViewController
                 self.present(srcAddUserInfo, animated: true)
             }
@@ -132,7 +133,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     // Get user booking list
     func getBookingList() {
         DAOBooking.getBookingList(userId: userId!, completionHandler: { (bookingList, error) in
-            if error == nil {
+            if (error == nil) {
                 self.bookings = []
                 self.bookings = bookingList!
                 self.bookings.reverse()
@@ -140,7 +141,8 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
                     self.bookingTableView.reloadData()
                 }
                 self.checkPaymentDeadline()
-            } else {
+            }
+            else {
                 if let err = error {
                     print(err)
                 }
@@ -151,7 +153,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     // Check booking payment deadline (30 mins until booking)
     func checkPaymentDeadline() {
         for booking in bookings {
-            if booking.paymentStatus == 0 {
+            if (booking.paymentStatus == 0) {
                 let bookedTime = Struct.getDateTimeFromString(string: booking.bookedTime!, interval: 1800)
                 let currentDate = Date()
                 if (currentDate > bookedTime) {
@@ -159,7 +161,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
                         if let movieId = booking.movieId, let showTime = booking.showTime, let date = booking.screeningDate {
                             // Reset seat status to available
                             DAOBooking.setSeatStatus(movieId, date, showTime, seat, 1, completionHandler: { (error) in
-                                if error != nil {
+                                if (error != nil) {
                                     self.displayMyAlertMessage(userMessage: (error?.localizedDescription)!)
                                 }
                             })

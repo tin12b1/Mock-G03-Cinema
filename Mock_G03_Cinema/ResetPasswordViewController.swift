@@ -52,7 +52,7 @@ class ResetPasswordViewController: UIViewController {
             else {
                 let email = emailTextField.text
                 Auth.auth().sendPasswordReset(withEmail: email!) { (error) in
-                    if error != nil {
+                    if (error != nil) {
                         self.displayMyAlertMessage(userMessage: self.userMessage.emailNotExist)
                     }
                     else {

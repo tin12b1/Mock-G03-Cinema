@@ -43,7 +43,7 @@ class ChangePasswordViewController: UIViewController {
                 self.resetTextField()
             })
         }
-            // Password too short
+        // Password too short
         else if ((newPasswordTextField.text?.characters.count)! < 6) {
             let alert = UIAlertController(title: "Error", message: userMessage.passwordShort, preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
@@ -51,7 +51,7 @@ class ChangePasswordViewController: UIViewController {
                 self.resetTextField()
             })
         }
-            // Confirm password missmatch
+        // Confirm password missmatch
         else if (newPasswordTextField.text != confirmPasswordTextField.text) {
             let alert = UIAlertController(title: "Error", message: userMessage.passwordMissmatch, preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
@@ -73,19 +73,21 @@ class ChangePasswordViewController: UIViewController {
                 credential = EmailAuthProvider.credential(withEmail: (user?.email)!, password: oldPasswordTextField.text!)
                 
                 user?.reauthenticate(with: credential) { error in
-                    if error != nil {
+                    if (error != nil) {
                         // An error happened.
                         let alert = UIAlertController(title: "Error", message: self.userMessage.passwordMissmatch, preferredStyle: UIAlertControllerStyle.alert)
                         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
                         self.present(alert, animated: true, completion: {
                             self.resetTextField()
                         })
-                    } else {
+                    }
+                    else {
                         // User re-authenticated.
                         user?.updatePassword(to: self.newPasswordTextField.text!) { (error) in
-                            if error != nil {
+                            if (error != nil) {
                                 self.displayMyAlertMessage(userMessage: self.userMessage.failChangePassword)
-                            } else {
+                            }
+                            else {
                                 let alertView = UIAlertController(title: "Success", message: self.userMessage.successChangePassword, preferredStyle: .alert)
                                 let action = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction) in
                                     self.dismiss(animated: true, completion: nil)
@@ -129,14 +131,14 @@ class ChangePasswordViewController: UIViewController {
     }
     
     func keyboardWillShow(notification:NSNotification) {
-        if !keyboardIsShow {
+        if (!keyboardIsShow) {
             adjustingHeight(show: true, notification: notification)
             keyboardIsShow = true
         }
     }
     
     func keyboardWillHide(notification:NSNotification) {
-        if keyboardIsShow {
+        if (keyboardIsShow) {
             adjustingHeight(show: false, notification: notification)
             keyboardIsShow = false
         }
@@ -145,11 +147,8 @@ class ChangePasswordViewController: UIViewController {
     func adjustingHeight(show:Bool, notification:NSNotification) {
         var userInfo = notification.userInfo!
         let keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
-        
         let animationDurarion = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! TimeInterval
-        
         let changeInHeight = (keyboardFrame.height) * (show ? 1 : -1)
-        
         UIView.animate(withDuration: animationDurarion, animations: { () -> Void in
             self.btmConstraint.constant += changeInHeight
         })
